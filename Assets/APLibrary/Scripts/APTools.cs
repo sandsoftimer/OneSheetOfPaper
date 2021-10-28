@@ -13,7 +13,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     [DefaultExecutionOrder(ConstantManager.APToolOrder)]
     public class APTools : MonoBehaviour, IHierarchyIcon

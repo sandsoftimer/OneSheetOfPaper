@@ -11,7 +11,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     public class MathManager : MonoBehaviour
     {

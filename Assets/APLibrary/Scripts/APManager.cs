@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using com.alphapotato.utility;
+using Com.AlphaPotato.Utility;
 using System.Collections;
 using TMPro;
 

@@ -9,7 +9,7 @@
 
 using UnityEngine;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     public class SavefileManager : MonoBehaviour
     {

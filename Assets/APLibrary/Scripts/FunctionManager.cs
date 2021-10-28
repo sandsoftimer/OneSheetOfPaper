@@ -12,7 +12,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     public class FunctionManager : MonoBehaviour
     {

@@ -2,16 +2,16 @@ using UnityEditor;
 using UnityEngine;
 using Com.AlphaPotato.Utility;
 
-[CustomEditor(typeof(#SCRIPTNAME#))]
-public class #SCRIPTNAME#Editor : APEditor
+[CustomEditor(typeof(MeshGun))]
+public class MeshGunEditor : APEditor
 {
-    private #SCRIPTNAME# scriptRef;
-    #ALL_PUBLIC_PROPERTIES#
+    private MeshGun scriptRef;
+    
     //private SerializedProperty propertyName;
 
     public void OnEnable()
     {
-        scriptRef = (#SCRIPTNAME#)target;
+        scriptRef = (MeshGun)target;
         //propertyName = serializedObject.FindProperty("propertyName");
     }
 

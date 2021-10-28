@@ -60,15 +60,12 @@ public static class APEditorScriptMaker
         // This returns true when the selected object is an C# (the menu item will be disabled otherwise).
         selectedScriptName = Selection.activeObject.name;
         selectedScriptPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (selectedScriptPath.Length >= 3) {
-            string extension = "";
+        string extension = "";
+        if (selectedScriptPath.Length >= 3)
             for (int i = selectedScriptPath.Length - 3; i < selectedScriptPath.Length; i++)
-            {
                 extension += selectedScriptPath[i];
-            }
-            return extension.Equals(".cs");
-        }
-        return false;
+
+        return extension.Equals(".cs");
     }
 
 }

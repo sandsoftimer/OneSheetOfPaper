@@ -4,20 +4,14 @@ using UnityEngine;
 
 namespace Com.AlphaPotato.Utility
 {
-    public class TextureAnimation : APBehaviour
+    public class BoneController : APBehaviour
     {
-        public Vector2 animationSpeed;
-        Renderer _renderer;
-
         #region ALL UNITY FUNCTIONS
 
         // Awake is called before Start
         public override void Awake()
         {
             base.Awake();
-
-            if (_renderer == null)
-                _renderer = GetComponent<Renderer>();
         }
 
         // Start is called before the first frame update
@@ -28,12 +22,28 @@ namespace Com.AlphaPotato.Utility
 
         void Update()
         {
-            if (_renderer == null)
+            //if (gameState.Equals(GameState.GAME_INITIALIZED) && Input.GetMouseButtonDown(0))
+            //{
+            //    gameManager.ChangeGameState(GameState.GAME_PLAY_STARTED);
+            //    gameState = GameState.GAME_PLAY_STARTED;
+            //}
+
+            if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
                 return;
 
-            _renderer.material.SetTextureOffset(
-                "_BaseMap",
-                _renderer.material.GetTextureOffset("_BaseMap") + animationSpeed * Time.deltaTime);
+        }
+
+        void FixedUpdate()
+        {
+            if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
+                return;
+
+        }
+
+        void LateUpdate()
+        {
+            if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
+                return;
 
         }
 
@@ -48,5 +58,6 @@ namespace Com.AlphaPotato.Utility
 
 
         #endregion ALL SELF DECLEAR FUNCTIONS
+
     }
 }

@@ -13,7 +13,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     [RequireComponent(typeof(Animator))]
     public class SceneManager : MonoBehaviour

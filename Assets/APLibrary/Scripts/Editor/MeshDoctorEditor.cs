@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using Com.AlphaPotato.Utility;
 
 [CustomEditor(typeof(MeshDoctor))]
 public class MeshDoctorEditor : APEditor

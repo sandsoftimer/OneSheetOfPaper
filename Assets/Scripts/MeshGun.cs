@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Com.AlphaPotato.Utility;
 using UnityEngine;
 
 public class MeshGun : APBehaviour
@@ -10,6 +11,7 @@ public class MeshGun : APBehaviour
     public override void Awake()
     {
         base.Awake();
+
     }
 
     // Start is called before the first frame update

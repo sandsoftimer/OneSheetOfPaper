@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using com.alphapotato.utility;
-using System;
+using Com.AlphaPotato.Utility;
 
 [DefaultExecutionOrder(ConstantManager.APBehaviourOrder)]
 public class APBehaviour : MonoBehaviour, IHierarchyIcon

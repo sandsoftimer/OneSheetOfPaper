@@ -10,7 +10,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
 
     public class CameraManager : MonoBehaviour

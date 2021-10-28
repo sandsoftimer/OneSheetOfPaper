@@ -13,7 +13,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace com.alphapotato.utility
+namespace Com.AlphaPotato.Utility
 {
     public class PoolManager : MonoBehaviour
     {
