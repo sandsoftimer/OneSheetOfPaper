@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2684ad553afc045538a825696f283f08
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - aptoolsPrefab: {fileID: 3984870659439083512, guid: 20b5e0a5d79464f33b2f1313ed20f84c,
+      type: 3}
+  - gameOverEffect: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

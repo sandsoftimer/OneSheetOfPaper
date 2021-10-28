@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13966, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: APBootScene
+  m_EditorClassIdentifier: 
+  templateScene: {fileID: 102900000, guid: 209f535ecf9464219a78be8bcec56c14, type: 3}
+  templateName: 
+  description: 
+  preview: {fileID: 2800000, guid: b94164d2e06f54b8eb1790eebc3b7adb, type: 3}
+  dependencies:
+  - dependency: {fileID: 2800000, guid: b94164d2e06f54b8eb1790eebc3b7adb, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 7ad22d849524d4f5c9ee97cbeb017b87, type: 3}
+    instantiationMode: 0
+  templatePipeline: {fileID: 0}
+  addToDefaults: 0

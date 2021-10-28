@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class #SCRIPTNAME# : APBehaviour
+{
+    #region ALL UNITY FUNCTIONS
+
+    // Awake is called before Start
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
+    // Start is called before the first frame update
+    public override void Start()
+    {
+        base.Start();
+    }
+
+    #endregion ALL UNITY FUNCTIONS
+    //=================================   
+    #region ALL OVERRIDING FUNCTIONS
+    #NOTRIM#
+    #NOTRIM#
+    #endregion ALL OVERRIDING FUNCTIONS
+    //=================================
+    #region ALL SELF DECLEAR FUNCTIONS
+    #NOTRIM#
+    #NOTRIM#
+    #endregion ALL SELF DECLEAR FUNCTIONS
+
+}
