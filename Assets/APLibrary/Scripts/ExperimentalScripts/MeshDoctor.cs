@@ -375,7 +375,7 @@ public class MeshDoctor : APBehaviour
         mesh.colors = meshcolors;
     }
 
-    void _PaintMesh(RaycastHit hit, Color color, float brushSize)
+    public void _PaintMesh(RaycastHit hit, Color color, float brushSize)
     {
         Vector3[] vertpos = mesh.vertices;
         Color[] meshcolors = mesh.colors;
