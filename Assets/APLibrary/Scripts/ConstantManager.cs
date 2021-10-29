@@ -58,8 +58,7 @@ public class ConstantManager
     public const int ENEMY_WEAPON = 15;
     public const int SENSOR = 16;
     public const int NON_RENDERING_LAYER = 17;
-    public const int SAND_PIECE = 18;
-    public const int SAND_MESH = 19;
+    public const int PAPER_DRAG_PART = 18;
 
     public static readonly Dictionary<int, string> layerNames = new Dictionary<int, string>
     {
@@ -81,8 +80,8 @@ public class ConstantManager
         { 15, "ENEMY_WEAPON" },
         { 16, "SENSOR" },
         { 17, "NON_RENDERING_LAYER" },
-        { 18, "SAND_PIECE" },
-        { 19, "SAND_MESH" },
+        { 18, "PAPER_DRAG_PART" },
+        { 19, "" },
         { 20, "" },
         { 21, "" },
         { 22, "" },

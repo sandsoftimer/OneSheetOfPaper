@@ -23,8 +23,8 @@ TagManager:
   - ENEMY_WEAPON
   - SENSOR
   - NON_RENDERING_LAYER
-  - SAND_PIECE
-  - SAND_MESH
+  - PAPER_DRAG_PART
+  - 
   - 
   - 
   - 

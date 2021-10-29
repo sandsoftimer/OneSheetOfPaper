@@ -24,6 +24,12 @@ public static class APExtensions
         return hit;
     }
 
+    public static void GetRaycastFromScreenTouch(ref this RaycastHit hit, int layerMask = 1)
+    {
+        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
+        //return hit;
+    }
+
     public static void ActiveChildByIndex(this Transform _t, int childIndex)
     {
         for (int i = 0; i < _t.childCount; i++)
