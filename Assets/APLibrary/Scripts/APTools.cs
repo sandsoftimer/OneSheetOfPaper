@@ -39,6 +39,7 @@ namespace Com.AlphaPotato.Utility
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Input.backButtonLeavesApp = true;
         }
         #endregion  Singleton Pattern
 

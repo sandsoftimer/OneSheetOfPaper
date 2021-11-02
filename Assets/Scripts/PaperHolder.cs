@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PaperHolder : APBehaviour
 {
-    public Transform[] paperPieces;
+    public Material paperMaterial;
+    public float fps = 60;
+    public Texture2D[] defaultTextures, rollingTextures, levelCompleteTextures;
 
     SkinnedMeshRenderer currentPaperPart;
-    bool draggingPaper;
-    float blendMaximumValue = 50f, revertSpeed = 10f;
+    public Texture2D[] currentActiveSet;
+
+    int currentImageIndex = -1;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -25,14 +28,14 @@ public class PaperHolder : APBehaviour
 
     void Update()
     {
-        if (gameState.Equals(GameState.GAME_INITIALIZED) && Input.GetMouseButtonDown(0))
-        {
-            gameManager.ChangeGameState(GameState.GAME_PLAY_STARTED);
-            gameState = GameState.GAME_PLAY_STARTED;
-        }
+        //if (gameState.Equals(GameState.GAME_INITIALIZED) && Input.GetMouseButtonDown(0))
+        //{
+        //    gameManager.ChangeGameState(GameState.GAME_PLAY_STARTED);
+        //    gameState = GameState.GAME_PLAY_STARTED;
+        //}
 
-        if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
-            return;
+        //if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
+        //    return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -42,22 +45,10 @@ public class PaperHolder : APBehaviour
             if(hit.collider != null)
             {
                 hit.collider.transform.parent.GetComponent<PaperTearPart>().SelectThisPart();
+                ActiveRollingAnimation();
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            draggingPaper = false;
-        }
-
-        if(!draggingPaper && currentPaperPart != null)
-        {
-            currentPaperPart.SetBlendShapeWeight(0, currentPaperPart.GetBlendShapeWeight(0) - Time.deltaTime * revertSpeed);
-            if (currentPaperPart.GetBlendShapeWeight(0) <= 0)
-            {
-                currentPaperPart = null;
-            }
-        }
     }
 
     void FixedUpdate()
@@ -77,13 +68,65 @@ public class PaperHolder : APBehaviour
     #endregion ALL UNITY FUNCTIONS
     //=================================   
     #region ALL OVERRIDING FUNCTIONS
-    
-    
+
+    public override void OnGameInitializing()
+    {
+        base.OnGameInitializing();
+
+        DistributeMaterial();
+        ActiveDefaultAnimation();
+        InvokeRepeating("UpdateNextTexture", 1f / fps, 1f / fps);
+    }
+
+    public override void OnGameOver()
+    {
+        base.OnGameOver();
+
+        ActiveCompleteAnimation();
+    }
+
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
-    
-    
+
+    void DistributeMaterial()
+    {
+        Transform[] childList = GetComponentsInChildren<Transform>();
+        for (int i = 0; i < childList.Length; i++)
+        {
+            Renderer _renderer = childList[i].GetComponent<Renderer>();
+            if (_renderer != null && !childList[i].gameObject.layer.Equals(ConstantManager.PAPER_DRAG_PART))
+            {
+                _renderer.material = paperMaterial;
+            }
+        }
+    }
+
+    public void ActiveDefaultAnimation()
+    {
+        currentImageIndex = -1;
+        currentActiveSet = defaultTextures;
+    }
+
+    public void ActiveRollingAnimation()
+    {
+        currentImageIndex = -1;
+        currentActiveSet = rollingTextures;
+    }
+
+    public void ActiveCompleteAnimation()
+    {
+        currentImageIndex = -1;
+        currentActiveSet = levelCompleteTextures;
+    }
+
+    void UpdateNextTexture()
+    {
+        currentImageIndex++;
+        currentImageIndex %= currentActiveSet.Length;
+        paperMaterial.SetTexture("_BaseMap", currentActiveSet[currentImageIndex]);
+    }
+
     #endregion ALL SELF DECLEAR FUNCTIONS
 
 }

@@ -88,6 +88,15 @@ namespace Com.AlphaPotato.Utility
                 }
             }
 
+            #region DEBUG COMMAND
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Break();
+            }
+
+            #endregion DEBUG COMMAND
+
         }
 
         void LateUpdate()

@@ -46,6 +46,7 @@ public class PaperTearPart : APBehaviour
             draggingPaper = false;
             revertSpeed = 0.25f;
             dragEndPoint.gameObject.SetActive(false);
+            CancelInvoke("AlterSprite");
         }
 
         if (selectedPaper && !taskCompleted)
@@ -60,26 +61,29 @@ public class PaperTearPart : APBehaviour
                     dragStartPoint.gameObject.SetActive(true);
                     dragEndPoint.gameObject.SetActive(false);
                     CancelInvoke("AlterSprite");
+
+                    if (gameManager.totalCompletedTask == 0)
+                        transform.parent.GetComponent<PaperHolder>().ActiveDefaultAnimation();
                 }
             }
 
             if (draggingPaper)
             {
-                Vector3 a = Camera.main.WorldToScreenPoint(dragStartPoint.position);
+                Vector3 a = dragStartPoint.position;
                 a.y = 0;
-                Vector3 b = Camera.main.WorldToScreenPoint(dragEndPoint.position);
+                Vector3 b = dragEndPoint.position;
                 b.y = 0;
-                Vector3 c = Input.mousePosition;
+                Vector3 c = APTools.mathManager.GetWorldTouchPosition();
+                c.y = 0;
 
                 blendWeight = Mathf.Clamp(InverseLerp(a, b, c) * 100, 0, blendMaximumValue);
-                //blendWeight = blendMaximumValue - Mathf.Clamp(Vector3.Distance(a,b), 0, blendMaximumValue) - Mathf.Clamp(Vector3.Distance(b, c), 0, blendMaximumValue);
+                //blendWeight = Mathf.Lerp(0, 1 / Vector3.Distance(a, b), 1 / Vector3.Distance(c, b)) / 100;
                 if (blendWeight > 95)
                 {
                     gameManager.OnCompleteATask();
                     CancelInvoke("AlterSprite");
                     taskCompleted = true;
                     dragEndPoint.gameObject.SetActive(false);
-
                 }
             }
 
