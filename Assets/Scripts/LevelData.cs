@@ -10,6 +10,11 @@ public class LevelData : APBehaviour
     public override void Awake()
     {
         base.Awake();
+
+        foreach (Transform item in transform)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     // Start is called before the first frame update

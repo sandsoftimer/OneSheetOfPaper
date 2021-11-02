@@ -15,6 +15,13 @@ namespace Com.AlphaPotato.Utility
 {
     public class MathManager : MonoBehaviour
     {
+        public float InverseLerp(Vector3 a, Vector3 b, Vector3 value)
+        {
+            Vector3 AB = b - a;
+            Vector3 AV = value - a;
+            return Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB);
+        }
+
         public Vector3 CenterOfTransform(Transform[] _transform)
         {
             Vector3[] vectors = new Vector3[_transform.Length];

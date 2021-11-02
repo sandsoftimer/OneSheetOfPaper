@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class PaperHolder : APBehaviour
 {
     public Material paperMaterial;
@@ -9,7 +10,8 @@ public class PaperHolder : APBehaviour
     public Texture2D[] defaultTextures, rollingTextures, levelCompleteTextures;
 
     SkinnedMeshRenderer currentPaperPart;
-    public Texture2D[] currentActiveSet;
+    Texture2D[] currentActiveSet;
+    Animator anim;
 
     int currentImageIndex = -1;
     #region ALL UNITY FUNCTIONS
@@ -18,6 +20,8 @@ public class PaperHolder : APBehaviour
     public override void Awake()
     {
         base.Awake();
+
+        anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -83,6 +87,7 @@ public class PaperHolder : APBehaviour
         base.OnGameOver();
 
         ActiveCompleteAnimation();
+        anim.SetTrigger("Execute");
     }
 
     #endregion ALL OVERRIDING FUNCTIONS

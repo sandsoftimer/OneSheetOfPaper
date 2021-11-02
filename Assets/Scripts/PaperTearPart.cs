@@ -76,7 +76,7 @@ public class PaperTearPart : APBehaviour
                 Vector3 c = APTools.mathManager.GetWorldTouchPosition();
                 c.y = 0;
 
-                blendWeight = Mathf.Clamp(InverseLerp(a, b, c) * 100, 0, blendMaximumValue);
+                blendWeight = Mathf.Clamp(APTools.mathManager.InverseLerp(a, b, c) * 100, 0, blendMaximumValue);
                 //blendWeight = Mathf.Lerp(0, 1 / Vector3.Distance(a, b), 1 / Vector3.Distance(c, b)) / 100;
                 if (blendWeight > 95)
                 {
@@ -120,13 +120,6 @@ public class PaperTearPart : APBehaviour
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
-
-    public float InverseLerp(Vector3 a, Vector3 b, Vector3 value)
-    {
-        Vector3 AB = b - a;
-        Vector3 AV = value - a;
-        return Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB);
-    }
 
     public void SelectThisPart()
     {
