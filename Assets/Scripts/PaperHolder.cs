@@ -6,14 +6,16 @@ using UnityEngine;
 public class PaperHolder : APBehaviour
 {
     public Material paperMaterial;
-    public float fps = 60;
-    public Texture2D[] defaultTextures, rollingTextures, levelCompleteTextures;
+    public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
     SkinnedMeshRenderer currentPaperPart;
-    Texture2D[] currentActiveSet;
+    AnimationData currentAnimationData;
+    TextureSequence currentTextureSequence;
     Animator anim;
 
-    int currentImageIndex = -1;
+    int currentTextureSequenceIndex;
+    int currentImageIndex = -1, loopCount;
+    float currentFps;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -22,6 +24,8 @@ public class PaperHolder : APBehaviour
         base.Awake();
 
         anim = GetComponent<Animator>();
+        currentAnimationData = null;
+        currentTextureSequence = null;
     }
 
     // Start is called before the first frame update
@@ -77,9 +81,8 @@ public class PaperHolder : APBehaviour
     {
         base.OnGameInitializing();
 
-        DistributeMaterial();
         ActiveDefaultAnimation();
-        InvokeRepeating("UpdateNextTexture", 1f / fps, 1f / fps);
+        DistributeMaterial();
     }
 
     public override void OnGameOver()
@@ -96,6 +99,7 @@ public class PaperHolder : APBehaviour
 
     void DistributeMaterial()
     {
+        //paperMaterial.SetTexture("_BaseMap", currentTextureSequence.textures[0]);
         Transform[] childList = GetComponentsInChildren<Transform>();
         for (int i = 0; i < childList.Length; i++)
         {
@@ -109,27 +113,63 @@ public class PaperHolder : APBehaviour
 
     public void ActiveDefaultAnimation()
     {
-        currentImageIndex = -1;
-        currentActiveSet = defaultTextures;
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = defaultDatas;
+        NextTextureSequence();
     }
 
     public void ActiveRollingAnimation()
     {
-        currentImageIndex = -1;
-        currentActiveSet = rollingTextures;
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = rollingDatas;
+        NextTextureSequence();
     }
 
     public void ActiveCompleteAnimation()
     {
-        currentImageIndex = -1;
-        currentActiveSet = levelCompleteTextures;
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = levelSuccessDatas;
+        NextTextureSequence();
     }
 
     void UpdateNextTexture()
     {
         currentImageIndex++;
-        currentImageIndex %= currentActiveSet.Length;
-        paperMaterial.SetTexture("_BaseMap", currentActiveSet[currentImageIndex]);
+        if (currentTextureSequence.loopCount == 0)
+        {
+            // Loopping sequence
+            currentImageIndex %= currentTextureSequence.textures.Length;
+        }
+        else if(loopCount > 0 && currentImageIndex == currentTextureSequence.textures.Length)
+        {
+            --loopCount;
+            if (loopCount <= 0)
+            {
+                CancelInvoke("UpdateNextTexture");
+                NextTextureSequence();
+            }
+            currentImageIndex %= currentTextureSequence.textures.Length;
+        }
+        paperMaterial.SetTexture("_BaseMap", currentTextureSequence.textures[currentImageIndex]);
+
+        if(currentImageIndex > currentTextureSequence.textures.Length)
+        {
+            NextTextureSequence();
+        }
+    }
+
+    void NextTextureSequence()
+    {
+        currentTextureSequenceIndex++;
+        if (currentTextureSequenceIndex >= currentAnimationData.textureSequences.Length)
+            return;
+
+        Debug.LogError(currentTextureSequenceIndex + " == " + currentAnimationData.textureSequences.Length);
+        currentTextureSequence = currentAnimationData.textureSequences[currentTextureSequenceIndex];
+        loopCount = currentTextureSequence.loopCount;
+
+        currentImageIndex = -1;
+        InvokeRepeating("UpdateNextTexture", 1f / currentTextureSequence.fps, 1f / currentTextureSequence.fps);
     }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
