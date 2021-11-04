@@ -61,7 +61,6 @@ namespace Com.AlphaPotato.Utility
             Debug.LogErrorFormat(data);
         }
 
-        [MenuItem("APTools/Project Setup/Set Project Settings")]
         public static void SetupAPProjectSettings()
         {
             PlayerSettings.companyName = "Alpha Potato";
@@ -70,6 +69,40 @@ namespace Com.AlphaPotato.Utility
             PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.alphapotato.projectname");
             PlayerSettings.SetArchitecture(BuildTargetGroup.Android, (int)AndroidArchitecture.ARM64);
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
+        }
+
+        [MenuItem("APTools/Project Setup/APProjectSettings")]
+        public static void CreateProjectSettings()
+        {
+            if (Selection.activeObject is MonoScript)
+            {
+                MonoScript ms = (MonoScript)Selection.activeObject;
+                ScriptableObject so = ScriptableObject.CreateInstance(ms.name);
+
+                string path = System.IO.Directory.GetParent(AssetDatabase.GetAssetPath(ms.GetInstanceID())) + "/" + ms.name + ".asset";
+                Selection.activeObject = CreateIfDoesntExists(path, so);
+            }
+            //string path = Application.dataPath + ConstantManager.APPROJECTSETTING_CREATOR_PATH;
+            //ScriptableObject so = ScriptableObject.CreateInstance(ConstantManager.APPROJECTSETTING_FILE_NAME);
+            //Selection.activeObject = CreateIfDoesntExists(Application.dataPath + ConstantManager.APPROJECTSETTING_DESTINATION_PATH, so);
+        }
+        public static Object CreateIfDoesntExists(string path, Object o)
+        {
+            APProjectSetting ap = null;
+
+            ap = AssetDatabase.LoadAssetAtPath(path, o.GetType()) as APProjectSetting;
+
+            if (ap == null)
+            {
+                AssetDatabase.CreateAsset(o, path);
+                ap = AssetDatabase.LoadAssetAtPath(path, o.GetType()) as APProjectSetting;
+                AssetDatabase.Refresh();
+                return ap;
+            }
+            else
+            {
+                return ap;
+            }
         }
 #endif
         public string EditorIconPath { get { return "APSupportIcon"; } }

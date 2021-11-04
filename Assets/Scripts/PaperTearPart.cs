@@ -80,6 +80,7 @@ public class PaperTearPart : APBehaviour
                 //blendWeight = Mathf.Lerp(0, 1 / Vector3.Distance(a, b), 1 / Vector3.Distance(c, b)) / 100;
                 if (blendWeight > 95)
                 {
+                    blendWeight = 100;
                     gameManager.OnCompleteATask();
                     CancelInvoke("AlterSprite");
                     taskCompleted = true;
