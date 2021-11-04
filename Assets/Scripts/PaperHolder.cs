@@ -147,6 +147,7 @@ public class PaperHolder : APBehaviour
             {
                 CancelInvoke("UpdateNextTexture");
                 NextTextureSequence();
+                return;
             }
             currentImageIndex %= currentTextureSequence.textures.Length;
         }
@@ -164,12 +165,13 @@ public class PaperHolder : APBehaviour
         if (currentTextureSequenceIndex >= currentAnimationData.textureSequences.Length)
             return;
 
-        Debug.LogError(currentTextureSequenceIndex + " == " + currentAnimationData.textureSequences.Length);
+        //Debug.LogError(currentTextureSequenceIndex + " == " + currentAnimationData.textureSequences.Length);
         currentTextureSequence = currentAnimationData.textureSequences[currentTextureSequenceIndex];
         loopCount = currentTextureSequence.loopCount;
 
         currentImageIndex = -1;
-        InvokeRepeating("UpdateNextTexture", 1f / currentTextureSequence.fps, 1f / currentTextureSequence.fps);
+        CancelInvoke("UpdateNextTexture");
+        InvokeRepeating("UpdateNextTexture", 0, 1f / currentTextureSequence.fps);
     }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
