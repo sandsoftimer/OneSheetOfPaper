@@ -24,6 +24,7 @@ namespace Com.AlphaPotato.Utility
             value = 0.5f;
         }
 
+
         //IEnumerator TuneFloat(ref float value, float destinationValue)
         //{
         //    yield return null;

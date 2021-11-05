@@ -674,7 +674,8 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    7: POTATO_FACEBOOK;POTATO_ADJUST;POTATO_GAME_ANALYTICS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

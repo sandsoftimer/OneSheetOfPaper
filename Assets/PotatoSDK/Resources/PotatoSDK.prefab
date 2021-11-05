@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3632577118566448685
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 95780072464349003, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_SortingOrder
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 159078523035855148, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1024981283442775542}
+    - target: {fileID: 159078523035855148, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TestHideBanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 528346828550615965, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: no_ad_IAP_identifier.androidID
+      value: no_ads_pack
+      objectReference: {fileID: 0}
+    - target: {fileID: 932873244661772741, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_Name
+      value: AdHelperCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052272108507643905, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1024981283442775542}
+    - target: {fileID: 2052272108507643905, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TestInterstitial
+      objectReference: {fileID: 0}
+    - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: enableABTestPanel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: abkeep.Array.data[0].ios
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185365, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_Name
+      value: PotatoSDK
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388558411185371, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651382856177295834, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1024981283442775542}
+    - target: {fileID: 2651382856177295834, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TestRV
+      objectReference: {fileID: 0}
+    - target: {fileID: 3987432902959161781, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: disableAllWrapperLogs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3987432902959161781, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: iDontWantYourLoadingScreen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3987432902959161781, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: enableManualLoadForNextScene
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346244873341021147, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: enableTestUI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346244873341021147, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: showMaxMediationDebugger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556517430242070970, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: appToken.androidID
+      value: uwiag3jp1uyo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696446921341945215, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_SortingOrder
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373899929241678037, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1024981283442775542}
+    - target: {fileID: 7373899929241678037, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TestShowBanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588266522606287736, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: enforceConsentFlow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588266522606287736, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: forceLocationAsConsentApplicable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592144901096970489, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440782550612589450, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: ActiveLogLevel
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440782550612589450, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: enableModuleLogs
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+--- !u!114 &1024981283442775542 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4346244873341021147, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+  m_PrefabInstance: {fileID: 3632577118566448685}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71a0d8e92094b5459e2df08d49eca98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
