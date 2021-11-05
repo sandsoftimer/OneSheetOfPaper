@@ -6,8 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Project Setting", menuName = "APTools/Project Setup/APProjectSettings")]
 public class APProjectSetting : ScriptableObject
 {
-    public float test;
-    //string companyName = "Alpha Potato";
-    //string productName = Application.productName;            
+    public string companyName = "Alpha Potato";
+
+#if UNITY_2021
+public static bool showIOSSettings = false;
+#else
+    public static bool showIOSSettings = false;
+#endif
+    private static bool showWP8Settings = false;
+    private static bool showAndroidSettings = false;
+
+    //public string productName = Application.productName;            
     //UIOrientation defaultInterfaceOrientation = UIOrientation.Portrait;
 }

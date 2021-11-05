@@ -14,7 +14,7 @@ public class ConstantManager
     public const string CURRENT_SCORE = "CURRENT_SCORE";
     public const string HIGH_SCORE = "HIGH_SCORE";
     public const string HIDE = "Hide";
-    public const string APPROJECTSETTING_DESTINATION_PATH = "/Resources/APProjectSetting.asset";
+    public const string APPROJECTSETTING_DESTINATION_PATH = "Assets/Resources/APProjectSetting.asset";
     public const string APPROJECTSETTING_CREATOR_PATH = "/APLibrary/Scripts/APUtilities/APProjectSetting";
     public const string APPROJECTSETTING_FILE_NAME = "APProjectSetting";
 

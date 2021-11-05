@@ -1,6 +1,8 @@
 ﻿/*
- * Developer E-mail: sandsoftimer@gmail.com
- * Facebook Account: https://www.facebook.com/md.imran.hossain.902
+ * Developer Name: Md. Imran Hossain
+ * E-mail: sandsoftimer@gmail.com
+ * FB: https://www.facebook.com/md.imran.hossain.902
+ * in: https://www.linkedin.com/in/md-imran-hossain-69768826/
  * 
  * Features:
  * Scene Loading Effect
@@ -74,35 +76,31 @@ namespace Com.AlphaPotato.Utility
         [MenuItem("APTools/Project Setup/APProjectSettings")]
         public static void CreateProjectSettings()
         {
-            if (Selection.activeObject is MonoScript)
-            {
-                MonoScript ms = (MonoScript)Selection.activeObject;
-                ScriptableObject so = ScriptableObject.CreateInstance(ms.name);
+            //if (Selection.activeObject is MonoScript)
+            //{
+            //    MonoScript ms = (MonoScript)Selection.activeObject;
+            //    ScriptableObject so = ScriptableObject.CreateInstance(ms.name);
 
-                string path = System.IO.Directory.GetParent(AssetDatabase.GetAssetPath(ms.GetInstanceID())) + "/" + ms.name + ".asset";
-                Selection.activeObject = CreateIfDoesntExists(path, so);
-            }
-            //string path = Application.dataPath + ConstantManager.APPROJECTSETTING_CREATOR_PATH;
-            //ScriptableObject so = ScriptableObject.CreateInstance(ConstantManager.APPROJECTSETTING_FILE_NAME);
-            //Selection.activeObject = CreateIfDoesntExists(Application.dataPath + ConstantManager.APPROJECTSETTING_DESTINATION_PATH, so);
+            //    string path = System.IO.Directory.GetParent(AssetDatabase.GetAssetPath(ms.GetInstanceID())) + "/" + ms.name + ".asset";
+            //    Selection.activeObject = CreateIfDoesntExists(path, so);
+            //}
+
+            ScriptableObject so = ScriptableObject.CreateInstance(typeof(APProjectSetting));
+
+            string path = ConstantManager.APPROJECTSETTING_DESTINATION_PATH;
+            Selection.activeObject = CreateIfDoesntExists(path, so);
         }
         public static Object CreateIfDoesntExists(string path, Object o)
         {
-            APProjectSetting ap = null;
-
-            ap = AssetDatabase.LoadAssetAtPath(path, o.GetType()) as APProjectSetting;
-
+            var ap = AssetDatabase.LoadAssetAtPath(path, o.GetType());
             if (ap == null)
             {
                 AssetDatabase.CreateAsset(o, path);
-                ap = AssetDatabase.LoadAssetAtPath(path, o.GetType()) as APProjectSetting;
+                ap = AssetDatabase.LoadAssetAtPath(path, o.GetType());
                 AssetDatabase.Refresh();
                 return ap;
             }
-            else
-            {
-                return ap;
-            }
+            return ap;
         }
 #endif
         public string EditorIconPath { get { return "APSupportIcon"; } }

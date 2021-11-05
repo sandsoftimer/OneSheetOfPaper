@@ -1,6 +1,9 @@
 ﻿/*
- * Developer E-mail: sandsoftimer@gmail.com
- * Facebook Account: https://www.facebook.com/md.imran.hossain.902
+ * Developer Name: Md. Imran Hossain
+ * E-mail: sandsoftimer@gmail.com
+ * FB: https://www.facebook.com/md.imran.hossain.902
+ * in: https://www.linkedin.com/in/md-imran-hossain-69768826/
+ * 
  * This is a manager which will give common functional supports. 
  * like Math Calculator.
  *  
