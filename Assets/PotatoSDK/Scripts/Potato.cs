@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if AP_LIONSTUDIO_SDK_INSTALLED
+using LionStudios.Suite.Analytics;
+using LionStudios.Suite.Debugging;
+#endif
 namespace PotatoSDK
 {
     public class Potato : MonoBehaviour
@@ -163,6 +167,10 @@ namespace PotatoSDK
                 yield return new WaitForSeconds(0.5f);
                 if (!skipAutoLoadNextScene)
                 {
+#if AP_LIONSTUDIO_SDK_INSTALLED
+                    LionAnalytics.GameStart();
+                    LionDebugger.Hide();
+#endif
                     if (autoLoadSceneIndex > 0)
                     {
                         SceneManager.LoadScene(autoLoadSceneIndex);
