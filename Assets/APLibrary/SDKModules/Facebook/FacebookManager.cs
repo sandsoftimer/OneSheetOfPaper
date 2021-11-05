@@ -1,4 +1,4 @@
-#if AP_FACEBOOK_SDK_INSTALLED
+#if AP_FACEBOOK_SDK_INSTALLED_OBSULETE
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

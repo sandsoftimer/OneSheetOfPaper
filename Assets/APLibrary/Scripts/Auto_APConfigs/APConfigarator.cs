@@ -28,7 +28,7 @@ public class APConfigarator : AssetPostprocessor
 
         SetupProjectHierarchy();
         SetUnityLayers();
-        SetEditorBuildSettings();
+        //SetEditorBuildSettings();
         SetAPDefines();
     }
 

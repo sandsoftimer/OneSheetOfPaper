@@ -5,6 +5,10 @@ using UnityEngine;
 #if AP_GAMEANALYTICS_SDK_INSTALLED
 using GameAnalyticsSDK;
 #endif
+#if AP_LIONSTUDIO_SDK_INSTALLED
+using LionStudios.Suite.Analytics;
+using LionStudios.Suite.Debugging;
+#endif
 
 public class GameManager : APManager
 {
