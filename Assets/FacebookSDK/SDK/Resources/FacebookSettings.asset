@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 0
+  - 4698029316921754
   appLabels:
-  - App Name
+  - One Sheet Of Paper
   cookie: 1
   logging: 1
   status: 1
