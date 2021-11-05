@@ -47,6 +47,7 @@ namespace Com.AlphaPotato.Utility
 
         void OnLoadCallback(Scene scene, LoadSceneMode sceneMode)
         {
+            //Debug.LogError("Fade calling");
             SceneFadeanimator.SetTrigger("FadeOut");
         }
 
@@ -59,13 +60,12 @@ namespace Com.AlphaPotato.Utility
                     UnityEngine.SceneManagement.SceneManager.LoadScene(levelToLoadByName);
                     break;
                 case LoadSceneType.LOAD_BY_INDEX:
-
+                    //Debug.LogError("From Complete: " + levelToLoadByIndex);
                     UnityEngine.SceneManagement.SceneManager.LoadScene(levelToLoadByIndex);
                     break;
                 default:
                     break;
             }
-
         }
 
         public void LoadLevel(string levelName)
@@ -78,7 +78,7 @@ namespace Com.AlphaPotato.Utility
 
         public void LoadLevel(int levelIndex)
         {
-
+            //Debug.LogError("Level Index: " + levelIndex);
             levelToLoadByIndex = levelIndex;
             loadLevelType = LoadSceneType.LOAD_BY_INDEX;
             SceneFadeanimator.SetTrigger("FadeIn");
@@ -96,6 +96,7 @@ namespace Com.AlphaPotato.Utility
         {
             int loadedIndex = GetLevelIndex() + 1;
 
+            //Debug.LogError("Count: "+ UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings);
             //if (loadedIndex <= ConstantManager.TOTAL_GAME_LEVELS)
             if (loadedIndex < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings
                 && loadedIndex <= ConstantManager.TOTAL_GAME_LEVELS)
