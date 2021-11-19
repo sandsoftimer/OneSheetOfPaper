@@ -5,42 +5,50 @@ using Com.AlphaPotato.Utility;
 [CustomEditor(typeof(#SCRIPTNAME#))]
 public class #SCRIPTNAME#Editor : APEditor
 {
-    private #SCRIPTNAME# scriptRef;
-    #ALL_PUBLIC_PROPERTIES#
-    //private SerializedProperty propertyName;
+    private #SCRIPTNAME# scriptReference;
 
+    //All SerializedProperties
+    #ALL_PUBLIC_PROPERTIES#
+
+    bool drawProperties = true;
     public void OnEnable()
     {
-        scriptRef = (#SCRIPTNAME#)target;
-        //propertyName = serializedObject.FindProperty("propertyName");
+        scriptReference = (#SCRIPTNAME#)target;
+        #ALL_PUBLIC_PROPERTIES_FINDER#
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        //DrawProperty(propertyName);
+        if (!drawProperties)
+        {
 
-        Space();
-        DrawHorizontalLine();
+            Space();
+            DrawHorizontalLine();
+            OnButtonPressed("Draw Properties",
+                () =>
+                {
+                    drawProperties = !drawProperties;
+                });
+        }
+        else
+        {
+            #DrawProperty(propertyName)#
 
-        OnButtonPressed("Fetch",
-            ()=> {
-                //scriptRef.OnFetchButtonPress();
-                //propertyName.serializedObject.ApplyModifiedProperties();
-                Debug.LogError("Nothing has implemented. Double-Click to implement.");
-            });
-
-        OnButtonPressed("Delete",
-            ()=> {
-                //scriptRef.DeleteData();
-                //propertyName.serializedObject.ApplyModifiedProperties();
-                Debug.LogError("Nothing has implemented. Double-Click to implement.");
-            },
-            new EditorButtonStyle {
-                buttonColor = Color.yellow,
-                buttonTextColor = Color.red
-            });
+            Space();
+            DrawHorizontalLine();
+            OnButtonPressed("Hide Properties",
+                () =>
+                {
+                    drawProperties = !drawProperties;
+                },
+                new EditorButtonStyle
+                {
+                    buttonColor = Color.yellow,
+                    buttonTextColor = Color.red
+                });
+        }
 
         serializedObject.ApplyModifiedProperties();
     }

@@ -26,7 +26,7 @@ public static class APExtensions
 
     public static void GetRaycastFromScreenTouch(ref this RaycastHit hit, int layerMask = 1)
     {
-        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
+        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask);
         //return hit;
     }
 

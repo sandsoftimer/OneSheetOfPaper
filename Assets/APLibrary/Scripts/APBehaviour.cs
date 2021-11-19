@@ -9,7 +9,7 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
     [HideInInspector]
     public APTools APTools;
 
-    [HideInInspector]
+    //[HideInInspector]
     public GameplayData gameplayData;
     //[HideInInspector]
     public GameState gameState;

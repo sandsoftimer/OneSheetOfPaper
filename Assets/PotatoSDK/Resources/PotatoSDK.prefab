@@ -101,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3987432902959161781, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: skipUsingSplashScene
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3987432902959161781, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: disableAllWrapperLogs

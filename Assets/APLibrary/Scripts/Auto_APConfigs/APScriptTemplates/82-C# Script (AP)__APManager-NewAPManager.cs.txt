@@ -55,11 +55,6 @@ public class #SCRIPTNAME# : APManager
 
         if (gameplayData.isGameoverSuccess)
         {
-            gameplayData.currentLevelNumber++;
-            gameSuccessUI.SetBool("Hide", false);
-            gameOverEffect.Play();
-            PlayThisSoundEffect(gameWinAudioClip);
-
 
 #if AP_GAMEANALYTICS_SDK_INSTALLED
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "World01", "Level " + gameplayData.currentLevelNumber);
@@ -70,9 +65,6 @@ public class #SCRIPTNAME# : APManager
         }
         else
         {
-            gameFaildUI.SetBool("Hide", false);
-            PlayThisSoundEffect(gameLoseFailAudioClip);
-
 
 #if AP_GAMEANALYTICS_SDK_INSTALLED
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "World01", "Level " + (gameplayData.currentLevelNumber + 1));

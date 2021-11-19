@@ -106,13 +106,13 @@ namespace Com.AlphaPotato.Utility
 
         public Vector3 GetDirectionToPosition(Vector3 fromPosition)
         {
-            Vector3 mouseWorldPosition = GetWorldTouchPosition();
+            Vector3 mouseWorldPosition = GetWorldTouchPosition(Vector3.up);
             return (mouseWorldPosition - fromPosition).normalized;
         }
 
-        public Vector3 GetWorldTouchPosition()
+        public Vector3 GetWorldTouchPosition(Vector3 axis)
         {
-            Plane plane = new Plane(Vector3.up, 0);
+            Plane plane = new Plane(axis, 0);
 
             float distance;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

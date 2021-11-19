@@ -73,7 +73,7 @@ public class PaperTearPart : APBehaviour
                 a.y = 0;
                 Vector3 b = dragEndPoint.position;
                 b.y = 0;
-                Vector3 c = APTools.mathManager.GetWorldTouchPosition();
+                Vector3 c = APTools.mathManager.GetWorldTouchPosition(Vector3.up);
                 c.y = 0;
 
                 blendWeight = Mathf.Clamp(APTools.mathManager.InverseLerp(a, b, c) * 100, 0, blendMaximumValue);

@@ -28,7 +28,7 @@ public class APConfigarator : AssetPostprocessor
 
         SetupProjectHierarchy();
         SetUnityLayers();
-        //SetEditorBuildSettings();
+        SetEditorBuildSettings();
         SetAPDefines();
     }
 
@@ -41,7 +41,8 @@ public class APConfigarator : AssetPostprocessor
             { "Adjust", "AP_ADJUST_SDK_INSTALLED"},
             { "FacebookSDK", "AP_FACEBOOK_SDK_INSTALLED"},
             { "GameAnalytics","AP_GAMEANALYTICS_SDK_INSTALLED"},
-            { "Lion Studios","AP_LIONSTUDIO_SDK_INSTALLED"}
+            { "Lion Studios","AP_LIONSTUDIO_SDK_INSTALLED"},
+            { "PotatoSDK","AP_POTATO_SDK_INSTALLED"}
         };
 
         if (File.Exists(filePastLocation))
