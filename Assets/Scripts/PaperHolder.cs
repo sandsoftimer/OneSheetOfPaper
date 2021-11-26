@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PaperHolder : APBehaviour
 {
-    public Material paperMaterial;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
     SkinnedMeshRenderer currentPaperPart;
@@ -13,6 +12,7 @@ public class PaperHolder : APBehaviour
     TextureSequence currentTextureSequence;
     Animator anim;
 
+    Material paperMaterial;
     int currentTextureSequenceIndex;
     int currentImageIndex = -1, loopCount;
     float currentFps;
@@ -23,6 +23,7 @@ public class PaperHolder : APBehaviour
     {
         base.Awake();
 
+        paperMaterial = Resources.Load("PaperMaterial") as Material;
         anim = GetComponent<Animator>();
         currentAnimationData = null;
         currentTextureSequence = null;
@@ -100,7 +101,7 @@ public class PaperHolder : APBehaviour
     void DistributeMaterial()
     {
         //paperMaterial.SetTexture("_BaseMap", currentTextureSequence.textures[0]);
-        Transform[] childList = GetComponentsInChildren<Transform>();
+        Transform[] childList = GetComponentsInChildren<Transform>(false);
         for (int i = 0; i < childList.Length; i++)
         {
             Renderer _renderer = childList[i].GetComponent<Renderer>();

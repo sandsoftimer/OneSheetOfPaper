@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class APToolsMenuItems
+public static class APToolsMenuItems
 {
     [MenuItem("APTools/Delete Gameplay Data")]
     public static void DeleteBinaryData()
@@ -24,16 +24,6 @@ public class APToolsMenuItems
         sw.WriteLine(data);
         sw.Close();
         Debug.LogErrorFormat(data);
-    }
-
-    public static void SetupAPProjectSettings()
-    {
-        PlayerSettings.companyName = "Alpha Potato";
-        PlayerSettings.productName = Application.productName;
-        PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;
-        PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.alphapotato.projectname");
-        PlayerSettings.SetArchitecture(BuildTargetGroup.Android, (int)AndroidArchitecture.ARM64);
-        PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
     }
 
     [MenuItem("APTools/DataHolders/APProjectSettings")]
@@ -67,7 +57,5 @@ public class APToolsMenuItems
         }
         return ap;
     }
-
-
 }
 #endif

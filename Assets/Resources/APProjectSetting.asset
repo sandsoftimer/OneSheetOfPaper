@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: APProjectSetting
   m_EditorClassIdentifier: 
   companyName: Alpha Potato
+  productName: One Sheet of Paper
+  applicationIdentifier: 7
+  defaultInterfaceOrientation: 0

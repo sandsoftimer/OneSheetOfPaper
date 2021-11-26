@@ -14,15 +14,10 @@ public static class APEditorScriptMaker
     [MenuItem("Assets/APTools/APEditorScript")]
     private static void APEditorScript()
     {
-        GameObject go = new GameObject();
-        Component component = go.AddComponent(System.Type.GetType(Selection.activeObject.name));
-
-        Type t = component.GetType();
-        FieldInfo[] fieldInfo = t.GetFields();
-        GameObject.DestroyImmediate(go);
+        Type t = Type.GetType(Selection.activeObject.name);
+        FieldInfo[] fieldInfos = t.GetFields();
 
         APConfigarator.CreateDirectoryToProject("Scripts/Editor");
-
         string path = Application.dataPath + "/Scripts/Editor/" + selectedScriptName + "Editor.cs";
 
         if (!File.Exists(path))
@@ -30,21 +25,21 @@ public static class APEditorScriptMaker
             TextAsset asset = Resources.Load("NewAPEditorScript.cs") as TextAsset;
             string scriptSekeleton = asset.text.Replace("#SCRIPTNAME#", selectedScriptName);
 
-            foreach (FieldInfo info in fieldInfo)
+            foreach (FieldInfo fieldInfo in fieldInfos)
             {
                 scriptSekeleton = scriptSekeleton.Replace(
                     "#ALL_PUBLIC_PROPERTIES#",
-                    "private SerializedProperty " + info.Name + ";" +
+                    "private SerializedProperty " + fieldInfo.Name + ";" +
                     "\n\t#ALL_PUBLIC_PROPERTIES#");
 
                 scriptSekeleton = scriptSekeleton.Replace(
                     "#ALL_PUBLIC_PROPERTIES_FINDER#",
-                    info.Name + " = serializedObject.FindProperty(\"" + info.Name + "\");" +
+                    fieldInfo.Name + " = serializedObject.FindProperty(\"" + fieldInfo.Name + "\");" +
                     "\n\t\t#ALL_PUBLIC_PROPERTIES_FINDER#");
 
                 scriptSekeleton = scriptSekeleton.Replace(
                     "#DrawProperty(propertyName)#",
-                    "DrawProperty(" + info.Name + ");" +
+                    "DrawProperty(" + fieldInfo.Name + ");" +
                     "\n\t\t\t#DrawProperty(propertyName)#");
             }
             scriptSekeleton = scriptSekeleton.Replace("#ALL_PUBLIC_PROPERTIES#", "");
@@ -58,18 +53,11 @@ public static class APEditorScriptMaker
             writer.Close();
             AssetDatabase.Refresh();
 
-            Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-            Selection.activeObject = obj;
-
             Debug.Log("File has been created. PATH = " + path);
         }
         else
         {
             Debug.LogError("File already exist. PATH = " + path);
-            EditorUtility.FocusProjectWindow();
-            Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-            Selection.activeObject = obj;
-            EditorGUIUtility.PingObject(obj);
         }
     }
 
@@ -80,35 +68,6 @@ public static class APEditorScriptMaker
         // This returns true when the selected object is an C# (the menu item will be disabled otherwise).
         selectedScriptName = Selection.activeObject.name;
         return Selection.activeObject is MonoScript;
-    }
-    [MenuItem("GameObject/MyCategory/Custom Game Object", false, 10)]
-    static void CreateCustomGameObject(MenuCommand menuCommand)
-    {
-        // Create a custom game object
-        GameObject go = new GameObject("Custom Game Object");
-        // Ensure it gets reparented if this was a context click (otherwise does nothing)
-        //GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
-
-        Component component = go.AddComponent(System.Type.GetType(Selection.activeObject.name));
-        Type t = component.GetType();
-        Debug.Log("Type " + t);
-        Debug.Log("Type information for:" + t.FullName);
-        Debug.Log("\tBase class = " + t.BaseType.FullName);
-        Debug.Log("\tIs Class = " + t.IsClass);
-        Debug.Log("\tIs Enum = " + t.IsEnum);
-        Debug.Log("\tAttributes = " + t.Attributes);
-        System.Reflection.FieldInfo[] fieldInfo = t.GetFields();
-        foreach (System.Reflection.FieldInfo info in fieldInfo)
-            Debug.Log("Field:" + info.Name);
-        System.Reflection.PropertyInfo[] propertyInfo = t.GetProperties();
-        foreach (System.Reflection.PropertyInfo info in propertyInfo)
-            Debug.Log("Prop:" + info.Name);
-        Debug.Log("Found component " + component);
-        
-
-        // Register the creation in the undo system
-        //Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-        GameObject.DestroyImmediate(go);
     }
 }
 #endif

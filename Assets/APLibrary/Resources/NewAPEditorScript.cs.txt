@@ -7,7 +7,7 @@ public class #SCRIPTNAME#Editor : APEditor
 {
     private #SCRIPTNAME# scriptReference;
 
-    //All SerializedProperties
+    // All SerializedProperties
     #ALL_PUBLIC_PROPERTIES#
 
     bool drawProperties = true;

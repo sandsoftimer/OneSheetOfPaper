@@ -10,7 +10,7 @@ public class AnimationData
 [Serializable]
 public class TextureSequence
 {
-    public float fps;
-    public int loopCount;
+    public float fps = 4;
+    public int loopCount = 0;
     public Texture2D[] textures;
 }
