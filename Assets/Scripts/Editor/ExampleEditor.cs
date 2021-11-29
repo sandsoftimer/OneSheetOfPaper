@@ -2,21 +2,27 @@ using UnityEditor;
 using UnityEngine;
 using Com.AlphaPotato.Utility;
 
-[CustomEditor(typeof(#SCRIPTNAME#))]
-public class #SCRIPTNAME#Editor : APEditor
+[CustomEditor(typeof(Example))]
+public class ExampleEditor : APEditor
 {
-    private #SCRIPTNAME# scriptReference;
+    private Example scriptReference;
 
     // All SerializedProperties
     #region ALL_PUBLIC_PROPERTIES
-    #endregion ALL_PUBLIC_PROPERTIES
+    private SerializedProperty floatVar;
+	private SerializedProperty intVar;
+	private SerializedProperty stringVar;
+	#endregion ALL_PUBLIC_PROPERTIES
 
     bool drawProperties = true;
     public void OnEnable()
     {
-        scriptReference = (#SCRIPTNAME#)target;
+        scriptReference = (Example)target;
         #region FINDER_ALL_PUBLIC_PROPERTIES_FINDER
-        #endregion FINDER_ALL_PUBLIC_PROPERTIES
+        floatVar = serializedObject.FindProperty("floatVar");
+		intVar = serializedObject.FindProperty("intVar");
+		stringVar = serializedObject.FindProperty("stringVar");
+		#endregion FINDER_ALL_PUBLIC_PROPERTIES
     }
 
     public override void OnInspectorGUI()
@@ -37,7 +43,10 @@ public class #SCRIPTNAME#Editor : APEditor
         else
         {
             #region DrawProperty(propertyName)
-            #endregion DrawProperty(propertyName)
+            DrawProperty(floatVar);
+			DrawProperty(intVar);
+			DrawProperty(stringVar);
+			#endregion DrawProperty(propertyName)
 
             Space();
             DrawHorizontalLine();

@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 1319528595187698082}
   - component: {fileID: 1319528595187698083}
   m_Layer: 0
-  m_Name: Level 2 Toilet Tishu
+  m_Name: Level-2 Toilet Tishu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

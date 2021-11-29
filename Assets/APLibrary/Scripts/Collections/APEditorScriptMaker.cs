@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -28,24 +29,20 @@ public static class APEditorScriptMaker
             foreach (FieldInfo fieldInfo in fieldInfos)
             {
                 scriptSekeleton = scriptSekeleton.Replace(
-                    "#ALL_PUBLIC_PROPERTIES#",
+                    "#endregion ALL_PUBLIC_PROPERTIES",
                     "private SerializedProperty " + fieldInfo.Name + ";" +
-                    "\n\t#ALL_PUBLIC_PROPERTIES#");
+                    "\n\t#endregion ALL_PUBLIC_PROPERTIES");
 
                 scriptSekeleton = scriptSekeleton.Replace(
-                    "#ALL_PUBLIC_PROPERTIES_FINDER#",
+                    "#endregion FINDER_ALL_PUBLIC_PROPERTIES",
                     fieldInfo.Name + " = serializedObject.FindProperty(\"" + fieldInfo.Name + "\");" +
-                    "\n\t\t#ALL_PUBLIC_PROPERTIES_FINDER#");
+                    "\n\t\t#endregion FINDER_ALL_PUBLIC_PROPERTIES");
 
                 scriptSekeleton = scriptSekeleton.Replace(
-                    "#DrawProperty(propertyName)#",
+                    "#endregion DrawProperty(propertyName)",
                     "DrawProperty(" + fieldInfo.Name + ");" +
-                    "\n\t\t\t#DrawProperty(propertyName)#");
+                    "\n\t\t\t#endregion DrawProperty(propertyName)");
             }
-            scriptSekeleton = scriptSekeleton.Replace("#ALL_PUBLIC_PROPERTIES#", "");
-            scriptSekeleton = scriptSekeleton.Replace("#ALL_PUBLIC_PROPERTIES_FINDER#", "");
-            scriptSekeleton = scriptSekeleton.Replace("#DrawProperty(propertyName)#", "");
-
 
             //Write some text to the test.txt file
             StreamWriter writer = new StreamWriter(path);
@@ -57,7 +54,46 @@ public static class APEditorScriptMaker
         }
         else
         {
-            Debug.LogError("File already exist. PATH = " + path);
+            Debug.Log("File Exist. PATH = " + path);
+            return;
+
+            path = "Assets/Scripts/Editor/" + selectedScriptName + "Editor.cs";
+            var ap = AssetDatabase.LoadAssetAtPath(path, typeof(TextAsset));
+            TextAsset asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            string scriptSekeleton = asset.text;
+
+            string regex = @"#region ALL_PUBLIC_PROPERTIES.*?\endregion ALL_PUBLIC_PROPERTIES";
+            string output = Regex.Replace(scriptSekeleton, @"!(.*)?\(", string.Empty);
+            //const string HTML_TAG_PATTERN = "#region ALL_PUBLIC_PROPERTIES.*#endregion ALL_PUBLIC_PROPERTIES";
+            //Regex.Replace(scriptSekeleton, HTML_TAG_PATTERN, "Imran");
+            Debug.LogError(output);
+            output.TrimStart();
+
+            //foreach (FieldInfo fieldInfo in fieldInfos)
+            //{
+            //    scriptSekeleton = scriptSekeleton.Replace(
+            //        "#endregion ALL_PUBLIC_PROPERTIES",
+            //        "private SerializedProperty " + fieldInfo.Name + ";" +
+            //        "\n\t#endregion ALL_PUBLIC_PROPERTIES");
+
+            //    scriptSekeleton = scriptSekeleton.Replace(
+            //        "#endregion FINDER_ALL_PUBLIC_PROPERTIES",
+            //        fieldInfo.Name + " = serializedObject.FindProperty(\"" + fieldInfo.Name + "\");" +
+            //        "\n\t\t#endregion FINDER_ALL_PUBLIC_PROPERTIES");
+
+            //    scriptSekeleton = scriptSekeleton.Replace(
+            //        "#endregion DrawProperty(propertyName)",
+            //        "DrawProperty(" + fieldInfo.Name + ");" +
+            //        "\n\t\t\t#endregion DrawProperty(propertyName)");
+            //}
+
+            ////Write some text to the test.txt file
+            //StreamWriter writer = new StreamWriter(path);
+            //writer.WriteLine(scriptSekeleton);
+            //writer.Close();
+            //AssetDatabase.Refresh();
+
+            //Debug.Log("File has been created. PATH = " + path);
         }
     }
 

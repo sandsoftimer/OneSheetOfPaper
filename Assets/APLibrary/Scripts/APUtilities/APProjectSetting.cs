@@ -28,7 +28,6 @@ public class APProjectSetting : ScriptableObject
         aPProjectDefaultSettings.productName = Application.productName;
 
         aPProjectAndroidSettings.applicationIdentifier = "com.alphapotato." + Application.productName.ToLower().Replace(" ", "");
-
         aPProjectIOSSettings.applicationIdentifier = "com.alphapotato." + Application.productName.ToLower().Replace(" ", "");
 
         //applicationIdentifier = BuildTargetGroup.Android;
