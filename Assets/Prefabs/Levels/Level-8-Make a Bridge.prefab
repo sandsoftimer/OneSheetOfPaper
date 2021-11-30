@@ -292,6 +292,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -495,7 +496,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6c4a879c9c99d4d94b277888aeabc853, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85d83d5bba7134688bde963caf860abe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

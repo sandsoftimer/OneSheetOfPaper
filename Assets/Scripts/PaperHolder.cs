@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PaperHolder : APBehaviour
 {
+    public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
     SkinnedMeshRenderer currentPaperPart;
@@ -23,6 +24,7 @@ public class PaperHolder : APBehaviour
     {
         base.Awake();
 
+        Camera.main.backgroundColor = backgroundColor;
         paperMaterial = Resources.Load("PaperMaterial") as Material;
         anim = GetComponent<Animator>();
         currentAnimationData = null;
