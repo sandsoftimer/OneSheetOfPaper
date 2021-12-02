@@ -69,7 +69,6 @@ public class APConfigarator : AssetPostprocessor
         CreateDirectoryToProject("Materials");
         CreateDirectoryToProject("Prefabs");
         CreateDirectoryToProject("Resources");
-        CreateDirectoryToProject("Scripts");
         CreateDirectoryToProject("Scripts/Editor");
         CreateDirectoryToProject("Scenes");
         CreateDirectoryToProject("Textures");

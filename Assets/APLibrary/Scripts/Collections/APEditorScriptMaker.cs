@@ -64,10 +64,8 @@ public static class APEditorScriptMaker
 
             string regex = @"#region ALL_PUBLIC_PROPERTIES.*?\endregion ALL_PUBLIC_PROPERTIES";
             string output = Regex.Replace(scriptSekeleton, @"!(.*)?\(", string.Empty);
-            //const string HTML_TAG_PATTERN = "#region ALL_PUBLIC_PROPERTIES.*#endregion ALL_PUBLIC_PROPERTIES";
-            //Regex.Replace(scriptSekeleton, HTML_TAG_PATTERN, "Imran");
+
             Debug.LogError(output);
-            output.TrimStart();
 
             //foreach (FieldInfo fieldInfo in fieldInfos)
             //{

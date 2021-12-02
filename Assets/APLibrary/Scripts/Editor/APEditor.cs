@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class APEditor : Editor
 {
     protected void DrawProperty(SerializedProperty propertyName)
     {
+        Space();
         EditorGUILayout.PropertyField(propertyName);
     }
 
@@ -43,5 +45,15 @@ public class APEditor : Editor
         EditorGUILayout.Space(spaceSize, expand);
     }
 
+    public GUIStyle BackgroundStyle(Color backgroundColor, Color textColor)
+    {
+        GUIStyle style = new GUIStyle();
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, backgroundColor);
+        texture.Apply();
+        style.normal.background = texture;
+        style.normal.textColor = textColor;
+        return style;
+    }
 }
-
+#endif

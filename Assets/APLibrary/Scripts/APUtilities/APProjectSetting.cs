@@ -9,7 +9,7 @@ public enum APPlatforms
     IOS
 }
 
-[CreateAssetMenu(fileName = "Project Setting", menuName = "APTools/Project Setup/APProjectSettings")]
+[CreateAssetMenu(fileName = "Project Setting", menuName = "APTools/Project Setup/APProjectSetting")]
 public class APProjectSetting : ScriptableObject
 {
     public APProjectDefaultSettings aPProjectDefaultSettings;
@@ -17,7 +17,6 @@ public class APProjectSetting : ScriptableObject
     public APProjectIOSSettings aPProjectIOSSettings;
 
     //public BuildTargetGroup applicationIdentifier;
-    public UIOrientation defaultInterfaceOrientation;
 
     public void OnEnable()
     {
@@ -26,28 +25,37 @@ public class APProjectSetting : ScriptableObject
         aPProjectIOSSettings = new APProjectIOSSettings();
 
         aPProjectDefaultSettings.companyName = PlayerSettings.companyName;
-        aPProjectDefaultSettings.productName = Application.productName;
+        aPProjectDefaultSettings.productName = PlayerSettings.productName;
+        aPProjectDefaultSettings.icon = AssetDatabase.LoadAssetAtPath("Assets/APLibrary/Sprites/AlphaPotatoIcon.png", typeof(Texture2D)) as Texture2D;
+        PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown, new Texture2D[] {aPProjectDefaultSettings.icon});
 
-        aPProjectAndroidSettings.applicationIdentifier = "com.alphapotato." + Application.productName.ToLower().Replace(" ", "");
-        aPProjectIOSSettings.applicationIdentifier = "com.alphapotato." + Application.productName.ToLower().Replace(" ", "");
+        aPProjectDefaultSettings.bundleIdentifier = "com.alphapotato." + Application.productName.ToLower().Replace(" ", "");
+        aPProjectAndroidSettings.bundleIdentifier = aPProjectDefaultSettings.bundleIdentifier;
+        aPProjectIOSSettings.bundleIdentifier = aPProjectDefaultSettings.bundleIdentifier;
 
-        //applicationIdentifier = BuildTargetGroup.Android;
-        defaultInterfaceOrientation = UIOrientation.Portrait;        
+        aPProjectDefaultSettings.defaultInterfaceOrientation = UIOrientation.Portrait;
+
+        aPProjectAndroidSettings.androidArchitecture = ScriptingImplementation.IL2CPP;
     }
 
-}
-
-public class SetProjectSettings{
-
-    public SetProjectSettings(APProjectSetting aPProjectSetting)
+    public void SetProjectSetting()
     {
-        PlayerSettings.companyName = aPProjectSetting.aPProjectDefaultSettings.companyName;
-        PlayerSettings.productName = Application.productName;
+        PlayerSettings.companyName = aPProjectDefaultSettings.companyName;
+        PlayerSettings.productName = aPProjectDefaultSettings.productName;
+        PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown, new Texture2D[] { aPProjectDefaultSettings.icon });
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.alphapotato.projectname");
-        PlayerSettings.SetArchitecture(BuildTargetGroup.Android, (int)AndroidArchitecture.ARM64);
-        PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
+        PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, aPProjectAndroidSettings.androidArchitecture);
 
+        PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
+        PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
+
+        AndroidArchitecture aac = AndroidArchitecture.None;
+        if(aPProjectAndroidSettings.ARMv7)
+            aac |= AndroidArchitecture.ARMv7;
+        if (aPProjectAndroidSettings.ARM64)
+            aac |= AndroidArchitecture.ARM64;
+        PlayerSettings.Android.targetArchitectures = aac;
     }
 }
 
@@ -56,20 +64,32 @@ public class APProjectDefaultSettings
 {
     public string companyName;
     public string productName;
-    public string applicationIdentifier;
-
+    public string bundleIdentifier;
+    public Texture2D icon;
+    public bool unitySplashScreen;
+    public UIOrientation defaultInterfaceOrientation;
 }
 
 [Serializable]
 public class APProjectAndroidSettings
 {
-    public string applicationIdentifier;
+    public bool overrideBundleIdentifier;
+    public bool ARMv7;
+    public bool ARM64;
+    public string bundleIdentifier;
+    public float versionNumber;
+    public int debugBuildNumber, producitonBuildNumber;
+    public AndroidSdkVersions minimumSDKVersion = AndroidSdkVersions.AndroidApiLevel21;
+    public AndroidSdkVersions targetSDKVersion = AndroidSdkVersions.AndroidApiLevelAuto;
+    public ScriptingImplementation androidArchitecture;
 }
 
 [Serializable]
 public class APProjectIOSSettings
 {
-    public string applicationIdentifier;
-
+    public bool overrideBundleIdentifier;
+    public string bundleIdentifier;
+    public float versionNumber;
+    public int debugBuildNumber, producitonBuildNumber;
 }
 #endif

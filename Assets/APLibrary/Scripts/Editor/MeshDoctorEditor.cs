@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using Com.AlphaPotato.Utility;
@@ -50,3 +51,4 @@ public class MeshDoctorEditor : APEditor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif
