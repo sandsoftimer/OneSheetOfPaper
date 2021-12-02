@@ -5,10 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PaperHolder : APBehaviour
 {
+    public Transform cameraPoint;
     public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
-    SkinnedMeshRenderer currentPaperPart;
+
     AnimationData currentAnimationData;
     TextureSequence currentTextureSequence;
     Animator anim;
@@ -24,7 +25,13 @@ public class PaperHolder : APBehaviour
     {
         base.Awake();
 
-        Camera.main.backgroundColor = backgroundColor;
+        if (cameraPoint != null)
+        {
+            Camera.main.transform.position = cameraPoint.position;
+            Camera.main.transform.rotation = cameraPoint.rotation;
+        }
+
+        //Camera.main.backgroundColor = "#F1F1F1";
         paperMaterial = Resources.Load("PaperMaterial") as Material;
         anim = GetComponent<Animator>();
         currentAnimationData = null;
