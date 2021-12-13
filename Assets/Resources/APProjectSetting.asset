@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6693e76b200d43329fd0283bb7a095b, type: 3}
   m_Name: APProjectSetting
   m_EditorClassIdentifier: 
-  companyName: Alpha Potato
-  productName: One Sheet of Paper
-  applicationIdentifier: 7
-  defaultInterfaceOrientation: 0
+  aPProjectDefaultSettings:
+    companyName: Alpha Potato
+    productName: One Sheet of Paper
+    bundleIdentifier: com.alphapotato.onesheetofpaper
+    icon: {fileID: 2800000, guid: b94164d2e06f54b8eb1790eebc3b7adb, type: 3}
+    unitySplashScreen: 0
+    defaultInterfaceOrientation: 0
+  aPProjectAndroidSettings:
+    overrideBundleIdentifier: 0
+    ARMv7: 1
+    ARM64: 1
+    bundleIdentifier: com.alphapotato.onesheetofpaper
+    versionNumber: 0
+    debugBuildNumber: 1
+    producitonBuildNumber: 0
+    minimumSDKVersion: 21
+    targetSDKVersion: 0
+    androidArchitecture: 1
+  aPProjectIOSSettings:
+    overrideBundleIdentifier: 0
+    bundleIdentifier: com.alphapotato.onesheetofpaper
+    versionNumber: 0
+    debugBuildNumber: 0
+    producitonBuildNumber: 0
