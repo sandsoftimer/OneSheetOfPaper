@@ -8,12 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Level_20
-    second: {fileID: 2100000, guid: d219717e6e964ac4bbb041b93866a8ba, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: metal
-    second: {fileID: 2100000, guid: b1b60676364eeed4db55a05b0432a190, type: 2}
+    second: {fileID: 2100000, guid: b0290492fdfa97e43972e2d6e45f62ba, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
