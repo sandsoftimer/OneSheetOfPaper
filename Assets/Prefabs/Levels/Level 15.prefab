@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 9046529508671838547}
   - component: {fileID: 9046529508671838544}
   m_Layer: 0
-  m_Name: Level-15-Stair_level
+  m_Name: Level 15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

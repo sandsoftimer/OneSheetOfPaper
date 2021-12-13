@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 817393535615463738}
   - component: {fileID: 817393535615463741}
   m_Layer: 0
-  m_Name: Level-9-Eve Teaser
+  m_Name: Level 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

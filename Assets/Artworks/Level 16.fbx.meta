@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bg
-    second: {fileID: 2100000, guid: bdc538c1b5c40924196f1e4e4683b2da, type: 2}
+    second: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: cone
-    second: {fileID: 2100000, guid: 41fac647992a18e47b78b274e91d9609, type: 2}
+    second: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
