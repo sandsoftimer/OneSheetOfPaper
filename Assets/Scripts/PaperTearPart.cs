@@ -127,7 +127,7 @@ public class PaperTearPart : APBehaviour
 
     void CreateHandTutorial()
     {
-        if (gameplayData.currentLevelNumber < 50)
+        if (gameplayData.currentLevelNumber < 5)
         {
             tutorialHand = Instantiate(Resources.Load("Tutorial_Hand") as GameObject);
             tutorialHand.transform.parent = dragStartPoint;
