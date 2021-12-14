@@ -6,6 +6,7 @@ public class PaperTearPart : APBehaviour
 {
     Transform dragStartPoint, dragEndPoint;
 
+    GameObject tutorialHand;
     SkinnedMeshRenderer skin;
     bool draggingPaper, selectedPaper, taskCompleted;
     float blendMaximumValue = 100f, revertSpeed = 10f, blendWeight = 0;
@@ -61,6 +62,7 @@ public class PaperTearPart : APBehaviour
                     dragStartPoint.gameObject.SetActive(true);
                     dragEndPoint.gameObject.SetActive(false);
                     CancelInvoke("AlterSprite");
+                    CreateHandTutorial();
 
                     if (gameManager.totalCompletedTask == 0)
                         transform.parent.GetComponent<PaperHolder>().ActiveDefaultAnimation();
@@ -116,6 +118,22 @@ public class PaperTearPart : APBehaviour
         base.OnGameInitializing();
 
         gameManager.totalGivenTask++;
+
+        bool iapDone = false;
+        dragStartPoint.GetChild(0).GetComponent<SpriteRenderer>().enabled = iapDone;
+        dragEndPoint.GetChild(0).GetComponent<SpriteRenderer>().enabled = iapDone;
+        CreateHandTutorial();
+    }
+
+    void CreateHandTutorial()
+    {
+        if (gameplayData.currentLevelNumber < 50)
+        {
+            tutorialHand = Instantiate(Resources.Load("Tutorial_Hand") as GameObject);
+            tutorialHand.transform.parent = dragStartPoint;
+            Tutorial_Hand tutorial_Hand = tutorialHand.GetComponent<Tutorial_Hand>();
+            tutorial_Hand.Initialize(dragEndPoint);
+        }
     }
 
     #endregion ALL OVERRIDING FUNCTIONS
@@ -124,6 +142,7 @@ public class PaperTearPart : APBehaviour
 
     public void SelectThisPart()
     {
+        Destroy(tutorialHand);
         selectedPaper = true;
         draggingPaper = true;
         dragStartPoint.gameObject.SetActive(false);
