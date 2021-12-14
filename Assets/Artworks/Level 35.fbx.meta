@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Level_35
+    second: {fileID: 2100000, guid: bc8ce606efac1ff43adf8038d31c33aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Level_35_layer1
     second: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
   - first:
