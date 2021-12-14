@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1647231678667589239
 Transform:
   m_ObjectHideFlags: 0
@@ -75,6 +75,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: Roll a cone!
   cameraPoint: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
@@ -269,7 +270,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 8214709263792658965, guid: 2c3cf6e1782d06348bf77d060031063f, type: 3}
+  m_Mesh: {fileID: 18957688613028324, guid: 2c3cf6e1782d06348bf77d060031063f, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
   - 0

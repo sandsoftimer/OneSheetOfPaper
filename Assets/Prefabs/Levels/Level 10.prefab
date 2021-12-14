@@ -127,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6019988230302315093
 Transform:
   m_ObjectHideFlags: 0
@@ -186,6 +186,9 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: Help them ride the bike!
+  cameraPoint: {fileID: 0}
+  backgroundColor: {r: 1, g: 1, b: 0.65882355, a: 1}
   defaultDatas:
     textureSequences:
     - fps: 4

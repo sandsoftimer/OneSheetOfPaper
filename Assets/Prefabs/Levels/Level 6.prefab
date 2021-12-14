@@ -319,7 +319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6945638515831658701
 Transform:
   m_ObjectHideFlags: 0
@@ -378,7 +378,9 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  paperMaterial: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
+  levelText: Pot the Plants!
+  cameraPoint: {fileID: 0}
+  backgroundColor: {r: 0.6862745, g: 0.8509804, b: 0.5254902, a: 1}
   defaultDatas:
     textureSequences:
     - fps: 4

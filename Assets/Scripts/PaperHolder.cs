@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PaperHolder : APBehaviour
 {
+    public string levelText;
     public Transform cameraPoint;
     public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
@@ -91,6 +92,7 @@ public class PaperHolder : APBehaviour
     {
         base.OnGameInitializing();
 
+        ((GameManager)gameManager).levelInfoText.text = levelText;
         ActiveDefaultAnimation();
         DistributeMaterial();
     }

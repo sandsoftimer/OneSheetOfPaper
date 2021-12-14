@@ -377,7 +377,9 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  paperMaterial: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
+  levelText: Give them hats and food!
+  cameraPoint: {fileID: 0}
+  backgroundColor: {r: 1, g: 0.60784316, b: 0.60784316, a: 1}
   defaultDatas:
     textureSequences:
     - fps: 4

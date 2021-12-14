@@ -76,7 +76,9 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  paperMaterial: {fileID: 2100000, guid: 984951dda1eda434180bbd8be9dd902f, type: 2}
+  levelText: Give Them Hula Hoops!
+  cameraPoint: {fileID: 0}
+  backgroundColor: {r: 0.9843137, g: 0.77254903, b: 0.5529412, a: 1}
   defaultDatas:
     textureSequences:
     - fps: 4

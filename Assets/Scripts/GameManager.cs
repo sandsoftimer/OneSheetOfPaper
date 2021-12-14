@@ -8,10 +8,12 @@ using GameAnalyticsSDK;
 #if AP_LIONSTUDIO_SDK_INSTALLED
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Debugging;
+using TMPro;
 #endif
 
 public class GameManager : APManager
 {
+    public TextMeshProUGUI levelInfoText;
     public override void Awake()
     {
         base.Awake();

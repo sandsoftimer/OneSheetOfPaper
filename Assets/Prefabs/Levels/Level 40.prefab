@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2004138805234517460
 Transform:
   m_ObjectHideFlags: 0
@@ -76,6 +76,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: Fill the bottle!
   cameraPoint: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
