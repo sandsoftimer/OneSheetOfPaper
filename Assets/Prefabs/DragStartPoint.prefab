@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8294572842131122026}
-  - component: {fileID: 1746054696}
+  - component: {fileID: 3278910272276966963}
   m_Layer: 18
   m_Name: DragStartPoint
   m_TagString: Untagged
@@ -115,8 +115,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1746054696
-SphereCollider:
+--- !u!65 &3278910272276966963
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -126,5 +126,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Size: {x: 4.032061, y: 3.9965153, z: 3.9524655}
   m_Center: {x: 0, y: 0, z: 0}
