@@ -373,6 +373,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1296979193952495604}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 7.267349
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.z
+      value: 8.526266
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: -1.6176441
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint

@@ -582,6 +582,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6700489142927353819}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.z
+      value: 7.4716654
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.z
+      value: 1.7595997
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint
@@ -644,6 +652,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4990445771173801261}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 5.5961494
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: -0.7820444
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint
@@ -768,6 +784,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9121977011173166254}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 4.618594
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.z
+      value: 5.919892
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: 0.29326677
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint

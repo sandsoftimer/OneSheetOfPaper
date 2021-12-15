@@ -7,6 +7,7 @@ public class PaperHolder : APBehaviour
 {
     public string levelText;
     public Transform cameraPoint;
+    public float cameraFieldOfView = 29f;
     public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
@@ -31,6 +32,7 @@ public class PaperHolder : APBehaviour
             Camera.main.transform.position = cameraPoint.position;
             Camera.main.transform.rotation = cameraPoint.rotation;
         }
+        Camera.main.fieldOfView = cameraFieldOfView + 1;
 
         //Camera.main.backgroundColor = "#F1F1F1";
         paperMaterial = Resources.Load("PaperMaterial") as Material;

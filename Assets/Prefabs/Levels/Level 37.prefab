@@ -409,6 +409,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8157734313232671769}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 6.9735427
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: 1.470741
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint
@@ -533,6 +541,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3700122175409340138}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 6.860408
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: -1.4141736
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint
@@ -601,7 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1396113040959000618, guid: 9d19b47460bed4d5ca3e68a2451beab0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.64
+      value: 5.83
       objectReference: {fileID: 0}
     - target: {fileID: 1396113040959000618, guid: 9d19b47460bed4d5ca3e68a2451beab0, type: 3}
       propertyPath: m_LocalPosition.y

@@ -267,7 +267,7 @@ SkinnedMeshRenderer:
   m_Mesh: {fileID: 3642215332184117620, guid: 7549843158e9a4c65a4fa67a05b9254e, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
-  - 0
+  - 100
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 1.3343036, y: 1.3451992, z: 0}
@@ -364,6 +364,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6944457993144088796}
     m_Modifications:
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Size.x
+      value: 8.048315
+      objectReference: {fileID: 0}
+    - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
+      propertyPath: m_Center.x
+      value: 2.0081267
+      objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name
       value: DragStartPoint
