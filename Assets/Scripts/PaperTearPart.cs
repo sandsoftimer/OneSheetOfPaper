@@ -145,7 +145,7 @@ public class PaperTearPart : APBehaviour
         Destroy(tutorialHand);
         selectedPaper = true;
         draggingPaper = true;
-        dragStartPoint.gameObject.SetActive(false);
+        //dragStartPoint.gameObject.SetActive(false);
         InvokeRepeating("AlterSprite", 0.2f, 0.2f);
     }
 

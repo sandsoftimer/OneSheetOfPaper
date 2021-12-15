@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: G
+  companyName: Alpha Potato
   productName: One Sheet of Paper
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -262,7 +262,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: b94164d2e06f54b8eb1790eebc3b7adb, type: 3}
+      m_Icon: {fileID: 2800000, guid: d714ef3cd1ed64ec09b31f5c0eebf64c, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
