@@ -38,7 +38,7 @@ public class GameManager : APManager
     {
         base.GameStart();
 
-        gameStartingUI.SetBool("Hide", true);
+        //gameStartingUI.SetBool("Hide", true);
         gamePlayUI.SetBool("Hide", false);
 
 #if AP_GAMEANALYTICS_SDK_INSTALLED
@@ -54,6 +54,8 @@ public class GameManager : APManager
     public override void GameOver()
     {
         base.GameOver();
+
+        gameStartingUI.SetBool("Hide", true);
 
         if (gameplayData.isGameoverSuccess)
         {
