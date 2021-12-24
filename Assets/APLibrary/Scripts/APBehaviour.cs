@@ -45,7 +45,6 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
         }
 
         APManager.OnAddAPBehaviour?.Invoke();
-
     }
 
     public virtual void OnDisable()
@@ -67,14 +66,6 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
             APManager.OnSwip -= ProcessInputSwipping;
         }
 
-    }
-
-    public virtual void OnStartFire()
-    {
-    }
-
-    public virtual void OnStopFire()
-    {
     }
 
     public void Registar_For_Input_Callback()
@@ -101,7 +92,7 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
     }
 
     public virtual void OnTapStart(Vector3 tapOnWorldSpace)
-    {        
+    {
     }
 
     public virtual void OnTapAndHold(Vector3 tapOnWorldSpace)
@@ -176,11 +167,11 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
     }
 
     public virtual void OnGameInitializing()
-    {        
+    {
     }
 
     public virtual void OnGameStart()
-    {        
+    {
     }
 
     public virtual void OnGameOver()

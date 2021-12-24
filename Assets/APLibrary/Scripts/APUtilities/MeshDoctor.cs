@@ -156,7 +156,9 @@ namespace Com.AlphaPotato.Utility
             mesh.triangles = GenarateTriangles();
             mesh.uv = GenarateUVs();
 
-            meshRenderer.material = planeMaterial;
+            if(planeMaterial != null)
+                meshRenderer.material = planeMaterial;
+
             if (addCollider)
             {
                 if (meshCollider == null)
@@ -369,6 +371,7 @@ namespace Com.AlphaPotato.Utility
 
         public void _PaintMesh(RaycastHit hit, Color color, float brushSize)
         {
+            Debug.LogError("Coloring");
             Vector3[] vertpos = mesh.vertices;
             Color[] meshcolors = mesh.colors;
             if (meshcolors.Length == 0)

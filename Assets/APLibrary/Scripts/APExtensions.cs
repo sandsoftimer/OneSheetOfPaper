@@ -4,6 +4,20 @@ using UnityEngine;
 
 public static class APExtensions
 {
+    public static Texture2D Texture2D(this RenderTexture renderTexture)
+    {
+        Texture2D tex = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+        var old_rt = RenderTexture.active;
+        RenderTexture.active = renderTexture;
+
+        tex.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        tex.Apply();
+
+        RenderTexture.active = old_rt;
+        return tex;
+    }
+
+
     public static void DestroyAllChild(this Transform transform)
     {
         for (int i = transform.childCount - 1; i > -1; i--)
