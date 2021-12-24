@@ -32,7 +32,7 @@ public class PaperHolder : APBehaviour
             Camera.main.transform.position = cameraPoint.position;
             Camera.main.transform.rotation = cameraPoint.rotation;
         }
-        Camera.main.fieldOfView = cameraFieldOfView + 1;
+        Camera.main.orthographicSize = cameraFieldOfView;
 
         //Camera.main.backgroundColor = "#F1F1F1";
         paperMaterial = Resources.Load("PaperMaterial") as Material;
