@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class LevelData : APBehaviour
 {
+    public LevelPrefabData levelPrefabData;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
     public override void Awake()
     {
         base.Awake();
-
-        foreach (Transform item in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            item.gameObject.SetActive(false);
+            transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 
@@ -57,18 +57,15 @@ public class LevelData : APBehaviour
     public override void OnGameDataLoad()
     {
         base.OnGameDataLoad();
-        int index = 0;
-        foreach (Transform item in transform)
-        {
-            item.gameObject.SetActive(index == gameManager.GetModedLevelNumber());
-            index++;
-        }
-    }
 
-    public override void OnGameInitializing()
-    {
-        base.OnGameInitializing();
-        
+        if (gameManager.debugModeOn)
+        {
+            transform.GetChild(gameManager.GetModedLevelNumber()).gameObject.SetActive(true);
+        }
+        else
+        {
+            Instantiate(levelPrefabData.levelDatas[gameManager.GetModedLevelNumber()], transform).SetActive(true);
+        }
     }
 
     #endregion ALL OVERRIDING FUNCTIONS
