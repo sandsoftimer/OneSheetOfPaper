@@ -463,7 +463,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1444475128}
   - {fileID: 1410253779}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -585,7 +584,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: cba83adac411641f8880187679e14038, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cba83adac411641f8880187679e14038, type: 3}
       propertyPath: m_LocalPosition.x
@@ -762,11 +761,6 @@ Animator:
 Transform:
   m_CorrespondingSourceObject: {fileID: -7588563562828179666, guid: cba83adac411641f8880187679e14038, type: 3}
   m_PrefabInstance: {fileID: 1410253778}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1444475128 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-  m_PrefabInstance: {fileID: 1907925105}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1564089223
 GameObject:
@@ -971,63 +965,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 8970725602554220716, guid: c8325bd2af17a4ce5ad697654d9f3518, type: 3}
   m_PrefabInstance: {fileID: 6135751669620516263}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1907925105
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 968617808}
-    m_Modifications:
-    - target: {fileID: 3758395359953247665, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_Name
-      value: Level 55 roll karate black belt
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567582435290449675, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8576146fd441948f4959c739c17c4bd6, type: 3}
 --- !u!1001 &2001158139
 PrefabInstance:
   m_ObjectHideFlags: 0
