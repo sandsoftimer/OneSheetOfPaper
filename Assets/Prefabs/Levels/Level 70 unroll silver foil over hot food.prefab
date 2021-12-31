@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5708423955285014313}
   - component: {fileID: 5708423955285014312}
   m_Layer: 0
-  m_Name: Level 70 unroll silver foil over hot food (1)
+  m_Name: Level 70 unroll silver foil over hot food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
