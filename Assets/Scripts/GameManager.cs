@@ -34,6 +34,15 @@ public class GameManager : APManager
         gameStartingUI.SetBool("Hide", false);
     }
 
+    public override void GameInitialize()
+    {
+        base.GameInitialize();
+
+        gameStartingUI.SetBool("Hide", true);
+        gamePlayUI.SetBool("Hide", false);
+        ChangeGameState(GameState.GAME_PLAY_STARTED);
+    }
+
     public override void GameStart()
     {
         base.GameStart();
