@@ -1555,6 +1555,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level 104
       objectReference: {fileID: 0}
+    - target: {fileID: 2932942745142983147, guid: f0ea7ad6dafd9472a8b874b9bd6a87e1, type: 3}
+      propertyPath: rollingDatas.textureSequences.Array.data[0].textures.Array.data[1]
+      value: 
+      objectReference: {fileID: 2800000, guid: eaf56158fdf500942a5a1e3e5b1c104f, type: 3}
     - target: {fileID: 3402855027636903453, guid: f0ea7ad6dafd9472a8b874b9bd6a87e1, type: 3}
       propertyPath: m_RootOrder
       value: 0
