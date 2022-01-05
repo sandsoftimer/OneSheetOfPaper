@@ -276,22 +276,22 @@ MonoBehaviour:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 3cf6868cf9552954b81f7411fbb62a63, type: 3}
-      - {fileID: 2800000, guid: 96a8a8f9753940f47b11185793396b94, type: 3}
+      - {fileID: 2800000, guid: 2ee32016d7631274e97372e00b3a4168, type: 3}
+      - {fileID: 2800000, guid: fb16c40cfa9c4414db73874d4103b235, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 8ebbd38e97109384ea6a1b6512da14ba, type: 3}
-      - {fileID: 2800000, guid: 73e5c18d4146897428947e09cd3ba210, type: 3}
+      - {fileID: 2800000, guid: a884b69662fd863458c5d515433ce148, type: 3}
+      - {fileID: 2800000, guid: 8eea51da24f7d054a961db8326a14fbd, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 409cf459e5fbb864894ec1fbdf70677c, type: 3}
-      - {fileID: 2800000, guid: fb33ee944a131a049a01d672471078f0, type: 3}
+      - {fileID: 2800000, guid: 9c058be4f168bf8409fbd368f30f5dd6, type: 3}
+      - {fileID: 2800000, guid: de0189436048f504780b6c5b87844658, type: 3}
 --- !u!1001 &7693734193662824121
 PrefabInstance:
   m_ObjectHideFlags: 0
