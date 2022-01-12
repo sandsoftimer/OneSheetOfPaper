@@ -25,6 +25,14 @@ public class LevelData : APBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            gameplayData.currentLevelNumber++;
+            gameManager.SaveGame();
+            gameManager.NextLevel();
+        }
+#endif
         if (gameState.Equals(GameState.GAME_INITIALIZED) && Input.GetMouseButtonDown(0))
         {
             gameManager.ChangeGameState(GameState.GAME_PLAY_STARTED);

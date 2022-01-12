@@ -113,7 +113,7 @@ namespace Com.AlphaPotato.Utility
         private void Update()
         {
 #if UNITY_EDITOR
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
                 ReLoadLevel();
 #endif
         }
