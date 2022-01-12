@@ -2115,6 +2115,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8578925357700758053, guid: 25055af48499743ab9e734c009578346, type: 3}
+      propertyPath: defaultDatas.textureSequences.Array.data[0].textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: cf3ece7b31f5041e5a31b4ab634c8291, type: 3}
+    - target: {fileID: 8578925357700758053, guid: 25055af48499743ab9e734c009578346, type: 3}
+      propertyPath: rollingDatas.textureSequences.Array.data[0].textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: cf3ece7b31f5041e5a31b4ab634c8291, type: 3}
+    - target: {fileID: 8578925357700758053, guid: 25055af48499743ab9e734c009578346, type: 3}
+      propertyPath: levelSuccessDatas.textureSequences.Array.data[0].textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: cf3ece7b31f5041e5a31b4ab634c8291, type: 3}
     - target: {fileID: 8921383441645504329, guid: 25055af48499743ab9e734c009578346, type: 3}
       propertyPath: m_Name
       value: Level 125
