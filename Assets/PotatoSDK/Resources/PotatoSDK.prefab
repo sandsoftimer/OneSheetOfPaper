@@ -117,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4346244873341021147, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: enableTestUI
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4346244873341021147, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: showMaxMediationDebugger
