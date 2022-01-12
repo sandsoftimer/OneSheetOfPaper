@@ -84,18 +84,21 @@ MonoBehaviour:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 8527aa261f5cbbb458e472734f91c3ab, type: 3}
+      - {fileID: 2800000, guid: 6859b3dd05875e64a8905a3a513e364a, type: 3}
+      - {fileID: 2800000, guid: 07582015a09792f4da371e8a05ffc31a, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
       - {fileID: 2800000, guid: 6859b3dd05875e64a8905a3a513e364a, type: 3}
+      - {fileID: 2800000, guid: 07582015a09792f4da371e8a05ffc31a, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
+      - {fileID: 2800000, guid: 6859b3dd05875e64a8905a3a513e364a, type: 3}
       - {fileID: 2800000, guid: 07582015a09792f4da371e8a05ffc31a, type: 3}
 --- !u!1 &7977811301408446365
 GameObject:

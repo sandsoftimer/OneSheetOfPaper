@@ -32,7 +32,7 @@ public class ConstantManager
     public const int APToolOrder = -20;
     public const int APBehaviourOrder = -10;
     public const int APManagerOrder = -2;
-    public const int TOTAL_GAME_LEVELS = 150;
+    public const int TOTAL_GAME_LEVELS = 171;
 
     public const float DEFAULT_ANIMATION_TIME = 1f;
     public const float DRAGGING_THRESHOLD = 0.1f;
