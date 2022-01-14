@@ -161,7 +161,7 @@ MonoBehaviour:
   totalCompletedTask: 0
   totalIncompleteTask: 0
   APTools: {fileID: 0}
-  debugModeOn: 1
+  debugModeOn: 0
   levelInfoText: {fileID: 1979238277}
 --- !u!1 &172386380
 GameObject:
