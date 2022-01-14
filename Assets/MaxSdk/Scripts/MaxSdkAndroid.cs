@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using AppLovinMax.ThirdParty.MiniJson; 
 
 /// <summary>
 /// Android AppLovin MAX Unity Plugin implementation
@@ -9,6 +10,8 @@ public class MaxSdkAndroid : MaxSdkBase
 {
     private static readonly AndroidJavaClass MaxUnityPluginClass =
         new AndroidJavaClass("com.applovin.mediation.unity.MaxUnityPlugin");
+
+    private static BackgroundCallbackProxy BackgroundCallback = new BackgroundCallbackProxy();
 
     public static MaxVariableServiceAndroid VariableService
     {
@@ -48,7 +51,7 @@ public class MaxSdkAndroid : MaxSdkBase
     public static void InitializeSdk(string[] adUnitIds = null)
     {
         var serializedAdUnitIds = (adUnitIds != null) ? string.Join(",", adUnitIds) : "";
-        MaxUnityPluginClass.CallStatic("initializeSdk", serializedAdUnitIds, GenerateMetaData());
+        MaxUnityPluginClass.CallStatic("initializeSdk", serializedAdUnitIds, GenerateMetaData(), BackgroundCallback);
     }
 
     /// <summary>
@@ -83,6 +86,14 @@ public class MaxSdkAndroid : MaxSdkBase
     public static MaxUserSegment UserSegment
     {
         get { return SharedUserSegment; }
+    }
+
+    /// <summary>
+    /// This class allows you to provide user or app data that will improve how we target ads.
+    /// </summary>
+    public static MaxTargetingData TargetingData
+    {
+        get { return SharedTargetingData; }
     }
 
     #endregion
@@ -138,7 +149,7 @@ public class MaxSdkAndroid : MaxSdkBase
     public static SdkConfiguration GetSdkConfiguration()
     {
         var sdkConfigurationStr = MaxUnityPluginClass.CallStatic<string>("getSdkConfiguration");
-        var sdkConfigurationDict = MaxSdkUtils.PropsStringToDict(sdkConfigurationStr);
+        var sdkConfigurationDict = Json.Deserialize(sdkConfigurationStr) as Dictionary<string, object>;
         return SdkConfiguration.Create(sdkConfigurationDict);
     }
     
@@ -329,6 +340,17 @@ public class MaxSdkAndroid : MaxSdkBase
     }
 
     /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetBannerCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set banner custom postback data");
+        MaxUnityPluginClass.CallStatic("setBannerCustomPostbackData", adUnitIdentifier, value);
+    }
+
+    /// <summary>
     /// The banner position on the screen. When setting the banner position via <see cref="CreateBanner(string, float, float)"/> or <see cref="UpdateBannerPosition(string, float, float)"/>,
     /// the banner is placed within the safe area of the screen. This returns the absolute position of the banner on screen.
     /// </summary>
@@ -448,6 +470,17 @@ public class MaxSdkAndroid : MaxSdkBase
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC extra parameter");
         MaxUnityPluginClass.CallStatic("setMRecExtraParameter", adUnitIdentifier, key, value);
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetMRecCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC custom postback data");
+        MaxUnityPluginClass.CallStatic("setMRecCustomPostbackData", adUnitIdentifier, value);
     }
 
     /// <summary>
@@ -622,6 +655,17 @@ public class MaxSdkAndroid : MaxSdkBase
         MaxUnityPluginClass.CallStatic("setInterstitialExtraParameter", adUnitIdentifier, key, value);
     }
 
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the interstitial to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetInterstitialCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set interstitial custom postback data");
+        MaxUnityPluginClass.CallStatic("setInterstitialCustomPostbackData", adUnitIdentifier, value);
+    }
+
     #endregion
 
     #region Rewarded
@@ -685,6 +729,17 @@ public class MaxSdkAndroid : MaxSdkBase
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded ad extra parameter");
         MaxUnityPluginClass.CallStatic("setRewardedAdExtraParameter", adUnitIdentifier, key, value);
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded ad custom postback data");
+        MaxUnityPluginClass.CallStatic("setRewardedAdCustomPostbackData", adUnitIdentifier, value);
     }
 
     #endregion
@@ -752,6 +807,17 @@ public class MaxSdkAndroid : MaxSdkBase
         MaxUnityPluginClass.CallStatic("setRewardedInterstitialAdExtraParameter", adUnitIdentifier, key, value);
     }
 
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded interstitial ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedInterstitialAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded interstitial ad custom postback data");
+        MaxUnityPluginClass.CallStatic("setRewardedInterstitialAdCustomPostbackData", adUnitIdentifier, value);
+    }
+
     #endregion
 
     #region Event Tracking
@@ -763,7 +829,7 @@ public class MaxSdkAndroid : MaxSdkBase
     /// <param name="parameters">A dictionary containing key-value pairs further describing this event.</param>
     public static void TrackEvent(string name, IDictionary<string, string> parameters = null)
     {
-        MaxUnityPluginClass.CallStatic("trackEvent", name, MaxSdkUtils.DictToPropsString(parameters));
+        MaxUnityPluginClass.CallStatic("trackEvent", name, Json.Serialize(parameters));
     }
 
     #endregion
@@ -840,6 +906,15 @@ public class MaxSdkAndroid : MaxSdkBase
         MaxUnityPluginClass.CallStatic("setExceptionHandlerEnabled", enabled);
     }
 
+    /// <summary>
+    /// Whether or not AppLovin SDK will collect the device location if available. Defaults to <c>true</c>.
+    /// </summary>
+    /// <param name="enabled"><c>true</c> if AppLovin SDK should collect the device location if available.</param>
+    public static void SetLocationCollectionEnabled(bool enabled)
+    {
+        MaxUnityPluginClass.CallStatic("setLocationCollectionEnabled", enabled);
+    }
+
     #endregion
 
     #region Private
@@ -847,6 +922,50 @@ public class MaxSdkAndroid : MaxSdkBase
     internal static void SetUserSegmentField(string name, string value)
     {
         MaxUnityPluginClass.CallStatic("setUserSegmentField", name, value);
+    }
+
+    internal static void SetTargetingDataYearOfBirth(int yearOfBirth)
+    {
+        MaxUnityPluginClass.CallStatic("setTargetingDataYearOfBirth", yearOfBirth);
+    }
+
+    internal static void SetTargetingDataGender(String gender)
+    {
+        MaxUnityPluginClass.CallStatic("setTargetingDataGender", gender);
+    } 
+
+    internal static void SetTargetingDataMaximumAdContentRating(int maximumAdContentRating)
+    {
+        MaxUnityPluginClass.CallStatic("setTargetingDataMaximumAdContentRating", maximumAdContentRating);
+    }
+
+    internal static void SetTargetingDataEmail(string email)
+    {
+        MaxUnityPluginClass.CallStatic("setTargetingDataEmail", email);
+    }
+
+    internal static void SetTargetingDataPhoneNumber(string phoneNumber)
+    {
+        MaxUnityPluginClass.CallStatic("setTargetingDataPhoneNumber", phoneNumber);
+    }
+
+    internal static void SetTargetingDataKeywords(string[] keywords)
+    {
+        // Wrap the string array in an object array, so the compiler does not split into multiple strings.
+        object[] arguments = {keywords};
+        MaxUnityPluginClass.CallStatic("setTargetingDataKeywords", arguments);
+    }
+
+    internal static void SetTargetingDataInterests(string[] interests)
+    {
+        // Wrap the string array in an object array, so the compiler does not split into multiple strings.
+        object[] arguments = {interests};
+        MaxUnityPluginClass.CallStatic("setTargetingDataInterests", arguments);
+    }
+
+    internal static void ClearAllTargetingData()
+    {
+        MaxUnityPluginClass.CallStatic("clearAllTargetingData");
     }
 
     #endregion
@@ -872,9 +991,19 @@ public class MaxSdkAndroid : MaxSdkBase
 
         if (string.IsNullOrEmpty(adInfoString)) return null;
 
-        var adInfoDictionary = MaxSdkUtils.PropsStringToDict(adInfoString);
+        var adInfoDictionary = Json.Deserialize(adInfoString) as Dictionary<string, object>;
         return new AdInfo(adInfoDictionary);
     }
 
     #endregion
+
+    internal class BackgroundCallbackProxy : AndroidJavaProxy
+    {
+        public BackgroundCallbackProxy() : base("com.applovin.mediation.unity.MaxUnityAdManager$BackgroundCallback") { }
+
+        public void onEvent(string propsStr)
+        {
+            MaxSdkCallbacks.Instance.ForwardEvent(propsStr);
+        }
+    }
 }

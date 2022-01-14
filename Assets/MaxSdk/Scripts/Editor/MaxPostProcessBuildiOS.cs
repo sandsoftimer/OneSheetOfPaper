@@ -70,10 +70,20 @@ namespace AppLovinMax.Scripts.Editor
             }
         }
 
-        private static readonly List<string> SwiftLanguageNetworks = new List<string>
+        private static List<string> SwiftLanguageNetworks
         {
-            "MoPub"
-        };
+            get
+            {
+                var swiftLanguageNetworks = new List<string>(2);
+                swiftLanguageNetworks.Add("MoPub");
+                if (ShouldAddSwiftSupportForFacebook())
+                {
+                    swiftLanguageNetworks.Add("Facebook");
+                }
+
+                return swiftLanguageNetworks;
+            }
+        }
 
         private static readonly List<string> EmbedSwiftStandardLibrariesNetworks = new List<string>
         {
@@ -238,7 +248,7 @@ namespace AppLovinMax.Scripts.Editor
             {
                 if (File.Exists(swiftFilePath))
                 {
-                    MaxSdkLogger.D("Removing Swift file references.");
+                    MaxSdkLogger.UserDebug("Removing Swift file references.");
 
                     var fileGuid = project.FindFileGuidByRealPath(swiftFilePath, PBXSourceTree.Source);
                     if (!string.IsNullOrEmpty(fileGuid))
@@ -258,8 +268,19 @@ namespace AppLovinMax.Scripts.Editor
             var swiftFileGuid = project.AddFile(swiftFilePath, swiftFileRelativePath, PBXSourceTree.Source);
             project.AddFileToBuild(targetGuid, swiftFileGuid);
 
-            // Add Swift build properties
-            project.AddBuildProperty(targetGuid, "SWIFT_VERSION", "5");
+            // Add Swift version property if needed
+#if UNITY_2018_2_OR_NEWER
+            var swiftVersion = project.GetBuildPropertyForAnyConfig(targetGuid, "SWIFT_VERSION");
+#else
+            // Assume that swift version is not set on older versions of Unity.
+            const string swiftVersion = "";
+#endif
+            if (string.IsNullOrEmpty(swiftVersion))
+            {
+                project.SetBuildProperty(targetGuid, "SWIFT_VERSION", "5.0");   
+            }
+
+            // Enable Swift modules
             project.AddBuildProperty(targetGuid, "CLANG_ENABLE_MODULES", "YES");
         }
 
@@ -533,6 +554,16 @@ namespace AppLovinMax.Scripts.Editor
             }
 
             plist.root.SetInteger("SCAppStoreAppID", AppLovinSettings.Instance.SnapAppStoreAppId);
+        }
+
+        private static bool ShouldAddSwiftSupportForFacebook()
+        {
+            var facebookDependencyPath = Path.Combine(PluginMediationDirectory, "Facebook/Editor/Dependencies.xml");
+            if (!File.Exists(facebookDependencyPath)) return false;
+
+            var currentVersion = AppLovinIntegrationManager.GetCurrentVersions(facebookDependencyPath);
+            var iosVersionComparison = MaxSdkUtils.CompareVersions(currentVersion.Ios, "6.9.0.0");
+            return iosVersionComparison != MaxSdkUtils.VersionComparisonResult.Lesser;
         }
 
         private static bool ShouldEmbedSnapSdk()

@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using AppLovinMax.ThirdParty.MiniJson;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -118,6 +119,14 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static MaxUserSegment UserSegment
     {
         get { return SharedUserSegment; }
+    }
+
+    /// <summary>
+    /// This class allows you to provide user or app data that will improve how we target ads.
+    /// </summary>
+    public static MaxTargetingData TargetingData
+    {
+        get { return SharedTargetingData; }
     }
 
     #endregion
@@ -423,6 +432,16 @@ public class MaxSdkUnityEditor : MaxSdkBase
     }
 
     /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetBannerCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set banner custom postback data");
+    }
+
+    /// <summary>
     /// The banner position on the screen. When setting the banner position via <see cref="CreateBanner(string, float, float)"/> or <see cref="UpdateBannerPosition(string, float, float)"/>,
     /// the banner is placed within the safe area of the screen. This returns the absolute position of the banner on screen.
     /// </summary>
@@ -539,6 +558,16 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetMRecExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC extra parameter");
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetMRecCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC custom postback data");
     }
 
     /// <summary>
@@ -662,7 +691,9 @@ public class MaxSdkUnityEditor : MaxSdkBase
         ExecuteWithDelay(1f, () =>
         {
             AddReadyAdUnit(adUnitIdentifier);
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnInterstitialLoadedEvent\nadUnitId=" + adUnitIdentifier);
+
+            var eventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnInterstitialLoadedEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(eventProps);
         });
     }
 
@@ -737,11 +768,13 @@ public class MaxSdkUnityEditor : MaxSdkBase
         interstitialText.text += ":\n" + adUnitIdentifier;
         closeButton.onClick.AddListener(() =>
         {
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnInterstitialHiddenEvent\nadUnitId=" + adUnitIdentifier);
+            var adHiddenEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnInterstitialHiddenEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(adHiddenEventProps);
             Object.Destroy(stubInterstitial);
         });
 
-        MaxSdkCallbacks.Instance.ForwardEvent("name=OnInterstitialDisplayedEvent\nadUnitId=" + adUnitIdentifier);
+        var adDisplayedEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnInterstitialDisplayedEvent", adUnitIdentifier));
+        MaxSdkCallbacks.Instance.ForwardEvent(adDisplayedEventProps);
 #endif
     }
 
@@ -754,6 +787,16 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetInterstitialExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set interstitial extra parameter");
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the interstitial to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetInterstitialCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set interstitial custom postback data");
     }
 
     #endregion
@@ -772,7 +815,8 @@ public class MaxSdkUnityEditor : MaxSdkBase
         ExecuteWithDelay(1f, () =>
         {
             AddReadyAdUnit(adUnitIdentifier);
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedAdLoadedEvent\nadUnitId=" + adUnitIdentifier);
+            var eventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedAdLoadedEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(eventProps);
         });
     }
 
@@ -852,10 +896,15 @@ public class MaxSdkUnityEditor : MaxSdkBase
         {
             if (grantedReward)
             {
-                MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedAdReceivedRewardEvent\nadUnitId=" + adUnitIdentifier + "\nrewardLabel=coins\nrewardAmount=5");
+                var rewardEventPropsDict = CreateBaseEventPropsDictionary("OnRewardedAdReceivedRewardEvent", adUnitIdentifier);
+                rewardEventPropsDict["rewardLabel"] = "coins";
+                rewardEventPropsDict["rewardAmount"] = "5";
+                var rewardEventProps = Json.Serialize(rewardEventPropsDict);
+                MaxSdkCallbacks.Instance.ForwardEvent(rewardEventProps);
             }
 
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedAdHiddenEvent\nadUnitId=" + adUnitIdentifier);
+            var adHiddenEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedAdHiddenEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(adHiddenEventProps);
             Object.Destroy(stubRewardedAd);
         });
         rewardButton.onClick.AddListener(() =>
@@ -864,7 +913,8 @@ public class MaxSdkUnityEditor : MaxSdkBase
             rewardStatus.text = "Reward granted. Will send reward callback on ad close.";
         });
 
-        MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedAdDisplayedEvent\nadUnitId=" + adUnitIdentifier);
+        var adDisplayedEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedAdDisplayedEvent", adUnitIdentifier));
+        MaxSdkCallbacks.Instance.ForwardEvent(adDisplayedEventProps);
 #endif
     }
 
@@ -877,6 +927,16 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetRewardedAdExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded extra parameter");
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded custom postback data");
     }
 
     #endregion
@@ -895,7 +955,8 @@ public class MaxSdkUnityEditor : MaxSdkBase
         ExecuteWithDelay(1f, () =>
         {
             AddReadyAdUnit(adUnitIdentifier);
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedInterstitialAdLoadedEvent\nadUnitId=" + adUnitIdentifier);
+            var eventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedInterstitialAdLoadedEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(eventProps);
         });
     }
 
@@ -975,10 +1036,15 @@ public class MaxSdkUnityEditor : MaxSdkBase
         {
             if (grantedReward)
             {
-                MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedInterstitialAdReceivedRewardEvent\nadUnitId=" + adUnitIdentifier + "\nrewardLabel=coins\nrewardAmount=5");
+                var rewardEventPropsDict = CreateBaseEventPropsDictionary("OnRewardedInterstitialAdReceivedRewardEvent", adUnitIdentifier);
+                rewardEventPropsDict["rewardLabel"] = "coins";
+                rewardEventPropsDict["rewardAmount"] = "5";
+                var rewardEventProps = Json.Serialize(rewardEventPropsDict);
+                MaxSdkCallbacks.Instance.ForwardEvent(rewardEventProps);
             }
 
-            MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedInterstitialAdHiddenEvent\nadUnitId=" + adUnitIdentifier);
+            var adHiddenEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedInterstitialAdHiddenEvent", adUnitIdentifier));
+            MaxSdkCallbacks.Instance.ForwardEvent(adHiddenEventProps);
             Object.Destroy(stubRewardedAd);
         });
         rewardButton.onClick.AddListener(() =>
@@ -987,7 +1053,8 @@ public class MaxSdkUnityEditor : MaxSdkBase
             rewardStatus.text = "Reward granted. Will send reward callback on ad close.";
         });
 
-        MaxSdkCallbacks.Instance.ForwardEvent("name=OnRewardedInterstitialAdDisplayedEvent\nadUnitId=" + adUnitIdentifier);
+        var adDisplayedEventProps = Json.Serialize(CreateBaseEventPropsDictionary("OnRewardedAdDisplayedEvent", adUnitIdentifier));
+        MaxSdkCallbacks.Instance.ForwardEvent(adDisplayedEventProps);
 #endif
     }
 
@@ -1000,6 +1067,16 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetRewardedInterstitialAdExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded interstitial extra parameter");
+    }
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded interstitial ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedInterstitialAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded interstitial custom postback data");
     }
 
     #endregion
@@ -1084,6 +1161,12 @@ public class MaxSdkUnityEditor : MaxSdkBase
     /// <param name="enabled"><c>true</c> if the native AppLovin SDKs should not listen to exceptions.</param>
     public static void SetExceptionHandlerEnabled(bool enabled) { }
 
+    /// <summary>
+    /// Whether or not AppLovin SDK will collect the device location if available. Defaults to <c>true</c>.
+    /// </summary>
+    /// <param name="enabled"><c>true</c> if AppLovin SDK should collect the device location if available.</param>
+    public static void SetLocationCollectionEnabled(bool enabled) { }
+
     #endregion
 
     #region Internal
@@ -1133,6 +1216,15 @@ public class MaxSdkUnityEditor : MaxSdkBase
             "MAX Ads SDK is not initialized by the time ad is requested. Please call Max.InitializeSdk() in your first scene");
     }
 
+    private static Dictionary<string, string> CreateBaseEventPropsDictionary(string eventName, string adUnitId)
+    {
+        return new Dictionary<string, string>
+        {
+            ["name"] = eventName,
+            ["adUnitId"] = adUnitId
+        };
+    }
+
     private static void ExecuteWithDelay(float seconds, Action action)
     {
         MaxSdkCallbacks.Instance.StartCoroutine(ExecuteAction(seconds, action));
@@ -1147,6 +1239,22 @@ public class MaxSdkUnityEditor : MaxSdkBase
 
     internal static void SetUserSegmentField(string key, string value) { }
 
+    internal static void SetTargetingDataYearOfBirth(int yearOfBirth) { }
+
+    internal static void SetTargetingDataGender(string gender) { }
+
+    internal static void SetTargetingDataMaximumAdContentRating(int maximumAdContentRating) { }
+
+    internal static void SetTargetingDataEmail(string email) { }
+
+    internal static void SetTargetingDataPhoneNumber(string phoneNumber) { }
+
+    internal static void SetTargetingDataKeywords(string[] keywords) { }
+
+    internal static void SetTargetingDataInterests(string[] interests) { }
+
+    internal static void ClearAllTargetingData() { }
+
     #endregion
 
     #region Obsolete
@@ -1160,7 +1268,7 @@ public class MaxSdkUnityEditor : MaxSdkBase
     [Obsolete("This method has been deprecated. The AdInfo object is returned with ad callbacks.")]
     public static AdInfo GetAdInfo(string adUnitIdentifier)
     {
-        return new AdInfo(new Dictionary<string, string>());
+        return new AdInfo(new Dictionary<string, object>());
     }
 
     #endregion

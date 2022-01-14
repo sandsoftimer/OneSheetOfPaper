@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using AOT;
 using UnityEngine;
+using AppLovinMax.ThirdParty.MiniJson; 
 
 /// <summary>
 /// iOS AppLovin MAX Unity Plugin implementation
 /// </summary>
 public class MaxSdkiOS : MaxSdkBase
 {
+    private delegate void ALUnityBackgroundCallback(string args);
+
     static MaxSdkiOS()
     {
         InitCallbacks();
@@ -40,7 +44,7 @@ public class MaxSdkiOS : MaxSdkBase
     }
 
     [DllImport("__Internal")]
-    private static extern void _MaxInitializeSdk(string serializedAdUnitIds, string serializedMetaData);
+    private static extern void _MaxInitializeSdk(string serializedAdUnitIds, string serializedMetaData, ALUnityBackgroundCallback backgroundCallback);
 
     /// <summary>
     /// Initialize the default instance of AppLovin SDK.
@@ -53,7 +57,7 @@ public class MaxSdkiOS : MaxSdkBase
     public static void InitializeSdk(string[] adUnitIds = null)
     {
         var serializedAdUnitIds = (adUnitIds != null) ? string.Join(",", adUnitIds) : "";
-        _MaxInitializeSdk(serializedAdUnitIds, GenerateMetaData());
+        _MaxInitializeSdk(serializedAdUnitIds, GenerateMetaData(), BackgroundCallback);
     }
 
     [DllImport("__Internal")]
@@ -94,6 +98,14 @@ public class MaxSdkiOS : MaxSdkBase
     public static MaxUserSegment UserSegment
     {
         get { return SharedUserSegment; }
+    }
+
+    /// <summary>
+    /// This class allows you to provide user or app data that will improve how we target ads.
+    /// </summary>
+    public static MaxTargetingData TargetingData
+    {
+        get { return SharedTargetingData; }
     }
 
     #endregion
@@ -161,7 +173,7 @@ public class MaxSdkiOS : MaxSdkBase
     public static SdkConfiguration GetSdkConfiguration()
     {
         var sdkConfigurationStr = _MaxGetSdkConfiguration();
-        var sdkConfigurationDict = MaxSdkUtils.PropsStringToDict(sdkConfigurationStr);
+        var sdkConfigurationDict = Json.Deserialize(sdkConfigurationStr) as Dictionary<string, object>;
         return SdkConfiguration.Create(sdkConfigurationDict);
     }
     
@@ -399,6 +411,20 @@ public class MaxSdkiOS : MaxSdkBase
     }
 
     [DllImport("__Internal")]
+    private static extern void _MaxSetBannerCustomPostbackData(string adUnitIdentifier, string value);
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetBannerCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set banner custom postback data");
+        _MaxSetBannerCustomPostbackData(adUnitIdentifier, value);
+    }
+
+    [DllImport("__Internal")]
     private static extern string _MaxGetBannerLayout(string adUnitIdentifier);
 
     /// <summary>
@@ -548,6 +574,20 @@ public class MaxSdkiOS : MaxSdkBase
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC extra parameter");
         _MaxSetMRecExtraParameter(adUnitIdentifier, key, value);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetMRecCustomPostbackData(string adUnitIdentifier, string value);
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetMRecCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC custom postback data");
+        _MaxSetMRecCustomPostbackData(adUnitIdentifier, value);
     }
 
     [DllImport("__Internal")]
@@ -758,6 +798,20 @@ public class MaxSdkiOS : MaxSdkBase
         _MaxSetInterstitialExtraParameter(adUnitIdentifier, key, value);
     }
 
+    [DllImport("__Internal")]
+    private static extern void _MaxSetInterstitialCustomPostbackData(string adUnitIdentifier, string value);
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the interstitial to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetInterstitialCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set interstitial custom postback data");
+        _MaxSetInterstitialCustomPostbackData(adUnitIdentifier, value);
+    }
+
     #endregion
 
     #region Rewarded
@@ -834,6 +888,20 @@ public class MaxSdkiOS : MaxSdkBase
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded extra parameter");
         _MaxSetRewardedAdExtraParameter(adUnitIdentifier, key, value);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetRewardedAdCustomPostbackData(string adUnitIdentifier, string value);
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded custom postback data");
+        _MaxSetRewardedAdCustomPostbackData(adUnitIdentifier, value);
     }
 
     #endregion
@@ -914,6 +982,20 @@ public class MaxSdkiOS : MaxSdkBase
         _MaxSetRewardedInterstitialAdExtraParameter(adUnitIdentifier, key, value);
     }
 
+    [DllImport("__Internal")]
+    private static extern void _MaxSetRewardedInterstitialAdCustomPostbackData(string adUnitIdentifier, string value);
+
+    /// <summary>
+    /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded interstitial ad to set the custom postback data for.</param>
+    /// <param name="value">The value for the custom postback data.</param>
+    public static void SetRewardedInterstitialAdCustomPostbackData(string adUnitIdentifier, string value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded interstitial custom postback data");
+        _MaxSetRewardedInterstitialAdCustomPostbackData(adUnitIdentifier, value);
+    }
+
     #endregion
 
     #region Event Tracking
@@ -928,7 +1010,7 @@ public class MaxSdkiOS : MaxSdkBase
     /// <param name="parameters">A dictionary containing key-value pairs further describing this event.</param>
     public static void TrackEvent(string name, IDictionary<string, string> parameters = null)
     {
-        _MaxTrackEvent(name, MaxSdkUtils.DictToPropsString(parameters));
+        _MaxTrackEvent(name, Json.Serialize(parameters));
     }
 
     #endregion
@@ -1024,6 +1106,18 @@ public class MaxSdkiOS : MaxSdkBase
         _MaxSetExceptionHandlerEnabled(enabled);
     }
 
+    [DllImport("__Internal")]
+    private static extern bool _MaxSetLocationCollectionEnabled(bool enabled);
+
+    /// <summary>
+    /// Whether or not AppLovin SDK will collect the device location if available. Defaults to <c>true</c>.
+    /// </summary>
+    /// <param name="enabled"><c>true</c> if AppLovin SDK should collect the device location if available.</param>
+    public static void SetLocationCollectionEnabled(bool enabled)
+    {
+        _MaxSetLocationCollectionEnabled(enabled);
+    }
+
     #endregion
 
     #region Private
@@ -1034,6 +1128,76 @@ public class MaxSdkiOS : MaxSdkBase
     internal static void SetUserSegmentField(string name, string value)
     {
         _MaxSetUserSegmentField(name, value);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataYearOfBirth(int yearOfBirth);
+
+    internal static void SetTargetingDataYearOfBirth(int yearOfBirth)
+    {
+        _MaxSetTargetingDataYearOfBirth(yearOfBirth);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataGender(String gender);
+
+    internal static void SetTargetingDataGender(String gender)
+    {
+        _MaxSetTargetingDataGender(gender);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataMaximumAdContentRating(int maximumAdContentRating);
+
+    internal static void SetTargetingDataMaximumAdContentRating(int maximumAdContentRating)
+    {
+        _MaxSetTargetingDataMaximumAdContentRating(maximumAdContentRating);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataEmail(string email);
+
+    internal static void SetTargetingDataEmail(string email)
+    {
+        _MaxSetTargetingDataEmail(email);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataPhoneNumber(string phoneNumber);
+
+    internal static void SetTargetingDataPhoneNumber(string phoneNumber)
+    {
+        _MaxSetTargetingDataPhoneNumber(phoneNumber);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataKeywords(string[] keywords, int size);
+
+    internal static void SetTargetingDataKeywords(string[] keywords)
+    {
+        _MaxSetTargetingDataKeywords(keywords, keywords == null ? 0 : keywords.Length);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxSetTargetingDataInterests(string[] interests, int size);
+
+    internal static void SetTargetingDataInterests(string[] interests)
+    {
+        _MaxSetTargetingDataInterests(interests, interests == null ? 0 : interests.Length);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxClearAllTargetingData();
+
+    internal static void ClearAllTargetingData()
+    {
+        _MaxClearAllTargetingData();
+    }
+
+    [MonoPInvokeCallback(typeof(ALUnityBackgroundCallback))]
+    internal static void BackgroundCallback(string propsStr)
+    {
+        MaxSdkCallbacks.Instance.ForwardEvent(propsStr);
     }
 
     #endregion
@@ -1065,7 +1229,7 @@ public class MaxSdkiOS : MaxSdkBase
 
         if (string.IsNullOrEmpty(adInfoString)) return null;
 
-        var adInfoDictionary = MaxSdkUtils.PropsStringToDict(adInfoString);
+        var adInfoDictionary = Json.Deserialize(adInfoString) as Dictionary<string, object>;
         return new AdInfo(adInfoDictionary);
     }
 

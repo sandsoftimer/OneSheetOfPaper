@@ -21,7 +21,6 @@ UIView* UnityGetGLView();
 extern "C"
 {
     static NSString *const TAG = @"MAUnityPlugin";
-    static NSString *const ARRAY_ITEM_SEPARATOR = @",\n";
     
     static ALSdk *_sdk;
     static MAUnityAdManager *_adManager;
@@ -36,6 +35,7 @@ extern "C"
     static NSNumber *_verboseLoggingToSet;
     static NSNumber *_creativeDebuggerEnabledToSet;
     static NSNumber *_exceptionHandlerEnabledToSet;
+    static NSNumber *_locationCollectionEnabledToSet;
     
     // Helper method to create C string copy
     static const char * cStringCopy(NSString *string);
@@ -52,6 +52,18 @@ extern "C"
         _adManager = [MAUnityAdManager shared];
         _isPluginInitialized = true;
     }
+
+    NSArray<NSString *> * toStringArray(char **arrayPointer, int size)
+    {
+        NSMutableArray<NSString *> *array = [NSMutableArray arrayWithCapacity: size];
+        for ( int i = 0; i < size; i++ )
+        {
+            [array addObject: NSSTRING(arrayPointer[i])];
+        }
+        
+        return array;
+    }
+
     
     void _MaxSetSdkKey(const char *sdkKey)
     {
@@ -65,12 +77,13 @@ extern "C"
         [infoDict setValue: sdkKeyStr forKey: @"AppLovinSdkKey"];
     }
     
-    void _MaxInitializeSdk(const char *serializedAdUnitIdentifiers, const char *serializedMetaData)
+    void _MaxInitializeSdk(const char *serializedAdUnitIdentifiers, const char *serializedMetaData, ALUnityBackgroundCallback backgroundCallback)
     {
         maybeInitializePlugin();
         
         _sdk = [_adManager initializeSdkWithAdUnitIdentifiers: NSSTRING(serializedAdUnitIdentifiers)
                                                      metaData: NSSTRING(serializedMetaData)
+                                           backgroundCallback: backgroundCallback
                                          andCompletionHandler:^(ALSdkConfiguration *configuration) {
             _sdkConfiguration = configuration;
             _isSdkInitialized = true;
@@ -111,6 +124,12 @@ extern "C"
             _sdk.settings.exceptionHandlerEnabled = _exceptionHandlerEnabledToSet.boolValue;
             _exceptionHandlerEnabledToSet = nil;
         }
+        
+        if ( _locationCollectionEnabledToSet )
+        {
+            _sdk.settings.locationCollectionEnabled = _locationCollectionEnabledToSet.boolValue;
+            _locationCollectionEnabledToSet = nil;
+        }
     }
     
     bool _MaxIsInitialized()
@@ -129,17 +148,18 @@ extern "C"
         NSArray<MAMediatedNetworkInfo *> *availableMediatedNetworks = [_sdk availableMediatedNetworks];
         
         // Create array of serialized network strings
-        NSMutableArray<NSString *> *serializedNetworks = [NSMutableArray arrayWithCapacity: availableMediatedNetworks.count];
+        NSMutableArray<NSDictionary<NSString *, NSString *> *> *serializedNetworks = [NSMutableArray arrayWithCapacity: availableMediatedNetworks.count];
         for ( MAMediatedNetworkInfo *mediatedNetwork in availableMediatedNetworks )
         {
-            NSString *result = [MAUnityAdManager propsStrFromDictionary: @{@"name" : mediatedNetwork.name,
-                                                                           @"adapterClassName" : mediatedNetwork.adapterClassName,
-                                                                           @"adapterVersion" : mediatedNetwork.adapterVersion,
-                                                                           @"sdkVersion" : mediatedNetwork.sdkVersion}];
-            [serializedNetworks addObject: result];
+            NSDictionary<NSString *, NSString *> *mediatedNetworkDictionary = @{@"name" : mediatedNetwork.name,
+                                                                               @"adapterClassName" : mediatedNetwork.adapterClassName,
+                                                                               @"adapterVersion" : mediatedNetwork.adapterVersion,
+                                                                               @"sdkVersion" : mediatedNetwork.sdkVersion};
+            [serializedNetworks addObject: mediatedNetworkDictionary];
         }
         
-        return cStringCopy([serializedNetworks componentsJoinedByString: ARRAY_ITEM_SEPARATOR]);
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject: serializedNetworks options: 0 error: nil];
+        return cStringCopy([[NSString alloc] initWithData: jsonData encoding: NSUTF8StringEncoding]);
     }
     
     void _MaxShowMediationDebugger()
@@ -155,15 +175,7 @@ extern "C"
 
     void _MaxShowConsentDialog()
     {
-        if ( !_sdk )
-        {
-            NSLog(@"[%@] Failed to show consent dialog - please ensure the AppLovin MAX Unity Plugin has been initialized by calling 'MaxSdk.InitializeSdk();'!", TAG);
-            return;
-        }
-
-        [_sdk.userService showConsentDialogWithCompletionHandler:^{
-            [_adManager didDismissUserConsentDialog];
-        }];
+        NSLog(@"[%@] Failed to show consent dialog - Unavailable on iOS, please use the consent flow: https://dash.applovin.com/documentation/mediation/unity/getting-started/consent-flow", TAG);
     }
     
     int _MaxConsentDialogState()
@@ -200,6 +212,87 @@ extern "C"
         }
     }
 
+    void _MaxSetTargetingDataYearOfBirth(const int yearOfBirth)
+    {
+        if ( !isPluginInitialized() ) return;
+        _sdk.targetingData.yearOfBirth = yearOfBirth <= 0 ? nil : @(yearOfBirth);
+    }
+
+    void _MaxSetTargetingDataGender(const char *gender)
+    {
+        if ( !isPluginInitialized() ) return;
+        
+        NSString *genderString = NSSTRING(gender);
+        ALGender alGender = ALGenderUnknown;
+        
+        if ( [genderString isEqualToString: @"F"] )
+        {
+            alGender = ALGenderFemale;
+        }
+        else if ( [genderString isEqualToString: @"M"] )
+        {
+            alGender = ALGenderMale;
+        }
+        else if ( [genderString isEqualToString: @"O"] )
+        {
+            alGender = ALGenderOther;
+        }
+        
+        _sdk.targetingData.gender = alGender;
+    }
+
+    void _MaxSetTargetingDataMaximumAdContentRating(const int maximumAdContentRating)
+    {
+        if ( !isPluginInitialized() ) return;
+        
+        ALAdContentRating rating = ALAdContentRatingNone;
+        
+        if ( maximumAdContentRating == 1 )
+        {
+            rating = ALAdContentRatingAllAudiences;
+        }
+        else if ( maximumAdContentRating == 2 )
+        {
+            rating = ALAdContentRatingEveryoneOverTwelve;
+        }
+        else if ( maximumAdContentRating == 3 )
+        {
+            rating = ALAdContentRatingMatureAudiences;
+        }
+        
+        _sdk.targetingData.maximumAdContentRating = rating;
+    }
+
+    void _MaxSetTargetingDataEmail(const char *email)
+    {
+        if ( !isPluginInitialized() ) return;
+        _sdk.targetingData.email = NSSTRING(email);
+    }
+
+    void _MaxSetTargetingDataPhoneNumber(const char *phoneNumber)
+    {
+        if ( !isPluginInitialized() ) return;
+        _sdk.targetingData.phoneNumber = NSSTRING(phoneNumber);
+    }
+
+    void _MaxSetTargetingDataKeywords(char **keywords, int size)
+    {
+        if ( !isPluginInitialized() ) return;
+        _sdk.targetingData.keywords = toStringArray(keywords, size);
+    }
+
+    void _MaxSetTargetingDataInterests(char **interests, int size)
+    {
+        if ( !isPluginInitialized() ) return;
+        _sdk.targetingData.interests = toStringArray(interests, size);
+    }
+
+    void _MaxClearAllTargetingData()
+    {
+        if ( !isPluginInitialized() ) return;
+        [_sdk.targetingData clearAll];
+    }
+
     const char * _MaxGetSdkConfiguration()
     {
         if ( !_sdk )
@@ -211,9 +304,9 @@ extern "C"
         NSString *consentDialogStateStr = @(_sdk.configuration.consentDialogState).stringValue;
         NSString *appTrackingStatus = @(_sdk.configuration.appTrackingTransparencyStatus).stringValue; // Deliberately name it `appTrackingStatus` to be a bit more generic (in case Android introduces a similar concept)
 
-        return cStringCopy([MAUnityAdManager propsStrFromDictionary: @{@"consentDialogState" : consentDialogStateStr,
-                                                                       @"countryCode" : _sdk.configuration.countryCode,
-                                                                       @"appTrackingStatus" : appTrackingStatus}]);
+        return cStringCopy([MAUnityAdManager serializeParameters: @{@"consentDialogState" : consentDialogStateStr,
+                                                                    @"countryCode" : _sdk.configuration.countryCode,
+                                                                    @"appTrackingStatus" : appTrackingStatus}]);
     }
     
     void _MaxSetHasUserConsent(bool hasUserConsent)
@@ -277,6 +370,11 @@ extern "C"
         [_adManager setBannerExtraParameterForAdUnitIdentifier: NSSTRING(adUnitIdentifier)
                                                            key: NSSTRING(key)
                                                          value: NSSTRING(value)];
+    }
+
+    void _MaxSetBannerCustomPostbackData(const char *adUnitIdentifier, const char *value)
+    {
+        [_adManager setBannerCustomPostbackData: NSSTRING(value) forAdUnitIdentifier: NSSTRING(adUnitIdentifier)];
     }
 
     void _MaxSetBannerWidth(const char *adUnitIdentifier, const float width)
@@ -379,6 +477,11 @@ extern "C"
                                                        value: NSSTRING(value)];
     }
 
+    void _MaxSetMRecCustomPostbackData(const char *adUnitIdentifier, const char *value)
+    {
+        [_adManager setMRecCustomPostbackData: NSSTRING(value) forAdUnitIdentifier: NSSTRING(adUnitIdentifier)];
+    }
+
     const char * _MaxGetMRecLayout(const char *adUnitIdentifier)
     {
         if (!isPluginInitialized()) return cStringCopy(@"");
@@ -445,6 +548,11 @@ extern "C"
                                                                value: NSSTRING(value)];
     }
     
+    void _MaxSetInterstitialCustomPostbackData(const char *adUnitIdentifier, const char *value)
+    {
+        [_adManager setInterstitialCustomPostbackData: NSSTRING(value) forAdUnitIdentifier: NSSTRING(adUnitIdentifier)];
+    }
+
     bool _MaxIsInterstitialReady(const char *adUnitIdentifier)
     {
         if (!isPluginInitialized()) return false;
@@ -473,6 +581,11 @@ extern "C"
                                                              value: NSSTRING(value)];
     }
     
+    void _MaxSetRewardedAdCustomPostbackData(const char *adUnitIdentifier, const char *value)
+    {
+        [_adManager setRewardedAdCustomPostbackData: NSSTRING(value) forAdUnitIdentifier: NSSTRING(adUnitIdentifier)];
+    }
+
     bool _MaxIsRewardedAdReady(const char *adUnitIdentifier)
     {
         if (!isPluginInitialized()) return false;
@@ -500,7 +613,12 @@ extern "C"
                                                                            key: NSSTRING(key)
                                                                          value: NSSTRING(value)];
     }
-    
+
+    void _MaxSetRewardedInterstitialAdCustomPostbackData(const char *adUnitIdentifier, const char *value)
+    {
+        [_adManager setRewardedInterstitialAdCustomPostbackData: NSSTRING(value) forAdUnitIdentifier: NSSTRING(adUnitIdentifier)];
+    }
+
     bool _MaxIsRewardedInterstitialAdReady(const char *adUnitIdentifier)
     {
         if (!isPluginInitialized()) return false;
@@ -605,11 +723,7 @@ extern "C"
 
     void _MaxSetTestDeviceAdvertisingIdentifiers(char **advertisingIdentifiers, int size)
     {
-        NSMutableArray<NSString *> *advertisingIdentifiersArray = [NSMutableArray arrayWithCapacity: size];
-        for (int i = 0; i < size; i++)
-        {
-            [advertisingIdentifiersArray addObject: NSSTRING(advertisingIdentifiers[i])];
-        }
+        NSArray<NSString *> *advertisingIdentifiersArray = toStringArray(advertisingIdentifiers, size);
         
         if ( _sdk )
         {
@@ -645,6 +759,19 @@ extern "C"
         else
         {
             _exceptionHandlerEnabledToSet = @(enabled);
+        }
+    }
+
+    void _MaxSetLocationCollectionEnabled(bool enabled)
+    {
+        if ( _sdk )
+        {
+            _sdk.settings.locationCollectionEnabled = enabled;
+            _locationCollectionEnabledToSet = nil;
+        }
+        else
+        {
+            _locationCollectionEnabledToSet = @(enabled);
         }
     }
 

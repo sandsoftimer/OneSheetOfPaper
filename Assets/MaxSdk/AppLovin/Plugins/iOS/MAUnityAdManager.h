@@ -7,16 +7,18 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
+typedef void (*ALUnityBackgroundCallback)(const char* args);
 
 @interface MAUnityAdManager : NSObject
 
-- (ALSdk *)initializeSdkWithAdUnitIdentifiers:(NSString *)serializedAdUnitIdentifiers metaData:(NSString *)serializedMetaData andCompletionHandler:(ALSdkInitializationCompletionHandler)completionHandler;
+- (ALSdk *)initializeSdkWithAdUnitIdentifiers:(NSString *)serializedAdUnitIdentifiers metaData:(NSString *)serializedMetaData backgroundCallback:(ALUnityBackgroundCallback)unityBackgroundCallback andCompletionHandler:(ALSdkInitializationCompletionHandler)completionHandler;
 
 - (void)createBannerWithAdUnitIdentifier:(NSString *)adUnitIdentifier atPosition:(NSString *)bannerPosition;
 - (void)createBannerWithAdUnitIdentifier:(NSString *)adUnitIdentifier x:(CGFloat)xOffset y:(CGFloat)yOffset;
 - (void)setBannerBackgroundColorForAdUnitIdentifier:(NSString *)adUnitIdentifier hexColorCode:(NSString *)hexColorCode;
 - (void)setBannerPlacement:(nullable NSString *)placement forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)setBannerExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value;
+- (void)setBannerCustomPostbackData:(nullable NSString *)value forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)setBannerWidth:(CGFloat)width forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)updateBannerPosition:(NSString *)bannerPosition forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)updateBannerPosition:(CGFloat)xOffset y:(CGFloat)yOffset forAdUnitIdentifier:(NSString *)adUnitIdentifier;
@@ -30,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createMRecWithAdUnitIdentifier:(NSString *)adUnitIdentifier x:(CGFloat)xOffset y:(CGFloat)yOffset;
 - (void)setMRecPlacement:(nullable NSString *)placement forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)setMRecExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value;
+- (void)setMRecCustomPostbackData:(nullable NSString *)value forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)showMRecWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)destroyMRecWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)hideMRecWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
@@ -49,16 +52,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isInterstitialReadyWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)showInterstitialWithAdUnitIdentifier:(NSString *)adUnitIdentifier placement:(NSString *)placement;
 - (void)setInterstitialExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value;
+- (void)setInterstitialCustomPostbackData:(nullable NSString *)value forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 
 - (void)loadRewardedAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (BOOL)isRewardedAdReadyWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)showRewardedAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier placement:(NSString *)placement;
 - (void)setRewardedAdExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value;
+- (void)setRewardedAdCustomPostbackData:(nullable NSString *)value forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 
 - (void)loadRewardedInterstitialAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (BOOL)isRewardedInterstitialAdReadyWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 - (void)showRewardedInterstitialAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier placement:(NSString *)placement;
 - (void)setRewardedInterstitialAdExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value;
+- (void)setRewardedInterstitialAdCustomPostbackData:(nullable NSString *)value forAdUnitIdentifier:(NSString *)adUnitIdentifier;
 
 // Event Tracking
 - (void)trackEvent:(NSString *)event parameters:(NSString *)parameters;
@@ -73,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didDismissUserConsentDialog;
 
 // Utils
-+ (NSString *)propsStrFromDictionary:(NSDictionary<NSString *, NSString *> *)dict;
++ (NSString *)serializeParameters:(NSDictionary<NSString *, NSString *> *)dict;
 
 /**
  * Creates an instance of @c MAUnityAdManager if needed and returns the singleton instance.
