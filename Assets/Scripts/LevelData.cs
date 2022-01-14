@@ -25,10 +25,11 @@ public class LevelData : APBehaviour
 
     void Update()
     {
+
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.N))
         {
-            gameplayData.currentLevelNumber++;
+            gameplayData.currentLevelNumber = 137;
             gameManager.SaveGame();
             gameManager.NextLevel();
         }
