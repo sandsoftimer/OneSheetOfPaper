@@ -11,7 +11,7 @@ public class PaperTearPart : APBehaviour
     GameObject tutorialHand;
     SkinnedMeshRenderer skin;
     bool draggingPaper, selectedPaper, taskCompleted;
-    float blendMaximumValue = 100f, revertSpeed = 10f, blendWeight = 0;
+    float blendMaximumValue = 100f, revertSpeed = 1.5f, blendWeight = 0;
     float cameraShakeingTime = 0.1f, cameraShakeMagnitude = 0.5f;
     #region ALL UNITY FUNCTIONS
 
@@ -48,7 +48,6 @@ public class PaperTearPart : APBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             draggingPaper = false;
-            revertSpeed = 10f;
             dragEndPoint.gameObject.SetActive(false);
             CancelInvoke("AlterSprite");
         }
