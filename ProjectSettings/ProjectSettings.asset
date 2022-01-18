@@ -683,7 +683,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    4: gameanalytics_max_enabled
+    4: gameanalytics_max_enabled;POTATO_ADJUST;POTATO_GAME_ANALYTICS;POTATO_MAX;POTATO_FACEBOOK
     7: POTATO_FACEBOOK;POTATO_ADJUST;POTATO_GAME_ANALYTICS;gameanalytics_max_enabled;POTATO_MAX
   additionalCompilerArguments: {}
   platformArchitecture: {}

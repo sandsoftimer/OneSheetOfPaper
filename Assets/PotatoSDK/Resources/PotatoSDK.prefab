@@ -124,6 +124,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6556517430242070970, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: appToken.iosID
+      value: l9xa782pan0g
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556517430242070970, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: appToken.androidID
       value: uwiag3jp1uyo
       objectReference: {fileID: 0}

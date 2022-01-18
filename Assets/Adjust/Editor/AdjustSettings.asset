@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AdjustSettings
   m_EditorClassIdentifier: 
   isPostProcessingEnabled: 1
-  isiOS14ProcessingEnabled: 0
+  isiOS14ProcessingEnabled: 1
