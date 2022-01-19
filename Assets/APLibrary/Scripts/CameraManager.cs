@@ -159,7 +159,7 @@ namespace Com.AlphaPotato.Utility
                 //var theYear = System.DateTime.Now.Year;
                 var theTime = System.DateTime.Now.ToString("hh_mm_ss");
                 var theDate = System.DateTime.Now.ToString("MM_dd_yyyy");
-                path += UnityEditor.UnityStats.screenRes + "_" + theDate + "_" + theTime + ".jpg";
+                path += UnityEditor.UnityStats.screenRes + "_" + theDate + "_" + theTime + ".png";
 
                 ScreenCapture.CaptureScreenshot(path, 1);
             }
