@@ -76,8 +76,7 @@ public class LevelData : APBehaviour
         else
         {
             string path = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializedLevelPath : serializedLevelPath;
-            Debug.LogError(path + (gameManager.GetModedLevelNumber() + 1));
-            Instantiate(Resources.Load(path + (gameManager.GetModedLevelNumber() + 1)), transform);
+            Instantiate(Resources.Load(path + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform).SetActive(true);
         }
     }
 
