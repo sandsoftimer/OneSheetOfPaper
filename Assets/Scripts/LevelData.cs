@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LevelData : APBehaviour
 {
-    public LevelPrefabData levelPrefabData;
+    public RuntimeLevelType runtimeLevelType;
+    string nonSerializedLevelPath = "Levels/Level ";
+    string serializedLevelPath = "Serialize Levels/new ";
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -73,7 +75,9 @@ public class LevelData : APBehaviour
         }
         else
         {
-            Instantiate(levelPrefabData.levelDatas[gameManager.GetModedLevelNumber()], transform).SetActive(true);
+            string path = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializedLevelPath : serializedLevelPath;
+            Debug.LogError(path + (gameManager.GetModedLevelNumber() + 1));
+            Instantiate(Resources.Load(path + (gameManager.GetModedLevelNumber() + 1)), transform);
         }
     }
 

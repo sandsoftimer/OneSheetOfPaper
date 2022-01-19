@@ -492,7 +492,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelPrefabData: {fileID: 11400000, guid: ef3dc0160ce1442b18d0171c8f2dda05, type: 2}
+  runtimeLevelType: 0
 --- !u!4 &968617808
 Transform:
   m_ObjectHideFlags: 0
