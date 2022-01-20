@@ -10,7 +10,6 @@ public class PaperHolder : APBehaviour
     //public float cameraFieldOfView = 29f;
     public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
-    public string texturePath;
 
     AnimationData currentAnimationData;
     TextureSequence currentTextureSequence;
