@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5397284180227946377
 Transform:
   m_ObjectHideFlags: 0
@@ -171,13 +171,13 @@ MonoBehaviour:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 6fec648b6dc1a42f78804b51cb4fc303, type: 3}
+      - {fileID: 2800000, guid: 1f8481365977648caa0020e24fbcae2f, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 22627d9b154fa46d3ae23653c2997187, type: 3}
+      - {fileID: 2800000, guid: 1f8481365977648caa0020e24fbcae2f, type: 3}
 --- !u!1 &6236018165507835868
 GameObject:
   m_ObjectHideFlags: 0
