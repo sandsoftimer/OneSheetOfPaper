@@ -492,7 +492,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  runtimeLevelType: 0
+  runtimeLevelType: 1
 --- !u!4 &968617808
 Transform:
   m_ObjectHideFlags: 0

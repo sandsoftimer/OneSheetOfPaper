@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1571711298799105904
 Transform:
   m_ObjectHideFlags: 0
@@ -77,8 +77,6 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Complete the horn!
-  cameraPoint: {fileID: 0}
-  cameraFieldOfView: 29
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -98,6 +96,7 @@ MonoBehaviour:
       loopCount: 0
       textures:
       - {fileID: 2800000, guid: 78f7c3e8787014cfca3236a2254510be, type: 3}
+  texturePath: 
 --- !u!1 &2427502288810560162
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +136,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2427502288810560162}
-  m_Mesh: {fileID: -5523277661179574252, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  m_Mesh: {fileID: -5523277661179574252, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
 --- !u!23 &6244615968011565379
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -158,7 +157,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4526392104802714531, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  - {fileID: 3928176815520982241, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -234,7 +233,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4526392104802714531, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  - {fileID: 3928176815520982241, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -259,7 +258,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 8214709263792658965, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  m_Mesh: {fileID: 8214709263792658965, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
   - 0
@@ -348,7 +347,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4526392104802714531, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  - {fileID: 3928176815520982241, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -373,7 +372,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8756361046758535129, guid: 9080e03e5d13643d0b2d483806242681, type: 3}
+  m_Mesh: {fileID: -8756361046758535129, guid: 1fe5bb75ed8ef4f519a2ded34170bcbe, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
   - 100

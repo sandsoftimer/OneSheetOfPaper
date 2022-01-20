@@ -77,8 +77,6 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Give the knight helmet and sword!
-  cameraPoint: {fileID: 0}
-  cameraFieldOfView: 29
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -100,6 +98,7 @@ MonoBehaviour:
       loopCount: 0
       textures:
       - {fileID: 2800000, guid: 9f335778aa2a342569043d3327d93b8c, type: 3}
+  texturePath: 
 --- !u!1 &2640044312462567149
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +153,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  - {fileID: 8368722655750445499, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -179,7 +178,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4686849319519084627, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  m_Mesh: {fileID: 4686849319519084627, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
   - 100
@@ -266,7 +265,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  - {fileID: 8368722655750445499, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -291,7 +290,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 6041377522765385347, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  m_Mesh: {fileID: 6041377522765385347, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
   - 100
@@ -365,7 +364,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6367640411315851926}
-  m_Mesh: {fileID: 1347515742593714960, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  m_Mesh: {fileID: 1347515742593714960, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
 --- !u!23 &4334913470687227141
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -386,7 +385,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: 9b3ec95d6cded4085886fb4cc75b3183, type: 3}
+  - {fileID: 8368722655750445499, guid: 75d1ecce30443431098b02653ad88a50, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
