@@ -14,3 +14,11 @@ public class TextureSequence
     public int loopCount = 0;
     public Texture2D[] textures;
 }
+
+[Serializable]
+public class DependencyData
+{
+    public PaperTearPart dependen_part;
+    [Range(0, 100)]
+    public float dragLimit = 50f;
+}

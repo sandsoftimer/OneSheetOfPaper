@@ -9,11 +9,16 @@ using GameAnalyticsSDK;
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Debugging;
 using TMPro;
+using System;
 #endif
 
 public class GameManager : APManager
 {
+    public static Action OnDraggingMistake;
+    public static Action OnPaperPartReset;
+
     public TextMeshProUGUI levelInfoText;
+
     public override void Awake()
     {
         base.Awake();

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PaperTearPart : APBehaviour
 {
-    Transform dragStartPoint, dragEndPoint;
+    public DraggingType draggingType;
+    public DependencyData[] dependencyData;
 
+    Transform dragStartPoint, dragEndPoint;
     GameObject tutorialHand;
     SkinnedMeshRenderer skin;
     bool draggingPaper, selectedPaper, taskCompleted;
-    float blendMaximumValue = 100f, revertSpeed = 10f, blendWeight = 0;
+    float blendMaximumValue = 100f, revertSpeed = 1.5f, blendWeight = 0;
+    float cameraShakeingTime = 0.1f, cameraShakeMagnitude = 0.5f;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -45,7 +48,6 @@ public class PaperTearPart : APBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             draggingPaper = false;
-            revertSpeed = 0.25f;
             dragEndPoint.gameObject.SetActive(false);
             CancelInvoke("AlterSprite");
         }
@@ -71,22 +73,14 @@ public class PaperTearPart : APBehaviour
 
             if (draggingPaper)
             {
-                Vector3 a = dragStartPoint.position;
-                a.y = 0;
-                Vector3 b = dragEndPoint.position;
-                b.y = 0;
-                Vector3 c = APTools.mathManager.GetWorldTouchPosition(Vector3.up);
-                c.y = 0;
-
-                blendWeight = Mathf.Clamp(APTools.mathManager.InverseLerp(a, b, c) * 100, 0, blendMaximumValue);
-                //blendWeight = Mathf.Lerp(0, 1 / Vector3.Distance(a, b), 1 / Vector3.Distance(c, b)) / 100;
-                if (blendWeight > 95)
+                CalculateDraggingPosition();
+                if (!CheckDragConflict())
                 {
-                    blendWeight = 100;
-                    gameManager.OnCompleteATask();
-                    CancelInvoke("AlterSprite");
-                    taskCompleted = true;
-                    dragEndPoint.gameObject.SetActive(false);
+                    TryToFinisDragging();
+                }
+                else
+                {
+                    ResetPaper();
                 }
             }
 
@@ -112,6 +106,18 @@ public class PaperTearPart : APBehaviour
     #endregion ALL UNITY FUNCTIONS
     //=================================   
     #region ALL OVERRIDING FUNCTIONS
+
+    public override void OnDraggingMistake()
+    {
+        base.OnDraggingMistake();
+
+        if (taskCompleted)
+        {
+            taskCompleted = false;
+            gameManager.totalCompletedTask--;
+        }
+
+    }
 
     public override void OnGameInitializing()
     {
@@ -139,6 +145,62 @@ public class PaperTearPart : APBehaviour
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
+
+    void ResetPaper()
+    {
+        APTools.cameraManager.ShakeDefaultCamera(cameraShakeingTime, cameraShakeMagnitude);
+        APTools.functionManager.ExecuteAfterSecond(cameraShakeingTime, () => {
+
+            GameManager.OnDraggingMistake();
+        });
+    }
+
+    void TryToFinisDragging()
+    {
+        if (blendWeight > 95)
+        {
+            blendWeight = 100;
+            gameManager.OnCompleteATask();
+            CancelInvoke("AlterSprite");
+            taskCompleted = true;
+            dragEndPoint.gameObject.SetActive(false);
+        }
+    }
+
+    bool CheckDragConflict()
+    {
+        bool conflictDetected = false;
+        if (draggingType.Equals(DraggingType.DEPENDENT))
+        {
+            for (int i = 0; i < dependencyData.Length; i++)
+            {
+                if (dependencyData[i].dragLimit <= blendWeight && dependencyData[i].dependen_part.taskCompleted)
+                {
+                    blendWeight = dependencyData[i].dragLimit;
+                    conflictDetected = true;
+                    break;
+                }
+            }
+        }
+        if (conflictDetected)
+        {
+            draggingPaper = false;
+        }
+        return conflictDetected;
+    }
+
+    void CalculateDraggingPosition()
+    {
+        Vector3 a = dragStartPoint.position;
+        a.y = 0;
+        Vector3 b = dragEndPoint.position;
+        b.y = 0;
+        Vector3 c = APTools.mathManager.GetWorldTouchPosition(Vector3.up);
+        c.y = 0;
+
+        blendWeight = Mathf.Clamp(APTools.mathManager.InverseLerp(a, b, c) * 100, 0, blendMaximumValue);
+
+    }
 
     public void SelectThisPart()
     {

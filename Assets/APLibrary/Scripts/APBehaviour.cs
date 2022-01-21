@@ -9,9 +9,9 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
     [HideInInspector]
     public APTools APTools;
 
-    //[HideInInspector]
+    [HideInInspector]
     public GameplayData gameplayData;
-    //[HideInInspector]
+    [HideInInspector]
     public GameState gameState;
 
     bool registeredForInput;
@@ -45,6 +45,8 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
         }
 
         APManager.OnAddAPBehaviour?.Invoke();
+        GameManager.OnDraggingMistake += OnDraggingMistake;
+        GameManager.OnPaperPartReset += OnPaperPartReset;
     }
 
     public virtual void OnDisable()
@@ -66,6 +68,16 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
             APManager.OnSwip -= ProcessInputSwipping;
         }
 
+        GameManager.OnDraggingMistake -= OnDraggingMistake;
+        GameManager.OnPaperPartReset -= OnPaperPartReset;
+    }
+
+    public virtual void OnDraggingMistake()
+    {
+    }
+
+    public virtual void OnPaperPartReset()
+    {
     }
 
     public void Registar_For_Input_Callback()
