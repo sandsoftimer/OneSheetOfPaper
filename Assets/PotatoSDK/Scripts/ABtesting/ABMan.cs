@@ -29,6 +29,7 @@ namespace PotatoSDK
         }
         private void Init()
         {
+            Instance = this;
             HardAB.logColorCode = LogColorCode;
             HardAB.ActiveLogLevel = loglevel;
 #if POTATO_MAX

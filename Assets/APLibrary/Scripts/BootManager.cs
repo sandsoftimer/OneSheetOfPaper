@@ -46,6 +46,9 @@ public class BootManager : APManager
 #if AP_POTATO_SDK_INSTALLED
         yield return new WaitUntil(() => Potato.IsReady);
 #endif
+#if AP_GAMEANALYTICS_SDK_INSTALLED
+        GameAnalytics.SetCustomDimension01(ABtype.AB0_serialize == 0 ? "Control bucket" : "New bucket");
+#endif
         APTools.sceneManager.LoadLevel(GetValidLevelIndex());
     }
 }

@@ -36,6 +36,10 @@ PrefabInstance:
       value: TestInterstitial
       objectReference: {fileID: 0}
     - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
+      propertyPath: loglevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: enableABTestPanel
       value: 1
       objectReference: {fileID: 0}
@@ -53,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: AB_entries.Array.data[0].editorDefaultValue
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: AB_entries.Array.data[0].displayDefinitions.Array.size
@@ -69,11 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: AB_entries.Array.data[0].displayDefinitions.Array.data[0].significance
-      value: Level 20
+      value: Control bucket
       objectReference: {fileID: 0}
     - target: {fileID: 2063077285613522415, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: AB_entries.Array.data[0].displayDefinitions.Array.data[1].significance
-      value: Level 200
+      value: New bucket
       objectReference: {fileID: 0}
     - target: {fileID: 2480388558411185365, guid: 32e56012fe6085d43b4f838b8f30af08, type: 3}
       propertyPath: m_Name

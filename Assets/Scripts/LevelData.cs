@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using PotatoSDK;
 using UnityEngine;
 
 public class LevelData : APBehaviour
@@ -75,6 +76,9 @@ public class LevelData : APBehaviour
         }
         else
         {
+#if !UNITY_EDITOR
+            runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
+#endif
             string path = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializedLevelPath : serializedLevelPath;
             Instantiate(Resources.Load(path + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform).SetActive(true);
         }
