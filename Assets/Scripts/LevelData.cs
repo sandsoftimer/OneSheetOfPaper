@@ -8,6 +8,10 @@ public class LevelData : APBehaviour
     public RuntimeLevelType runtimeLevelType;
     string nonSerializedLevelPath = "Levels/Level ";
     string serializedLevelPath = "Serialize Levels/new ";
+
+    int totalGameLevels = 0;
+    int nonSerializeLevelsCount = 200;
+    int serializeLevelsCount = 20;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -70,17 +74,15 @@ public class LevelData : APBehaviour
     {
         base.OnGameDataLoad();
 
+        int levelIndex = GetModedLevelNumber();
         if (gameManager.debugModeOn)
         {
-            transform.GetChild(gameManager.GetModedLevelNumber()).gameObject.SetActive(true);
+            transform.GetChild(levelIndex).gameObject.SetActive(true);
         }
         else
         {
-#if !UNITY_EDITOR
-            runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
-#endif
             string path = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializedLevelPath : serializedLevelPath;
-            Instantiate(Resources.Load(path + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform).SetActive(true);
+            Instantiate(Resources.Load(path + (levelIndex + 1)) as GameObject, transform).SetActive(true);
         }
     }
 
@@ -88,7 +90,20 @@ public class LevelData : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
+    int GetModedLevelNumber()
+    {
+        if (gameManager.debugModeOn)
+        {
+            totalGameLevels = transform.childCount;
+        }
+        else
+        {
+            runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
+            totalGameLevels = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializeLevelsCount : serializeLevelsCount;
+        }
+        return gameplayData.currentLevelNumber % totalGameLevels;
+    }
 
-    #endregion ALL SELF DECLEAR FUNCTIONS
+#endregion ALL SELF DECLEAR FUNCTIONS
 
 }
