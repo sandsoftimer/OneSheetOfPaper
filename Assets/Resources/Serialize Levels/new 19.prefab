@@ -289,7 +289,7 @@ MonoBehaviour:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: 6d209822d4dd745868636be8bfcd2fcc, type: 3}
+      - {fileID: 2800000, guid: ae9b2989854b2456bbf3e90de4ee0830, type: 3}
 --- !u!1 &6963076908348339839
 GameObject:
   m_ObjectHideFlags: 0
