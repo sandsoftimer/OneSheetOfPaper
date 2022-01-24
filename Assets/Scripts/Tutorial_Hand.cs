@@ -65,10 +65,15 @@ public class Tutorial_Hand : APBehaviour
 
     void MoveHand()
     {
+        transform.GetChild(0).gameObject.SetActive(true);
         transform.localPosition = Vector3.zero;
         transform.DOMove(endPoint.position, ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.Linear).OnComplete(()=> {
 
-            MoveHand();
+            transform.GetChild(0).gameObject.SetActive(false);
+            APTools.functionManager.ExecuteAfterSecond(2.5f, ()=>{
+
+                MoveHand();
+            });
         });
     }
     

@@ -96,7 +96,6 @@ MonoBehaviour:
       loopCount: 0
       textures:
       - {fileID: 2800000, guid: 78f7c3e8787014cfca3236a2254510be, type: 3}
-  texturePath: 
 --- !u!1 &2427502288810560162
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.x
-      value: 3.9677577
+      value: 5.2761602
       objectReference: {fileID: 0}
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.z
@@ -494,11 +493,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Center.x
-      value: -0.84875023
+      value: -0.1945475
       objectReference: {fileID: 0}
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Center.z
-      value: 1.2669762
+      value: 1.2669767
       objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122021, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Name

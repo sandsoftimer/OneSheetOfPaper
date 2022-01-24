@@ -76,7 +76,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a Periscope and lens!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -415,11 +415,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.x
-      value: 5.149771
+      value: 6.54768
       objectReference: {fileID: 0}
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.z
-      value: 5.0110693
+      value: 5.873133
       objectReference: {fileID: 0}
     - target: {fileID: 8294572842131122026, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -485,7 +485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.x
-      value: 9.218659
+      value: 11.913419
       objectReference: {fileID: 0}
     - target: {fileID: 3278910272276966963, guid: 79a54a0d1bb72459dad880ed65f9122d, type: 3}
       propertyPath: m_Size.z

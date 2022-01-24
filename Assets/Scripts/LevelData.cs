@@ -11,7 +11,7 @@ public class LevelData : APBehaviour
 
     int totalGameLevels = 0;
     int nonSerializeLevelsCount = 200;
-    int serializeLevelsCount = 20;
+    int serializeLevelsCount = 19;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
