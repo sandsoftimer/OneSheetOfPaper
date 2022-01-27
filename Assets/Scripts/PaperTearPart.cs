@@ -204,7 +204,9 @@ public class PaperTearPart : APBehaviour
 
     public void SelectThisPart()
     {
-        Destroy(tutorialHand);
+        if(tutorialHand != null)
+            tutorialHand.GetComponent<Tutorial_Hand>().Destroy();
+
         selectedPaper = true;
         draggingPaper = true;
         //dragStartPoint.gameObject.SetActive(false);

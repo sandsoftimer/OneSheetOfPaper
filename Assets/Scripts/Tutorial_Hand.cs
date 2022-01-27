@@ -70,13 +70,16 @@ public class Tutorial_Hand : APBehaviour
         transform.DOMove(endPoint.position, ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.Linear).OnComplete(()=> {
 
             transform.GetChild(0).gameObject.SetActive(false);
-            APTools.functionManager.ExecuteAfterSecond(2.5f, ()=>{
-
-                MoveHand();
-            });
+            Invoke("MoveHand", 2.5f);
         });
     }
-    
+
+    public void Destroy()
+    {
+        CancelInvoke("MoveHand");
+        Destroy(gameObject);
+    }
+
     #endregion ALL SELF DECLEAR FUNCTIONS
 
 }
