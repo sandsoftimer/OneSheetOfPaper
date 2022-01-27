@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +47,7 @@ public class BootManager : APManager
         yield return new WaitUntil(() => Potato.IsReady);
 #endif
 #if AP_GAMEANALYTICS_SDK_INSTALLED
-        GameAnalytics.SetCustomDimension01(ABtype.AB0_serialize == 0 ? "Control bucket" : "New bucket");
+        GameAnalytics.SetCustomDimension01( ABMan.GetValue_Int(ABtype.AB0_serialize) == 0 ? "Control bucket" : "New bucket");
 #endif
         APTools.sceneManager.LoadLevel(GetValidLevelIndex());
     }
