@@ -82,7 +82,7 @@ SkinnedMeshRenderer:
   m_Mesh: {fileID: -8756361046758535129, guid: 378ceb48318e44bd49c037272adea619, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
-  - 100
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 1.7532852, y: 0.00029805303, z: 1.1994184}
@@ -110,8 +110,10 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  draggingType: 0
-  dependencyData: []
+  draggingType: 1
+  dependencyData:
+  - dependen_part: {fileID: 8509011019224854849}
+    dragLimit: 75
 --- !u!1 &5035941840995904322
 GameObject:
   m_ObjectHideFlags: 0
