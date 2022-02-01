@@ -207,8 +207,10 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  draggingType: 0
-  dependencyData: []
+  draggingType: 1
+  dependencyData:
+  - dependen_part: {fileID: 618615590028244712}
+    dragLimit: 35
 --- !u!1 &4278584049984384214
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,10 +403,8 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  draggingType: 1
-  dependencyData:
-  - dependen_part: {fileID: 618615590028244711}
-    dragLimit: 80
+  draggingType: 0
+  dependencyData: []
 --- !u!1001 &618615590626494357
 PrefabInstance:
   m_ObjectHideFlags: 0
