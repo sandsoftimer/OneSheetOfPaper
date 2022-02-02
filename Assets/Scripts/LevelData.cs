@@ -11,7 +11,7 @@ public class LevelData : APBehaviour
 
     int totalGameLevels = 0;
     int nonSerializeLevelsCount = 200;
-    int serializeLevelsCount = 20;
+    int serializeLevelsCount = 50;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -98,7 +98,8 @@ public class LevelData : APBehaviour
         }
         else
         {
-            runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
+            runtimeLevelType = RuntimeLevelType.SERIALIZE;
+            //runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0 ? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
             totalGameLevels = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializeLevelsCount : serializeLevelsCount;
         }
         return gameplayData.currentLevelNumber % totalGameLevels;
