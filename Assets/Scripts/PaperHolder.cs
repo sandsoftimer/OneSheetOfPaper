@@ -11,6 +11,7 @@ public class PaperHolder : APBehaviour
     public Color backgroundColor = Color.white;
     public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
+    PaperTearPart[] allTearPart;
     AnimationData currentAnimationData;
     TextureSequence currentTextureSequence;
     Animator anim;
@@ -39,6 +40,8 @@ public class PaperHolder : APBehaviour
         anim = GetComponent<Animator>();
         currentAnimationData = null;
         currentTextureSequence = null;
+
+        allTearPart = transform.GetComponentsInChildren<PaperTearPart>();
     }
 
     // Start is called before the first frame update
@@ -115,6 +118,7 @@ public class PaperHolder : APBehaviour
         ((GameManager)gameManager).levelInfoText.text = levelText;
         ActiveDefaultAnimation();
         DistributeMaterial();
+        OnRollBack();
     }
 
     public override void OnGameOver()
@@ -128,6 +132,26 @@ public class PaperHolder : APBehaviour
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
+
+    public void OnRollBack()
+    {
+        bool dependentTearPartExist = false;
+        for (int i = 0; i < allTearPart.Length; i++)
+        {
+            if (allTearPart[i].draggingType.Equals(DraggingType.DEPENDENT))
+            {
+                dependentTearPartExist = true;
+                allTearPart[i].CreateHandTutorial();
+            }
+        }
+        if (!dependentTearPartExist)
+        {
+            for (int i = 0; i < allTearPart.Length; i++)
+            {
+                allTearPart[i].CreateHandTutorial();
+            }
+        }
+    }
 
     void DistributeMaterial()
     {

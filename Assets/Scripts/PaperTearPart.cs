@@ -7,6 +7,7 @@ public class PaperTearPart : APBehaviour
     public DraggingType draggingType;
     public DependencyData[] dependencyData;
 
+    PaperHolder paperHolder;
     Transform dragStartPoint, dragEndPoint;
     GameObject tutorialHand;
     SkinnedMeshRenderer skin;
@@ -26,6 +27,8 @@ public class PaperTearPart : APBehaviour
         skin = GetComponent<SkinnedMeshRenderer>();
         skin.SetBlendShapeWeight(0, 0);
         dragEndPoint.gameObject.SetActive(false);
+
+        AddThisPartToPaperHolder();
     }
 
     // Start is called before the first frame update
@@ -64,7 +67,7 @@ public class PaperTearPart : APBehaviour
                     dragStartPoint.gameObject.SetActive(true);
                     dragEndPoint.gameObject.SetActive(false);
                     CancelInvoke("AlterSprite");
-                    CreateHandTutorial();
+                    paperHolder.OnRollBack();
 
                     if (gameManager.totalCompletedTask == 0)
                         transform.parent.GetComponent<PaperHolder>().ActiveDefaultAnimation();
@@ -131,7 +134,7 @@ public class PaperTearPart : APBehaviour
         CreateHandTutorial();
     }
 
-    void CreateHandTutorial()
+    public void CreateHandTutorial()
     {
         if (gameplayData.currentLevelNumber < 5)
         {
@@ -145,6 +148,22 @@ public class PaperTearPart : APBehaviour
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
+
+    public void AddThisPartToPaperHolder()
+    {
+        bool paperHolderFound = false;
+        Transform paperHolderTransform = transform.parent;
+        while (!paperHolderFound)
+        {
+            if (paperHolderTransform.GetComponent<PaperHolder>())
+            {
+                paperHolderFound = true;
+                paperHolder = paperHolderTransform.GetComponent<PaperHolder>();
+                break;
+            }
+            paperHolderTransform = paperHolderTransform.parent;
+        }
+    }
 
     void ResetPaper()
     {

@@ -18,7 +18,7 @@ public class GameManager : APManager
     public static Action OnPaperPartReset;
 
     public TextMeshProUGUI levelInfoText;
-
+    
     public override void Awake()
     {
         base.Awake();
