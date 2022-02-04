@@ -98,8 +98,8 @@ public class LevelData : APBehaviour
         }
         else
         {
-            runtimeLevelType = RuntimeLevelType.SERIALIZE;
-            //runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0 ? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
+            //runtimeLevelType = RuntimeLevelType.SERIALIZE;
+            runtimeLevelType = ABMan.GetValue_Int(ABtype.AB0_serialize) == 0 ? RuntimeLevelType.NON_SERIALIZE : RuntimeLevelType.SERIALIZE;
             totalGameLevels = runtimeLevelType.Equals(RuntimeLevelType.NON_SERIALIZE) ? nonSerializeLevelsCount : serializeLevelsCount;
         }
         return gameplayData.currentLevelNumber % totalGameLevels;

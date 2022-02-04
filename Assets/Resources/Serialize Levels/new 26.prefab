@@ -77,7 +77,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Complete the wings and the plane!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -295,6 +295,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 1437611263454234527}
     dragLimit: 80
+  taskCompleted: 0
 --- !u!1 &3957307257536679358
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +410,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 1437611263454234527}
     dragLimit: 80
+  taskCompleted: 0
 --- !u!1 &9137854778011864190
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +523,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &1437611262542503590
 PrefabInstance:
   m_ObjectHideFlags: 0

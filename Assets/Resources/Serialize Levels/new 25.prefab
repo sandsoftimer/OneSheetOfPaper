@@ -196,6 +196,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 3935787642623596292}
     dragLimit: 10
+  taskCompleted: 0
 --- !u!1 &4206313484373109420
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Give the barbarian a sword!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -405,6 +406,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &3935787642863166904
 PrefabInstance:
   m_ObjectHideFlags: 0

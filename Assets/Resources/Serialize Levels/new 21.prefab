@@ -114,6 +114,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 5866633820266016404}
     dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &3288491861260833925
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +311,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 5866633820266016404}
     dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &6687048213833448421
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +424,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &6749507920870937599
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +502,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Build the pillars and the bridge!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:

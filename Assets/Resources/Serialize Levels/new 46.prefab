@@ -158,7 +158,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Open the tissue box!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -292,6 +292,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 5332505803486403845}
     dragLimit: 30
+  taskCompleted: 0
 --- !u!1 &8024354641162549653
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +405,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &5332505803649630097
 PrefabInstance:
   m_ObjectHideFlags: 0

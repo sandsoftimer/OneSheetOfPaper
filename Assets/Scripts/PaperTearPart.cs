@@ -7,11 +7,14 @@ public class PaperTearPart : APBehaviour
     public DraggingType draggingType;
     public DependencyData[] dependencyData;
 
+    [HideInInspector]
+    public bool taskCompleted;
+
     PaperHolder paperHolder;
     Transform dragStartPoint, dragEndPoint;
     GameObject tutorialHand;
     SkinnedMeshRenderer skin;
-    bool draggingPaper, selectedPaper, taskCompleted;
+    bool draggingPaper, selectedPaper;
     float blendMaximumValue = 100f, revertSpeed = 1.5f, blendWeight = 0;
     float cameraShakeingTime = 0.1f, cameraShakeMagnitude = 0.5f;
     #region ALL UNITY FUNCTIONS
@@ -28,7 +31,7 @@ public class PaperTearPart : APBehaviour
         skin.SetBlendShapeWeight(0, 0);
         dragEndPoint.gameObject.SetActive(false);
 
-        AddThisPartToPaperHolder();
+        FindPaperHolder();
     }
 
     // Start is called before the first frame update
@@ -67,7 +70,7 @@ public class PaperTearPart : APBehaviour
                     dragStartPoint.gameObject.SetActive(true);
                     dragEndPoint.gameObject.SetActive(false);
                     CancelInvoke("AlterSprite");
-                    paperHolder.OnRollBack();
+                    paperHolder.OnRollBackOrDone();
 
                     if (gameManager.totalCompletedTask == 0)
                         transform.parent.GetComponent<PaperHolder>().ActiveDefaultAnimation();
@@ -131,17 +134,19 @@ public class PaperTearPart : APBehaviour
         bool iapDone = false;
         dragStartPoint.GetChild(0).GetComponent<SpriteRenderer>().enabled = iapDone;
         dragEndPoint.GetChild(0).GetComponent<SpriteRenderer>().enabled = iapDone;
-        CreateHandTutorial();
     }
 
     public void CreateHandTutorial()
     {
         if (gameplayData.currentLevelNumber < 5)
         {
-            tutorialHand = Instantiate(Resources.Load("Tutorial_Hand") as GameObject);
-            tutorialHand.transform.parent = dragStartPoint;
-            Tutorial_Hand tutorial_Hand = tutorialHand.GetComponent<Tutorial_Hand>();
-            tutorial_Hand.Initialize(dragEndPoint);
+            if (tutorialHand == null)
+            {
+                tutorialHand = Instantiate(Resources.Load("Tutorial_Hand") as GameObject);
+                tutorialHand.transform.parent = dragStartPoint;
+                Tutorial_Hand tutorial_Hand = tutorialHand.GetComponent<Tutorial_Hand>();
+                tutorial_Hand.Initialize(dragEndPoint);
+            }
         }
     }
 
@@ -149,7 +154,7 @@ public class PaperTearPart : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
-    public void AddThisPartToPaperHolder()
+    public void FindPaperHolder()
     {
         bool paperHolderFound = false;
         Transform paperHolderTransform = transform.parent;
@@ -183,6 +188,7 @@ public class PaperTearPart : APBehaviour
             CancelInvoke("AlterSprite");
             taskCompleted = true;
             dragEndPoint.gameObject.SetActive(false);
+            paperHolder.OnRollBackOrDone();
         }
     }
 

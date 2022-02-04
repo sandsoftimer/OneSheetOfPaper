@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &3119847457989568232
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a swing and its ropes!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -325,6 +326,7 @@ MonoBehaviour:
     dragLimit: 50
   - dependen_part: {fileID: 2849236406102039478}
     dragLimit: 50
+  taskCompleted: 0
 --- !u!1 &6576360356092453266
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +521,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &2849236404785552923
 PrefabInstance:
   m_ObjectHideFlags: 0

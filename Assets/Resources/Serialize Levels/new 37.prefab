@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &951342004164203326
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +189,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create an icecream and its cone!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -322,6 +323,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 140369507604541031}
     dragLimit: 15
+  taskCompleted: 0
 --- !u!1 &9024044726614496324
 GameObject:
   m_ObjectHideFlags: 0

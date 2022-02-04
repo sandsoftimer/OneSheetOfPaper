@@ -114,6 +114,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 5022270513595539291}
     dragLimit: 30
+  taskCompleted: 0
 --- !u!1 &5292813395761488389
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +191,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Give the chefs their hats!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -323,6 +324,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &8523034188534351213
 GameObject:
   m_ObjectHideFlags: 0

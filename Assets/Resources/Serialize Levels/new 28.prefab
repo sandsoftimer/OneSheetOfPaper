@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &1802014293039864198
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a ponytail!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -408,6 +409,7 @@ MonoBehaviour:
     dragLimit: 20
   - dependen_part: {fileID: 1568206644248863936}
     dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &5589529328113101148
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +522,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &1568206643811568921
 PrefabInstance:
   m_ObjectHideFlags: 0

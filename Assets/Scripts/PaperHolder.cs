@@ -118,7 +118,7 @@ public class PaperHolder : APBehaviour
         ((GameManager)gameManager).levelInfoText.text = levelText;
         ActiveDefaultAnimation();
         DistributeMaterial();
-        OnRollBack();
+        OnRollBackOrDone();
     }
 
     public override void OnGameOver()
@@ -133,12 +133,12 @@ public class PaperHolder : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
-    public void OnRollBack()
+    public void OnRollBackOrDone()
     {
         bool dependentTearPartExist = false;
         for (int i = 0; i < allTearPart.Length; i++)
         {
-            if (allTearPart[i].draggingType.Equals(DraggingType.DEPENDENT))
+            if (allTearPart[i].draggingType.Equals(DraggingType.DEPENDENT) && !allTearPart[i].taskCompleted)
             {
                 dependentTearPartExist = true;
                 allTearPart[i].CreateHandTutorial();
@@ -148,7 +148,8 @@ public class PaperHolder : APBehaviour
         {
             for (int i = 0; i < allTearPart.Length; i++)
             {
-                allTearPart[i].CreateHandTutorial();
+                if (!allTearPart[i].taskCompleted)
+                    allTearPart[i].CreateHandTutorial();
             }
         }
     }

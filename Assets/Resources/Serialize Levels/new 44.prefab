@@ -76,7 +76,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Complete the burger!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -210,6 +210,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 391788708662355054}
     dragLimit: 30
+  taskCompleted: 0
 --- !u!1 &2320207097071649959
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +323,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &3713067903062693920
 GameObject:
   m_ObjectHideFlags: 0

@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &5352728998148310587
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +325,8 @@ MonoBehaviour:
   draggingType: 1
   dependencyData:
   - dependen_part: {fileID: 5082839361316010643}
-    dragLimit: 1
+    dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &8465792463704121683
 GameObject:
   m_ObjectHideFlags: 0

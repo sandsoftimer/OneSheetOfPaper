@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &6174098401966004748
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a Christmas tree!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -404,6 +405,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 7375660152296554499}
     dragLimit: 10
+  taskCompleted: 0
 --- !u!1001 &7375660151907921327
 PrefabInstance:
   m_ObjectHideFlags: 0

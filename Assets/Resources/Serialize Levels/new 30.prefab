@@ -76,7 +76,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Give him a straw and a cup!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -211,6 +211,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 618615590028244712}
     dragLimit: 35
+  taskCompleted: 0
 --- !u!1 &4278584049984384214
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +406,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &618615590626494357
 PrefabInstance:
   m_ObjectHideFlags: 0

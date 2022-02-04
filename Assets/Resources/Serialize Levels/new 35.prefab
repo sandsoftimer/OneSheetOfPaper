@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &2848144748291843800
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +227,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 3726867780592636707}
     dragLimit: 10
+  taskCompleted: 0
 --- !u!1 &4573712536706199163
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +304,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a charging cable and plug!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:

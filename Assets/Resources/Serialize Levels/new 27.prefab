@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &1729808479593668033
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Complete the hanging acorn!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -405,6 +406,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 3167391432713291760}
     dragLimit: 15
+  taskCompleted: 0
 --- !u!1001 &3167391431062560736
 PrefabInstance:
   m_ObjectHideFlags: 0

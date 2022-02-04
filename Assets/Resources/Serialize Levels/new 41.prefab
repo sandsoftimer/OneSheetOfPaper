@@ -114,6 +114,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 3303890731023698460}
     dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &2174272154659573802
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Complete the tanker!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -404,6 +405,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1001 &3303890729321649258
 PrefabInstance:
   m_ObjectHideFlags: 0

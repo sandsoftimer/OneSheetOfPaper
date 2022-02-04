@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &2658655064894389158
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +227,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 3667536570269842384}
     dragLimit: 20
+  taskCompleted: 0
 --- !u!1 &4477946672210752891
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +304,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create curtain rails and the curtain!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:

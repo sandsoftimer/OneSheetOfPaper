@@ -112,6 +112,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &5053870796482200920
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +309,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 8491434474361626490}
     dragLimit: 70
+  taskCompleted: 0
 --- !u!1 &8725385060739031600
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +386,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Create a ring light and a phone!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:

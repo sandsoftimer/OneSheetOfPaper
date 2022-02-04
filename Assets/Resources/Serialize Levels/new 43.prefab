@@ -76,7 +76,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Complete the bowstring and the arrow!
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   defaultDatas:
     textureSequences:
@@ -211,6 +211,7 @@ MonoBehaviour:
   gameState: 0
   draggingType: 0
   dependencyData: []
+  taskCompleted: 0
 --- !u!1 &3980728173075486417
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +408,7 @@ MonoBehaviour:
   dependencyData:
   - dependen_part: {fileID: 345428289516620900}
     dragLimit: 50
+  taskCompleted: 0
 --- !u!1001 &345428287492588037
 PrefabInstance:
   m_ObjectHideFlags: 0
