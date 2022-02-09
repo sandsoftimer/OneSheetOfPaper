@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Com.AlphaPotato.Utility;
+using System;
 
 public class OneSheetPeelMan : APBehaviour
 {
@@ -11,10 +12,19 @@ public class OneSheetPeelMan : APBehaviour
 
     [Header("Level Rules")]
     public float cuttingSize = 5;
+    public float draggingthreshold = 0.2f;
+    public Material tearPartMaterial;
 
     Vector3 startPoint, endPoint, previousDraggingPosition;
-    bool dragging;
+    bool dragging, initialVertexCreated;
     string outputText = "Did not start";
+
+    GameObject tearPart;
+    Mesh mesh;
+    MeshFilter meshFilter;
+    Vector3[] vertices;
+    int[] triangle;
+    Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
 
     #region ALL UNITY FUNCTIONS
 
@@ -54,7 +64,93 @@ public class OneSheetPeelMan : APBehaviour
         //}
         if (Input.GetMouseButtonDown(0))
         {
-            Cut();
+            RaycastHit raycastHit = new RaycastHit();
+            raycastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
+
+            if (raycastHit.collider != null)
+            {
+                dragging = true;
+                initialVertexCreated = false;
+                previousDraggingPosition = raycastHit.point;
+
+                tearPart = new GameObject("Tear Part");
+                tearPart.transform.position = previousDraggingPosition.ModifyThisVector(0, 0.01f, 0);
+
+                meshFilter = tearPart.AddComponent<MeshFilter>();
+                tearPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
+                mesh = new Mesh();
+                meshFilter.mesh = mesh;
+                vertices = new Vector3[] { };
+                triangle = new int[] { };
+            }            
+        }
+
+        if (Input.GetMouseButton(0) && dragging)
+        {
+            RaycastHit raycastHit = new RaycastHit();
+            raycastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
+
+            if (raycastHit.collider != null)
+            {
+                if (Vector3.Distance(raycastHit.point, previousDraggingPosition) > draggingthreshold)
+                {
+                    Vector3 side1 = previousDraggingPosition - raycastHit.point;
+                    Vector3 side2 = raycastHit.normal;
+                    Vector3 tangentDir = Vector3.Cross(side1, side2).normalized * cuttingSize;
+                    if (!initialVertexCreated)
+                    {
+                        lastVertex0 = previousDraggingPosition + tangentDir;
+                        lastVertex1 = previousDraggingPosition - tangentDir;
+                        Array.Resize(ref vertices, vertices.Length + 2);
+                        vertices[vertices.Length - 2] = lastVertex0;
+                        vertices[vertices.Length - 1] = lastVertex1;
+
+                        Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
+                        Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 10);
+                        Debug.DrawRay(previousDraggingPosition, -tangentDir, Color.red, 10);
+
+                        initialVertexCreated = true;
+                    }
+
+                    newVertex0 = raycastHit.point + tangentDir;
+                    newVertex1 = raycastHit.point - tangentDir;
+
+                    Array.Resize(ref vertices, vertices.Length + 2);
+                    vertices[vertices.Length - 2] = newVertex0;
+                    vertices[vertices.Length - 1] = newVertex1;
+
+                    Array.Resize(ref triangle, triangle.Length + 6);
+                    triangle[triangle.Length - 6] = vertices.Length - 4;
+                    triangle[triangle.Length - 5] = vertices.Length - 3;
+                    triangle[triangle.Length - 4] = vertices.Length - 2;
+                    triangle[triangle.Length - 3] = vertices.Length - 3;
+                    triangle[triangle.Length - 2] = vertices.Length - 1;
+                    triangle[triangle.Length - 1] = vertices.Length - 2;
+
+                    Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 10);
+                    Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 10);
+
+
+                    mesh.vertices = vertices;
+                    mesh.triangles = triangle;
+                    Debug.LogError(triangle.Length);
+                    mesh.RecalculateBounds();
+                    mesh.RecalculateNormals();
+                    mesh.RecalculateTangents();
+                    Debug.LogError(triangle.Length);
+
+                    for (int i = 0; i < vertices.Length; i++)
+                    {
+                        GameObject go = new GameObject("Vertex_" + i);
+                        go.transform.position = vertices[i];
+                    }
+
+                    previousDraggingPosition = raycastHit.point;
+                    lastVertex0 = newVertex0;
+                    lastVertex1 = newVertex1;
+                    dragging = false;
+                }
+            }
         }
     }
 
@@ -70,8 +166,8 @@ public class OneSheetPeelMan : APBehaviour
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
 
-        if (dragging)
-            previousDraggingPosition = APTools.mathManager.GetWorldTouchPosition(Input.mousePosition);
+        //if (dragging)
+        //    previousDraggingPosition = APTools.mathManager.GetWorldTouchPosition(Input.mousePosition);
     }
 
     private void OnMouseDown()
@@ -91,42 +187,6 @@ public class OneSheetPeelMan : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
-    void Cut()
-    {
-        Vector3[] verts = meshDoctor.originalVertices;
-        int horizontalCenter = meshDoctor.planeXSize / 2;
-        int verticalCenter = meshDoctor.planeZSize / 2;
-
-        int topEdge = 0, bottomEdge = 0;
-        for (int z = 0; z <= cuttingSize / 2; z++)
-        {
-            for (int x = 0; x <= horizontalCenter; x++)
-            {
-                verts[(verticalCenter + z) * (meshDoctor.planeXSize + 1) + x] += new Vector3(0, 1, 0);
-                verts[(verticalCenter - (z + 1)) * (meshDoctor.planeXSize + 1) + x] += new Vector3(0, 1, 0);
-            }
-            topEdge = verticalCenter + z + 1;
-            bottomEdge = verticalCenter - (z + 2);
-        }
-        for (int x = 0; x <= horizontalCenter; x++)
-        {
-            verts[topEdge * (meshDoctor.planeXSize + 1) + x] += new Vector3(0, -1, 0);
-            verts[bottomEdge * (meshDoctor.planeXSize + 1) + x] += new Vector3(0, -1, 0);
-        }
-
-        meshDoctor.UpdateMesh(verts, meshDoctor.originalTriangles, meshDoctor.originalUVs);
-        //int name = 1;
-        //for (int z = 0; z <= meshDoctor.planeZSize; z++)
-        //{
-        //    for (int x = 0; x <= meshDoctor.planeXSize; x++)
-        //    {
-        //        GameObject go = new GameObject(name.ToString());
-        //        go.transform.position = verts[z * (meshDoctor.planeZSize + 1) + x];
-        //        go.transform.parent = transform;
-        //        name++;
-        //    }
-        //}
-    }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
 

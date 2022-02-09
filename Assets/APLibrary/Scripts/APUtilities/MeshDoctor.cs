@@ -20,6 +20,7 @@ namespace Com.AlphaPotato.Utility
         MeshFilter meshFilter;
         MeshCollider meshCollider;
         Mesh mesh;
+        Dictionary<Vector3, int[]> vertexTriangleIndexes; 
 
         public Vector3[] originalVertices { get { return mesh.vertices; } }
         public int[] originalTriangles { get { return mesh.triangles; } }
@@ -134,7 +135,7 @@ namespace Com.AlphaPotato.Utility
             }
         }
 
-        public void CreateEditorPlane()
+        public virtual void CreateEditorPlane()
         {
             meshRenderer = GetComponent<MeshRenderer>();
             meshFilter = GetComponent<MeshFilter>();
@@ -252,6 +253,14 @@ namespace Com.AlphaPotato.Utility
                     tries[triIndex + 4] = vertIndex + planeXSize + 1;
                     tries[triIndex + 5] = vertIndex + planeXSize + 2;
 
+                    SetVertexTriangleIndexes(vertIndex + 0, triIndex);
+                    SetVertexTriangleIndexes(vertIndex + planeXSize + 1, triIndex + 1);
+                    SetVertexTriangleIndexes(vertIndex + 1, triIndex + 2);
+                    SetVertexTriangleIndexes(vertIndex + 1, triIndex + 3);
+                    SetVertexTriangleIndexes(vertIndex + planeXSize + 1, triIndex + 4);
+                    SetVertexTriangleIndexes(vertIndex + planeXSize + 2, triIndex + 5);
+
+
                     vertIndex++;
                     triIndex += 6;
                 }
@@ -275,10 +284,47 @@ namespace Com.AlphaPotato.Utility
             return uvs;
         }
 
+        void SetVertexTriangleIndexes(int vertIndex, int triIndex)
+        {
+            if(vertexTriangleIndexes == null)
+                vertexTriangleIndexes = new Dictionary<Vector3, int[]>();
+
+            if (vertexTriangleIndexes.ContainsKey(originalVertices[vertIndex]))
+            {
+                int[] existingTriangleIndexes = vertexTriangleIndexes[originalVertices[vertIndex]];
+                int[] newTriangleIndexes = new int[existingTriangleIndexes.Length + 1];
+                newTriangleIndexes[newTriangleIndexes.Length - 1] = triIndex;
+                vertexTriangleIndexes[originalVertices[vertIndex]] = newTriangleIndexes;
+            }
+            else
+            {
+                int[] newTriangleIndexes = new int[1];
+                newTriangleIndexes[0] = triIndex;
+                vertexTriangleIndexes[originalVertices[vertIndex]] = newTriangleIndexes;
+            }
+        }
+
+        public int[] GetVertexTriangleIndexes(Vector3 vertex)
+        {
+            int[] triangleIndexes;
+
+            triangleIndexes = vertexTriangleIndexes[vertex];
+            return triangleIndexes;
+        }
+
         public void DeleteTriangle(int triangleIndex, int[] tris = null)
         {
             if (tris == null) tris = originalTriangles;
             Array.Clear(tris, triangleIndex * 3, 3);
+            UpdateMesh(originalVertices, tris, originalUVs);
+        }
+
+        public void PlaceTriangleToZero(int triangleIndex)
+        {
+            int[] tris = originalTriangles;
+            tris[triangleIndex * 3 + 0] = 0;
+            tris[triangleIndex * 3 + 1] = 0;
+            tris[triangleIndex * 3 + 2] = 0;
             UpdateMesh(originalVertices, tris, originalUVs);
         }
 
