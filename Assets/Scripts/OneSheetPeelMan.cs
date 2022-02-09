@@ -11,8 +11,8 @@ public class OneSheetPeelMan : APBehaviour
     public TextMeshProUGUI text;
 
     [Header("Level Rules")]
-    public float cuttingSize = 5;
-    public float draggingthreshold = 0.2f;
+    public float cuttingSize;
+    public float draggingthreshold;
     public Material tearPartMaterial;
 
     Vector3 startPoint, endPoint, previousDraggingPosition;
@@ -99,21 +99,22 @@ public class OneSheetPeelMan : APBehaviour
                     Vector3 tangentDir = Vector3.Cross(side1, side2).normalized * cuttingSize;
                     if (!initialVertexCreated)
                     {
-                        lastVertex0 = previousDraggingPosition + tangentDir;
-                        lastVertex1 = previousDraggingPosition - tangentDir;
+                        lastVertex0 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(previousDraggingPosition + tangentDir));
+                        lastVertex1 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(previousDraggingPosition - tangentDir));
+
                         Array.Resize(ref vertices, vertices.Length + 2);
                         vertices[vertices.Length - 2] = lastVertex0;
                         vertices[vertices.Length - 1] = lastVertex1;
 
                         Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
-                        Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 10);
-                        Debug.DrawRay(previousDraggingPosition, -tangentDir, Color.red, 10);
+                        Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 1000);
+                        Debug.DrawRay(previousDraggingPosition, -tangentDir, Color.red, 1000);
 
                         initialVertexCreated = true;
                     }
 
-                    newVertex0 = raycastHit.point + tangentDir;
-                    newVertex1 = raycastHit.point - tangentDir;
+                    newVertex0 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(raycastHit.point + tangentDir));
+                    newVertex1 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(raycastHit.point - tangentDir));
 
                     Array.Resize(ref vertices, vertices.Length + 2);
                     vertices[vertices.Length - 2] = newVertex0;
@@ -127,8 +128,8 @@ public class OneSheetPeelMan : APBehaviour
                     triangle[triangle.Length - 2] = vertices.Length - 1;
                     triangle[triangle.Length - 1] = vertices.Length - 2;
 
-                    Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 10);
-                    Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 10);
+                    Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
+                    Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 1000);
 
 
                     mesh.vertices = vertices;
@@ -148,7 +149,7 @@ public class OneSheetPeelMan : APBehaviour
                     previousDraggingPosition = raycastHit.point;
                     lastVertex0 = newVertex0;
                     lastVertex1 = newVertex1;
-                    dragging = false;
+                    //dragging = false;
                 }
             }
         }
