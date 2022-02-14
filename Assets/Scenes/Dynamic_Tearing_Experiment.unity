@@ -726,7 +726,7 @@ MonoBehaviour:
   meshDoctor: {fileID: 1756037193}
   text: {fileID: 435767304}
   cuttingSize: 1.5
-  draggingthreshold: 0.25
+  draggingthreshold: 0.2
   foldingAngle: 15
   tearPartMaterial: {fileID: 2100000, guid: a4211bdc658c0403ab680d33b1113c52, type: 2}
 --- !u!95 &1767224533 stripped
