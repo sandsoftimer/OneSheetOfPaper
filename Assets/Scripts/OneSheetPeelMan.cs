@@ -13,13 +13,14 @@ public class OneSheetPeelMan : APBehaviour
     [Header("Level Rules")]
     public float cuttingSize;
     public float draggingthreshold;
+    public float foldingAngle;
     public Material tearPartMaterial;
 
     Vector3 startPoint, endPoint, previousDraggingPosition;
     bool dragging, initialVertexCreated;
     string outputText = "Did not start";
 
-    GameObject tearPart;
+    GameObject tearPart, vertexSpinePart, previousSpine;
     Mesh mesh;
     MeshFilter meshFilter;
     Vector3[] vertices;
@@ -74,7 +75,10 @@ public class OneSheetPeelMan : APBehaviour
                 previousDraggingPosition = raycastHit.point;
 
                 tearPart = new GameObject("Tear Part");
-                tearPart.transform.position = previousDraggingPosition.ModifyThisVector(0, 0.01f, 0);
+                tearPart.transform.position = previousDraggingPosition;
+
+                vertexSpinePart = new GameObject("Vertex Spine Part");
+                vertexSpinePart.transform.position = previousDraggingPosition;
 
                 meshFilter = tearPart.AddComponent<MeshFilter>();
                 tearPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
@@ -99,26 +103,28 @@ public class OneSheetPeelMan : APBehaviour
                     Vector3 tangentDir = Vector3.Cross(side1, side2).normalized * cuttingSize;
                     if (!initialVertexCreated)
                     {
-                        lastVertex0 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(previousDraggingPosition + tangentDir));
-                        lastVertex1 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(previousDraggingPosition - tangentDir));
+                        lastVertex0 = transform.TransformPoint(previousDraggingPosition + tangentDir);
+                        lastVertex1 = transform.TransformPoint(previousDraggingPosition - tangentDir);
 
                         Array.Resize(ref vertices, vertices.Length + 2);
-                        vertices[vertices.Length - 2] = lastVertex0;
-                        vertices[vertices.Length - 1] = lastVertex1;
+                        CreateVertexSpine(lastVertex0, lastVertex1);
+                        //vertices[vertices.Length - 2] = lastVertex0;
+                        //vertices[vertices.Length - 1] = lastVertex1;
 
-                        Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
-                        Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 1000);
-                        Debug.DrawRay(previousDraggingPosition, -tangentDir, Color.red, 1000);
+                        //Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
+                        //Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 1000);
+                        //Debug.DrawRay(previousDraggingPosition, -tangentDir, Color.red, 1000);
 
                         initialVertexCreated = true;
                     }
 
-                    newVertex0 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(raycastHit.point + tangentDir));
-                    newVertex1 = tearPart.transform.InverseTransformPoint(transform.TransformPoint(raycastHit.point - tangentDir));
+                    newVertex0 = transform.TransformPoint(raycastHit.point + tangentDir);
+                    newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);
 
                     Array.Resize(ref vertices, vertices.Length + 2);
-                    vertices[vertices.Length - 2] = newVertex0;
-                    vertices[vertices.Length - 1] = newVertex1;
+                    CreateVertexSpine(newVertex0, newVertex1);
+                    //vertices[vertices.Length - 2] = newVertex0;
+                    //vertices[vertices.Length - 1] = newVertex1;
 
                     Array.Resize(ref triangle, triangle.Length + 6);
                     triangle[triangle.Length - 6] = vertices.Length - 4;
@@ -128,23 +134,29 @@ public class OneSheetPeelMan : APBehaviour
                     triangle[triangle.Length - 2] = vertices.Length - 1;
                     triangle[triangle.Length - 1] = vertices.Length - 2;
 
-                    Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
-                    Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 1000);
+                    //GameObject vertexCenter = previousSpine.transform.GetChild(2).gameObject;
+                    //do
+                    //{
+                    //    Array.Resize(ref triangle, triangle.Length + 6);
+                    //    triangle[triangle.Length - 6] = vertices.Length - 4;
+                    //    triangle[triangle.Length - 5] = vertices.Length - 3;
+                    //    triangle[triangle.Length - 4] = vertices.Length - 2;
+                    //    triangle[triangle.Length - 3] = vertices.Length - 3;
+                    //    triangle[triangle.Length - 2] = vertices.Length - 1;
+                    //    triangle[triangle.Length - 1] = vertices.Length - 2;
+
+                    //} while (vertexCenter.transform.GetChild(2).childCount > 2);
+
+
+                    //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
+                    //Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 1000);
 
 
                     mesh.vertices = vertices;
                     mesh.triangles = triangle;
-                    Debug.LogError(triangle.Length);
                     mesh.RecalculateBounds();
                     mesh.RecalculateNormals();
                     mesh.RecalculateTangents();
-                    Debug.LogError(triangle.Length);
-
-                    for (int i = 0; i < vertices.Length; i++)
-                    {
-                        GameObject go = new GameObject("Vertex_" + i);
-                        go.transform.position = vertices[i];
-                    }
 
                     previousDraggingPosition = raycastHit.point;
                     lastVertex0 = newVertex0;
@@ -188,6 +200,33 @@ public class OneSheetPeelMan : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
+    void CreateVertexSpine(Vector3 point0, Vector3 point1)
+    {
+        GameObject vc = new GameObject("VertexCenter");
+        vc.transform.localPosition = (point0 + point1) / 2;
+        tearPart.transform.InverseTransformPoint(point0);
+        tearPart.transform.InverseTransformPoint(point1);
+
+        GameObject p0 = new GameObject("point0");
+        GameObject p1 = new GameObject("point1");
+        p0.transform.localPosition = point0;
+        p1.transform.localPosition = point1;
+        p0.transform.parent = vc.transform;
+        p1.transform.parent = vc.transform;
+
+        if (previousSpine == null)
+        {
+            vc.transform.parent = vertexSpinePart.transform;
+        }
+        else
+        {
+            previousSpine.transform.parent = vc.transform;
+            previousSpine.transform.Rotate(point0 - point1, foldingAngle);
+        }
+        vertices[vertices.Length - 2] = tearPart.transform.InverseTransformPoint(p0.transform.position);
+        vertices[vertices.Length - 1] = tearPart.transform.InverseTransformPoint(p1.transform.position);
+        previousSpine = vc;
+    }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
 
