@@ -77,6 +77,7 @@ public class OneSheetPeelMan : APBehaviour
                 tearPart = new GameObject("Tear Part");
                 tearPart.transform.position = previousDraggingPosition;
 
+                previousSpine = null;
                 vertexSpinePart = new GameObject("Vertex Spine Part");
                 vertexSpinePart.transform.position = previousDraggingPosition;
 
@@ -108,8 +109,6 @@ public class OneSheetPeelMan : APBehaviour
 
                         Array.Resize(ref vertices, vertices.Length + 2);
                         CreateVertexSpine(lastVertex0, lastVertex1);
-                        //vertices[vertices.Length - 2] = lastVertex0;
-                        //vertices[vertices.Length - 1] = lastVertex1;
 
                         //Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
                         //Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 1000);
@@ -126,26 +125,36 @@ public class OneSheetPeelMan : APBehaviour
                     //vertices[vertices.Length - 2] = newVertex0;
                     //vertices[vertices.Length - 1] = newVertex1;
 
-                    Array.Resize(ref triangle, triangle.Length + 6);
-                    triangle[triangle.Length - 6] = vertices.Length - 4;
-                    triangle[triangle.Length - 5] = vertices.Length - 3;
-                    triangle[triangle.Length - 4] = vertices.Length - 2;
-                    triangle[triangle.Length - 3] = vertices.Length - 3;
-                    triangle[triangle.Length - 2] = vertices.Length - 1;
-                    triangle[triangle.Length - 1] = vertices.Length - 2;
+                    //Array.Resize(ref triangle, triangle.Length + 6);
+                    //triangle[triangle.Length - 6] = vertices.Length - 4;
+                    //triangle[triangle.Length - 5] = vertices.Length - 3;
+                    //triangle[triangle.Length - 4] = vertices.Length - 2;
+                    //triangle[triangle.Length - 3] = vertices.Length - 3;
+                    //triangle[triangle.Length - 2] = vertices.Length - 1;
+                    //triangle[triangle.Length - 1] = vertices.Length - 2;
 
-                    //GameObject vertexCenter = previousSpine.transform.GetChild(2).gameObject;
-                    //do
-                    //{
-                    //    Array.Resize(ref triangle, triangle.Length + 6);
-                    //    triangle[triangle.Length - 6] = vertices.Length - 4;
-                    //    triangle[triangle.Length - 5] = vertices.Length - 3;
-                    //    triangle[triangle.Length - 4] = vertices.Length - 2;
-                    //    triangle[triangle.Length - 3] = vertices.Length - 3;
-                    //    triangle[triangle.Length - 2] = vertices.Length - 1;
-                    //    triangle[triangle.Length - 1] = vertices.Length - 2;
+                    TearChank tearchank = previousSpine.GetComponent<TearChank>();
+                    vertices = new Vector3[] {
+                        tearPart.transform.InverseTransformPoint(tearchank.vertex0.transform.position),
+                        tearPart.transform.InverseTransformPoint(tearchank.vertex1.transform.position)
+                    };
+                    triangle = new int[] { };
+                    do
+                    {
+                        Array.Resize(ref vertices, vertices.Length + 2);
+                        vertices[vertices.Length - 2] = tearPart.transform.InverseTransformPoint(tearchank.previousTearChank.vertex0.transform.position);
+                        vertices[vertices.Length - 1] = tearPart.transform.InverseTransformPoint(tearchank.previousTearChank.vertex1.transform.position);
 
-                    //} while (vertexCenter.transform.GetChild(2).childCount > 2);
+                        Array.Resize(ref triangle, triangle.Length + 6);
+                        triangle[triangle.Length - 6] = vertices.Length - 4;
+                        triangle[triangle.Length - 5] = vertices.Length - 3;
+                        triangle[triangle.Length - 4] = vertices.Length - 2;
+                        triangle[triangle.Length - 3] = vertices.Length - 3;
+                        triangle[triangle.Length - 2] = vertices.Length - 1;
+                        triangle[triangle.Length - 1] = vertices.Length - 2;
+
+                        tearchank = tearchank.previousTearChank;
+                    } while (tearchank.previousTearChank != null);
 
 
                     //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
@@ -202,30 +211,42 @@ public class OneSheetPeelMan : APBehaviour
 
     void CreateVertexSpine(Vector3 point0, Vector3 point1)
     {
-        GameObject vc = new GameObject("VertexCenter");
-        vc.transform.localPosition = (point0 + point1) / 2;
+        GameObject centerVertex = new GameObject("VertexCenter");
+        centerVertex.transform.localPosition = (point0 + point1) / 2;
         tearPart.transform.InverseTransformPoint(point0);
         tearPart.transform.InverseTransformPoint(point1);
 
-        GameObject p0 = new GameObject("point0");
-        GameObject p1 = new GameObject("point1");
-        p0.transform.localPosition = point0;
-        p1.transform.localPosition = point1;
-        p0.transform.parent = vc.transform;
-        p1.transform.parent = vc.transform;
+        GameObject vertex0 = new GameObject("point0");
+        GameObject vertex1 = new GameObject("point1");
+        vertex0.transform.localPosition = point0;
+        vertex1.transform.localPosition = point1;
+        vertex0.transform.parent = centerVertex.transform;
+        vertex1.transform.parent = centerVertex.transform;
+
+        TearChank latestTearChank = centerVertex.AddComponent<TearChank>();
+        latestTearChank.vertex0 = vertex0;
+        latestTearChank.vertex1 = vertex1;
+        latestTearChank.originalVertexPosition0 = point0;
+        latestTearChank.originalVertexPosition1 = point1;
 
         if (previousSpine == null)
         {
-            vc.transform.parent = vertexSpinePart.transform;
+            centerVertex.transform.parent = vertexSpinePart.transform;
         }
         else
         {
-            previousSpine.transform.parent = vc.transform;
+            previousSpine.transform.parent = centerVertex.transform;
             previousSpine.transform.Rotate(point0 - point1, foldingAngle);
+
+            TearChank previousTearChank = previousSpine.GetComponent<TearChank>();
+            latestTearChank.vertex2 = previousTearChank.vertex0;
+            latestTearChank.vertex3 = previousTearChank.vertex1;
+            latestTearChank.previousTearChank = previousTearChank;
+
         }
-        vertices[vertices.Length - 2] = tearPart.transform.InverseTransformPoint(p0.transform.position);
-        vertices[vertices.Length - 1] = tearPart.transform.InverseTransformPoint(p1.transform.position);
-        previousSpine = vc;
+        vertices[vertices.Length - 2] = tearPart.transform.InverseTransformPoint(vertex0.transform.position);
+        vertices[vertices.Length - 1] = tearPart.transform.InverseTransformPoint(vertex1.transform.position);
+        previousSpine = centerVertex;
     }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
