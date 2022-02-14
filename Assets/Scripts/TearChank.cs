@@ -5,6 +5,6 @@ using UnityEngine;
 public class TearChank : MonoBehaviour
 {
     public TearChank previousTearChank;
-    public GameObject vertex0, vertex1, vertex2, vertex3;
+    public GameObject vertex0, vertex1;
     public Vector3 originalVertexPosition0, originalVertexPosition1;
 }
