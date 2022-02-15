@@ -28,6 +28,7 @@ public class OneSheetPeelMan : APBehaviour
     Vector3[] vertices;
     int[] triangle;
     Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
+    Color[] originalMeshColors;
 
     #region ALL UNITY FUNCTIONS
 
@@ -87,6 +88,8 @@ public class OneSheetPeelMan : APBehaviour
                 tearMeshPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
                 mesh = new Mesh();
                 meshFilter.mesh = mesh;
+                originalMeshColors = mesh.colors;
+
                 //vertices = new Vector3[] { };
                 //triangle = new int[] { };
             }            
@@ -137,12 +140,12 @@ public class OneSheetPeelMan : APBehaviour
 
 
                         Array.Resize(ref triangle, triangle.Length + 6);
-                        triangle[triangle.Length - 6] = vertices.Length - 3;
+                        triangle[triangle.Length - 6] = vertices.Length - 2;
                         triangle[triangle.Length - 5] = vertices.Length - 1;
-                        triangle[triangle.Length - 4] = vertices.Length - 2;
-                        triangle[triangle.Length - 3] = vertices.Length - 4;
+                        triangle[triangle.Length - 4] = vertices.Length - 3;
+                        triangle[triangle.Length - 3] = vertices.Length - 2;
                         triangle[triangle.Length - 2] = vertices.Length - 3;
-                        triangle[triangle.Length - 1] = vertices.Length - 2;
+                        triangle[triangle.Length - 1] = vertices.Length - 4;
 
                         tearchank = tearchank.previousTearChank;
                     } while (tearchank.previousTearChank != null);
