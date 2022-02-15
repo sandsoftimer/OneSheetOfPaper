@@ -245,40 +245,44 @@ public class OneSheetPeelMan : APBehaviour
             TearChank previousTearChank = previousSpine.GetComponent<TearChank>();
             latestTearChank.previousTearChank = previousTearChank;
 
-
-            Mesh _mesh = meshDoctor.GetMesh();
-            GameObject newChankMesh = new GameObject("NewChankMesh");
-            newChankMesh.layer = ConstantManager.BOUNDARY_LAYER;
-            MeshFilter newFilter = newChankMesh.AddComponent<MeshFilter>();
-            Mesh newMesh = new Mesh();
-            newFilter.mesh = newMesh;
-            newMesh.vertices = new Vector3[] {
-                    newChankMesh.transform.InverseTransformPoint(point0),
-                    newChankMesh.transform.InverseTransformPoint(point1),
-                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition0),
-                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition1)
-                };
-            newMesh.triangles = new int[] {
-                    1,0,2,1,2,3
-                };
-            newChankMesh.AddComponent<MeshCollider>();
-            for (int i = 0; i < _mesh.vertices.Length; i++)
-            {
-                Vector3 worldPoint = meshDoctor.transform.TransformPoint(_mesh.vertices[i]);
-                RaycastHit hit;
-                if (Physics.Raycast(new Ray(worldPoint.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 10, 1 << ConstantManager.BOUNDARY_LAYER))
-                {
-                    originalMeshColors[i] = new Color(255, 255, 255, 0);
-                    Debug.LogError(hit.collider.name);
-                }
-            }
-            Destroy(newChankMesh);
-            _mesh.colors = originalMeshColors;
+            ClearNewChankVertices(point0, point1, previousTearChank.originalVertexPosition0, previousTearChank.originalVertexPosition1);
         }
 
         latestTearChank.originalVertexPosition0 = point0;
         latestTearChank.originalVertexPosition1 = point1;
         previousSpine = centerVertex;
+    }
+
+    void ClearNewChankVertices(Vector3 point0, Vector3 point1, Vector3 point2, Vector3 point3)
+    {
+        Mesh _mesh = meshDoctor.GetMesh();
+        GameObject newChankMesh = new GameObject("NewChankMesh");
+        newChankMesh.layer = ConstantManager.BOUNDARY_LAYER;
+        MeshFilter newFilter = newChankMesh.AddComponent<MeshFilter>();
+        Mesh newMesh = new Mesh();
+        newFilter.mesh = newMesh;
+        newMesh.vertices = new Vector3[] {
+                    newChankMesh.transform.InverseTransformPoint(point0),
+                    newChankMesh.transform.InverseTransformPoint(point1),
+                    newChankMesh.transform.InverseTransformPoint(point2),
+                    newChankMesh.transform.InverseTransformPoint(point3)
+                };
+        newMesh.triangles = new int[] {
+                    1,0,2,1,2,3
+                };
+        newChankMesh.AddComponent<MeshCollider>();
+        for (int i = 0; i < _mesh.vertices.Length; i++)
+        {
+            Vector3 worldPoint = meshDoctor.transform.TransformPoint(_mesh.vertices[i]);
+            RaycastHit hit;
+            if (Physics.Raycast(new Ray(worldPoint.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 10, 1 << ConstantManager.BOUNDARY_LAYER))
+            {
+                originalMeshColors[i] = new Color(255, 255, 255, 0);
+                Debug.LogError(hit.collider.name);
+            }
+        }
+        Destroy(newChankMesh);
+        _mesh.colors = originalMeshColors;
     }
 
     #endregion ALL SELF DECLEAR FUNCTIONS
