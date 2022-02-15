@@ -88,8 +88,19 @@ public class OneSheetPeelMan : APBehaviour
                 tearMeshPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
                 mesh = new Mesh();
                 meshFilter.mesh = mesh;
-                originalMeshColors = mesh.colors;
 
+                Vector3[] vertpos = meshDoctor.GetMesh().vertices;
+                originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
+                originalMeshColors = meshDoctor.GetMesh().colors;
+                if (originalMeshColors.Length == 0)
+                {
+                    originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
+                    for (int i = 0; i < originalMeshColors.Length; i++)
+                    {
+                        originalMeshColors[i] = Color.white;
+                    }
+                }
+                meshDoctor.GetMesh().colors = originalMeshColors;
                 //vertices = new Vector3[] { };
                 //triangle = new int[] { };
             }            
@@ -231,19 +242,38 @@ public class OneSheetPeelMan : APBehaviour
             previousSpine.transform.parent = centerVertex.transform;
             previousSpine.transform.Rotate(point0 - point1, foldingAngle);
 
-            //TearChank previousChank = previousSpine.GetComponent<TearChank>();
-            //point0 = previousChank.vertex0.transform.position;
-            //point1 = previousChank.vertex1.transform.position;
-
-            //point0.y = point0.y < groundLimit ? groundLimit : point0.y;
-            //point1.y = point1.y < groundLimit ? groundLimit : point1.y;
-            //previousChank.vertex0.transform.position = point0;
-            //previousChank.vertex1.transform.position = point1;
-
-
             TearChank previousTearChank = previousSpine.GetComponent<TearChank>();
             latestTearChank.previousTearChank = previousTearChank;
 
+
+            Mesh _mesh = meshDoctor.GetMesh();
+            GameObject newChankMesh = new GameObject("NewChankMesh");
+            newChankMesh.layer = ConstantManager.BOUNDARY_LAYER;
+            MeshFilter newFilter = newChankMesh.AddComponent<MeshFilter>();
+            Mesh newMesh = new Mesh();
+            newFilter.mesh = newMesh;
+            newMesh.vertices = new Vector3[] {
+                    newChankMesh.transform.InverseTransformPoint(point0),
+                    newChankMesh.transform.InverseTransformPoint(point1),
+                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition0),
+                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition1)
+                };
+            newMesh.triangles = new int[] {
+                    1,0,2,1,2,3
+                };
+            newChankMesh.AddComponent<MeshCollider>();
+            for (int i = 0; i < _mesh.vertices.Length; i++)
+            {
+                Vector3 worldPoint = meshDoctor.transform.TransformPoint(_mesh.vertices[i]);
+                RaycastHit hit;
+                if (Physics.Raycast(new Ray(worldPoint.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 10, 1 << ConstantManager.BOUNDARY_LAYER))
+                {
+                    originalMeshColors[i] = new Color(255, 255, 255, 0);
+                    Debug.LogError(hit.collider.name);
+                }
+            }
+            Destroy(newChankMesh);
+            _mesh.colors = originalMeshColors;
         }
 
         latestTearChank.originalVertexPosition0 = point0;

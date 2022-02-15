@@ -119,6 +119,11 @@ namespace Com.AlphaPotato.Utility
             return copyTris;
         }
 
+        public Mesh GetMesh()
+        {
+            return mesh;
+        }
+
         public void UpdateMesh(Vector3[] verts, int[] tris, Vector2[] uvs)
         {
             mesh.vertices = verts;
