@@ -30,6 +30,8 @@ public class OneSheetPeelMan : APBehaviour
     Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
     Color[] originalMeshColors;
 
+    Vector3[] originalVertices;
+    int[] originalTriangles;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -42,6 +44,10 @@ public class OneSheetPeelMan : APBehaviour
     public override void Start()
     {
         base.Start();
+        originalVertices = meshDoctor.originalVertices;
+        originalTriangles = meshDoctor.originalTriangles;
+
+        meshDoctor.UpdateMesh(meshDoctor.originalVertices, meshDoctor.originalTriangles, meshDoctor.originalUVs);
     }
 
     void Update()
@@ -89,18 +95,17 @@ public class OneSheetPeelMan : APBehaviour
                 mesh = new Mesh();
                 meshFilter.mesh = mesh;
 
-                Vector3[] vertpos = meshDoctor.GetMesh().vertices;
-                originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
-                originalMeshColors = meshDoctor.GetMesh().colors;
-                if (originalMeshColors.Length == 0)
-                {
-                    originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
-                    for (int i = 0; i < originalMeshColors.Length; i++)
-                    {
-                        originalMeshColors[i] = Color.white;
-                    }
-                }
-                meshDoctor.GetMesh().colors = originalMeshColors;
+                //originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
+                //originalMeshColors = meshDoctor.GetMesh().colors;
+                //if (originalMeshColors.Length == 0)
+                //{
+                //    originalMeshColors = new Color[meshDoctor.GetMesh().vertices.Length];
+                //    for (int i = 0; i < originalMeshColors.Length; i++)
+                //    {
+                //        originalMeshColors[i] = Color.white;
+                //    }
+                //}
+                //meshDoctor.GetMesh().colors = originalMeshColors;
                 //vertices = new Vector3[] { };
                 //triangle = new int[] { };
             }            
@@ -258,7 +263,42 @@ public class OneSheetPeelMan : APBehaviour
             TearChank previousTearChank = previousSpine.GetComponent<TearChank>();
             latestTearChank.previousTearChank = previousTearChank;
 
-            ClearNewChankVertices(point0, point1, previousTearChank.originalVertexPosition0, previousTearChank.originalVertexPosition1);
+            //ClearNewChankVertices(point0, point1, previousTearChank.originalVertexPosition0, previousTearChank.originalVertexPosition1);
+            int[] tris = originalTriangles;
+
+            Mesh _mesh = meshDoctor.GetMesh();
+            GameObject newChankMesh = new GameObject("NewChankMesh");
+            newChankMesh.layer = ConstantManager.BOUNDARY_LAYER;
+            MeshFilter newFilter = newChankMesh.AddComponent<MeshFilter>();
+            Mesh newMesh = new Mesh();
+            newFilter.mesh = newMesh;
+            newMesh.vertices = new Vector3[] {
+                    newChankMesh.transform.InverseTransformPoint(point0),
+                    newChankMesh.transform.InverseTransformPoint(point1),
+                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition0),
+                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition1)
+                };
+            newMesh.triangles = new int[] {
+                    1,0,2,1,2,3
+                };
+            newChankMesh.AddComponent<MeshCollider>();
+            for (int i = 0; i < tris.Length; i += 3)
+            {
+                Vector3 v0 = meshDoctor.transform.TransformPoint(originalVertices[tris[i]]);
+                Vector3 v1 = meshDoctor.transform.TransformPoint(originalVertices[tris[i + 1]]);
+                Vector3 v2 = meshDoctor.transform.TransformPoint(originalVertices[tris[i + 2]]);
+                Vector3 center = (v0 + v1 + v2) / 3;
+
+                RaycastHit hit;
+                if (Physics.Raycast(new Ray(center.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 10, 1 << ConstantManager.BOUNDARY_LAYER))
+                {
+                    originalTriangles[i] = 0;
+                    originalTriangles[i + 1] = 0;
+                    originalTriangles[i + 2] = 0;
+                }
+            }
+            Destroy(newChankMesh);
+            meshDoctor.UpdateMesh(originalVertices, originalTriangles, meshDoctor.originalUVs);
         }
 
         latestTearChank.originalVertexPosition0 = point0;
@@ -294,7 +334,19 @@ public class OneSheetPeelMan : APBehaviour
                 Debug.LogError(hit.collider.name);
             }
         }
+
+        int[] tris = originalTriangles;
+
+        for (int i = 0; i < tris.Length; i += 3)
+        {
+            Vector3 v0 = originalVertices[tris[i]];
+            Vector3 v1 = originalVertices[tris[i + 1]];
+            Vector3 v2 = originalVertices[tris[i + 2]];
+            Vector3 center = meshDoctor.transform.TransformPoint(v0 + v1 + v2) / 3;
+        }
+
         Destroy(newChankMesh);
+        meshDoctor.UpdateMesh(originalVertices, tris, meshDoctor.originalUVs);
         _mesh.colors = originalMeshColors;
     }
 

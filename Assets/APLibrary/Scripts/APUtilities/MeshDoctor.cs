@@ -140,6 +140,13 @@ namespace Com.AlphaPotato.Utility
             }
         }
 
+        public void RecalculateMesh()
+        {
+            mesh.RecalculateTangents();
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+        }
+
         public virtual void CreateEditorPlane()
         {
             meshRenderer = GetComponent<MeshRenderer>();
