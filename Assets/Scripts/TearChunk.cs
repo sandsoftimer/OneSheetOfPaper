@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TearChank : MonoBehaviour
+public class TearChunk : MonoBehaviour
 {
-    public TearChank previousTearChank;
+    public TearChunk previousTearChunk;
     public GameObject vertex0, vertex1;
     public Vector3 originalVertexPosition0, originalVertexPosition1;
 }

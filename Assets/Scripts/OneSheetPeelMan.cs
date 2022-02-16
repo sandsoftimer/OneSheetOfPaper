@@ -27,7 +27,7 @@ public class OneSheetPeelMan : APBehaviour
     Mesh mesh;
     MeshFilter meshFilter;
     Vector3[] vertices;
-    int[] triangle;
+    int[] triangles;
     Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
     Vector3 travallingDirection;
     Color[] originalMeshColors;
@@ -35,6 +35,7 @@ public class OneSheetPeelMan : APBehaviour
     Vector3[] originalVertices;
     int[] originalTriangles;
     int[] triangleMap;
+    Vector2[] uvs;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -164,7 +165,7 @@ public class OneSheetPeelMan : APBehaviour
 
                     if (!firstChunk)
                     {
-                        if( Mathf.Abs(Vector3.Dot(travallingDirection, previousDraggingPosition - raycastHit.point)) > tearingMaxAngle / 90)
+                        if( Mathf.Abs(Vector3.Dot(travallingDirection, previousDraggingPosition - raycastHit.point)) >= tearingMaxAngle / 90)
                         {
                             Debug.LogError("Angle: " + Mathf.Abs(Vector3.Dot(travallingDirection, previousDraggingPosition - raycastHit.point)));
                             dragging = false;
@@ -175,31 +176,37 @@ public class OneSheetPeelMan : APBehaviour
                     newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);                    
                     CreateVertexSpine(newVertex0, newVertex1);
 
-                    TearChank tearchank = previousSpine.GetComponent<TearChank>();
+                    TearChunk tearChunk = previousSpine.GetComponent<TearChunk>();
                     vertices = new Vector3[] {
-                        tearMeshPart.transform.InverseTransformPoint(tearchank.vertex0.transform.position),
-                        tearMeshPart.transform.InverseTransformPoint(tearchank.vertex1.transform.position)
+                        tearMeshPart.transform.InverseTransformPoint(tearChunk.vertex0.transform.position),
+                        tearMeshPart.transform.InverseTransformPoint(tearChunk.vertex1.transform.position)
                     };
-                    triangle = new int[] { };                    
+                    triangles = new int[] { };                    
                     do
                     {
                         Array.Resize(ref vertices, vertices.Length + 2);
-                        vertices[vertices.Length - 2] = tearMeshPart.transform.InverseTransformPoint(tearchank.previousTearChank.vertex0.transform.position);
-                        vertices[vertices.Length - 1] = tearMeshPart.transform.InverseTransformPoint(tearchank.previousTearChank.vertex1.transform.position);
+                        vertices[vertices.Length - 2] = tearMeshPart.transform.InverseTransformPoint(tearChunk.previousTearChunk.vertex0.transform.position);
+                        vertices[vertices.Length - 1] = tearMeshPart.transform.InverseTransformPoint(tearChunk.previousTearChunk.vertex1.transform.position);
                         vertices[vertices.Length - 2].y = vertices[vertices.Length - 2].y < groundLimit ? groundLimit : vertices[vertices.Length - 2].y;
                         vertices[vertices.Length - 1].y = vertices[vertices.Length - 1].y < groundLimit ? groundLimit : vertices[vertices.Length - 1].y;
 
 
-                        Array.Resize(ref triangle, triangle.Length + 6);
-                        triangle[triangle.Length - 6] = vertices.Length - 2;
-                        triangle[triangle.Length - 5] = vertices.Length - 1;
-                        triangle[triangle.Length - 4] = vertices.Length - 3;
-                        triangle[triangle.Length - 3] = vertices.Length - 2;
-                        triangle[triangle.Length - 2] = vertices.Length - 3;
-                        triangle[triangle.Length - 1] = vertices.Length - 4;
+                        Array.Resize(ref triangles, triangles.Length + 6);
+                        triangles[triangles.Length - 6] = vertices.Length - 2;
+                        triangles[triangles.Length - 5] = vertices.Length - 1;
+                        triangles[triangles.Length - 4] = vertices.Length - 3;
+                        triangles[triangles.Length - 3] = vertices.Length - 2;
+                        triangles[triangles.Length - 2] = vertices.Length - 3;
+                        triangles[triangles.Length - 1] = vertices.Length - 4;
 
-                        tearchank = tearchank.previousTearChank;
-                    } while (tearchank.previousTearChank != null);
+                        tearChunk = tearChunk.previousTearChunk;
+                    } while (tearChunk.previousTearChunk != null);
+
+                    uvs = new Vector2[vertices.Length];
+                    for (int i = 0; i < uvs.Length; i++)
+                    {
+                        uvs[i] = new Vector2( vertices[i].x, vertices[i].z);
+                    }
 
 
                     //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
@@ -207,7 +214,8 @@ public class OneSheetPeelMan : APBehaviour
 
 
                     mesh.vertices = vertices;
-                    mesh.triangles = triangle;
+                    mesh.triangles = triangles;
+                    mesh.uv = uvs;
                     mesh.RecalculateBounds();
                     mesh.RecalculateNormals();
                     mesh.RecalculateTangents();
@@ -261,8 +269,8 @@ public class OneSheetPeelMan : APBehaviour
     {
         //if(previousSpine != null)
         //{
-        //    Debug.LogError(++count + " : " + Vector3.Distance(point0, previousSpine.GetComponent<TearChank>().originalVertexPosition0));
-        //    float distance = Vector3.Distance(point0, previousSpine.GetComponent<TearChank>().originalVertexPosition0);
+        //    Debug.LogError(++count + " : " + Vector3.Distance(point0, previousSpine.GetComponent<TearChunk>().originalVertexPosition0));
+        //    float distance = Vector3.Distance(point0, previousSpine.GetComponent<TearChunk>().originalVertexPosition0);
         //    if(distance > draggingthreshold)
         //    {
         //        Vector3 newp0 = point0 * Time.deltaTime;
@@ -285,9 +293,9 @@ public class OneSheetPeelMan : APBehaviour
         vertex0.transform.parent = centerVertex.transform;
         vertex1.transform.parent = centerVertex.transform;
 
-        TearChank latestTearChank = centerVertex.AddComponent<TearChank>();
-        latestTearChank.vertex0 = vertex0;
-        latestTearChank.vertex1 = vertex1;
+        TearChunk latestTearChunk = centerVertex.AddComponent<TearChunk>();
+        latestTearChunk.vertex0 = vertex0;
+        latestTearChunk.vertex1 = vertex1;
 
         if (previousSpine == null)
         {
@@ -298,28 +306,28 @@ public class OneSheetPeelMan : APBehaviour
             previousSpine.transform.parent = centerVertex.transform;
             previousSpine.transform.Rotate(point0 - point1, foldingAngle);
 
-            TearChank previousTearChank = previousSpine.GetComponent<TearChank>();
-            latestTearChank.previousTearChank = previousTearChank;
+            TearChunk previousTearChunk = previousSpine.GetComponent<TearChunk>();
+            latestTearChunk.previousTearChunk = previousTearChunk;
 
-            //ClearNewChankVertices(point0, point1, previousTearChank.originalVertexPosition0, previousTearChank.originalVertexPosition1);
+            //ClearNewChankVertices(point0, point1, previousTearChunk.originalVertexPosition0, previousTearChunk.originalVertexPosition1);
             int[] tris = originalTriangles;
 
             Mesh _mesh = meshDoctor.GetMesh();
-            GameObject newChankMesh = new GameObject("NewChankMesh");
-            newChankMesh.layer = ConstantManager.BOUNDARY_LAYER;
-            MeshFilter newFilter = newChankMesh.AddComponent<MeshFilter>();
+            GameObject newChunkMesh = new GameObject("NewChankMesh");
+            newChunkMesh.layer = ConstantManager.BOUNDARY_LAYER;
+            MeshFilter newFilter = newChunkMesh.AddComponent<MeshFilter>();
             Mesh newMesh = new Mesh();
             newFilter.mesh = newMesh;
             newMesh.vertices = new Vector3[] {
-                    newChankMesh.transform.InverseTransformPoint(point0),
-                    newChankMesh.transform.InverseTransformPoint(point1),
-                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition0),
-                    newChankMesh.transform.InverseTransformPoint(previousTearChank.originalVertexPosition1)
+                    newChunkMesh.transform.InverseTransformPoint(point0),
+                    newChunkMesh.transform.InverseTransformPoint(point1),
+                    newChunkMesh.transform.InverseTransformPoint(previousTearChunk.originalVertexPosition0),
+                    newChunkMesh.transform.InverseTransformPoint(previousTearChunk.originalVertexPosition1)
                 };
             newMesh.triangles = new int[] {
                     1,0,2,1,2,3
                 };
-            newChankMesh.AddComponent<MeshCollider>();
+            newChunkMesh.AddComponent<MeshCollider>();
             List<Vector3> allHitPoints = new List<Vector3>(); 
             for (int i = 0; i < tris.Length; i += 3)
             {
@@ -339,39 +347,34 @@ public class OneSheetPeelMan : APBehaviour
                     allHitPoints.Add(center);
                 }
             }
-            Destroy(newChankMesh);
+            Destroy(newChunkMesh);
             meshDoctor.UpdateMesh(originalVertices, originalTriangles, meshDoctor.originalUVs);
 
             float latestDistance0 = 100000;
             float latestDistance1 = 100000;
             float previousDistance0 = 100000;
             float previousDistance1 = 100000;
-            Vector3 closePoint = Vector3.zero;
             for (int i = 0; i < allHitPoints.Count; i++)
             {
                 if (Vector3.Distance(point0, allHitPoints[i]) < latestDistance0)
                 {
                     latestDistance0 = Vector3.Distance(point0, allHitPoints[i]);
                     vertex0.transform.position = allHitPoints[i];
-                    closePoint = allHitPoints[i];
                 }
                 if (Vector3.Distance(point1, allHitPoints[i]) < latestDistance1)
                 {
                     latestDistance1 = Vector3.Distance(point1, allHitPoints[i]);
                     vertex1.transform.position = allHitPoints[i];
-                    closePoint = allHitPoints[i];
                 }
-                if (Vector3.Distance(previousTearChank.originalVertexPosition0, allHitPoints[i]) < previousDistance0)
+                if (Vector3.Distance(previousTearChunk.originalVertexPosition0, allHitPoints[i]) < previousDistance0)
                 {
-                    previousDistance0 = Vector3.Distance(previousTearChank.originalVertexPosition0, allHitPoints[i]);
-                    previousTearChank.vertex0.transform.position = allHitPoints[i];
-                    closePoint = allHitPoints[i];
+                    previousDistance0 = Vector3.Distance(previousTearChunk.originalVertexPosition0, allHitPoints[i]);
+                    previousTearChunk.vertex0.transform.position = allHitPoints[i];
                 }
-                if (Vector3.Distance(previousTearChank.originalVertexPosition1, allHitPoints[i]) < previousDistance1)
+                if (Vector3.Distance(previousTearChunk.originalVertexPosition1, allHitPoints[i]) < previousDistance1)
                 {
-                    previousDistance1 = Vector3.Distance(previousTearChank.originalVertexPosition1, allHitPoints[i]);
-                    previousTearChank.vertex1.transform.position = allHitPoints[i];
-                    closePoint = allHitPoints[i];
+                    previousDistance1 = Vector3.Distance(previousTearChunk.originalVertexPosition1, allHitPoints[i]);
+                    previousTearChunk.vertex1.transform.position = allHitPoints[i];
                 }
             }
             //point0 = closePoint;
@@ -381,8 +384,8 @@ public class OneSheetPeelMan : APBehaviour
             //go.transform.position = closePoint;
         }
 
-        latestTearChank.originalVertexPosition0 = point0;
-        latestTearChank.originalVertexPosition1 = point1;
+        latestTearChunk.originalVertexPosition0 = point0;
+        latestTearChunk.originalVertexPosition1 = point1;
         previousSpine = centerVertex;
     }
 
