@@ -132,7 +132,7 @@ public class OneSheetPeelMan : APBehaviour
                     }
 
                     newVertex0 = transform.TransformPoint(raycastHit.point + tangentDir);
-                    newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);
+                    newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);                    
                     CreateVertexSpine(newVertex0, newVertex1);
 
                     TearChank tearchank = previousSpine.GetComponent<TearChank>();
@@ -214,8 +214,21 @@ public class OneSheetPeelMan : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
+    int count = 0;
     void CreateVertexSpine(Vector3 point0, Vector3 point1)
     {
+        //if(previousSpine != null)
+        //{
+        //    Debug.LogError(++count + " : " + Vector3.Distance(point0, previousSpine.GetComponent<TearChank>().originalVertexPosition0));
+        //    float distance = Vector3.Distance(point0, previousSpine.GetComponent<TearChank>().originalVertexPosition0);
+        //    if(distance > draggingthreshold)
+        //    {
+        //        Vector3 newp0 = point0 * Time.deltaTime;
+        //        Vector3 newp1 = point1 * Time.deltaTime;
+        //        CreateVertexSpine(newp0, newp1);
+        //    }
+        //}
+
         GameObject centerVertex = new GameObject("VertexCenter");
         centerVertex.transform.localPosition = (point0 + point1) / 2;
         tearMeshPart.transform.InverseTransformPoint(point0);
