@@ -14,11 +14,12 @@ public class OneSheetPeelMan : APBehaviour
     public float cuttingSize;
     public float draggingthreshold;
     public float foldingAngle;
+    public float tearingMaxAngle;
     float tearringangle;
     public Material tearPartMaterial;
 
     Vector3 startPoint, endPoint, previousDraggingPosition;
-    bool dragging, initialVertexCreated;
+    bool dragging, initialVertexCreated, firstChunk;
     string outputText = "Did not start";
     float groundLimit = 0.001f;
 
@@ -28,11 +29,12 @@ public class OneSheetPeelMan : APBehaviour
     Vector3[] vertices;
     int[] triangle;
     Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
+    Vector3 travallingDirection;
     Color[] originalMeshColors;
 
     Vector3[] originalVertices;
     int[] originalTriangles;
-    int[] triangleMap   ;
+    int[] triangleMap;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -86,6 +88,7 @@ public class OneSheetPeelMan : APBehaviour
             if (raycastHit.collider != null)
             {
                 dragging = true;
+                firstChunk = true;
                 initialVertexCreated = false;
                 previousDraggingPosition = raycastHit.point;
 
@@ -159,6 +162,15 @@ public class OneSheetPeelMan : APBehaviour
                         initialVertexCreated = true;
                     }
 
+                    if (!firstChunk)
+                    {
+                        if( Mathf.Abs(Vector3.Dot(travallingDirection, previousDraggingPosition - raycastHit.point)) > tearingMaxAngle / 90)
+                        {
+                            Debug.LogError("Angle: " + Mathf.Abs(Vector3.Dot(travallingDirection, previousDraggingPosition - raycastHit.point)));
+                            dragging = false;
+                        }
+                    }
+
                     newVertex0 = transform.TransformPoint(raycastHit.point + tangentDir);
                     newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);                    
                     CreateVertexSpine(newVertex0, newVertex1);
@@ -200,10 +212,12 @@ public class OneSheetPeelMan : APBehaviour
                     mesh.RecalculateNormals();
                     mesh.RecalculateTangents();
 
+                    travallingDirection = raycastHit.point - previousDraggingPosition;
                     previousDraggingPosition = raycastHit.point;
                     lastVertex0 = newVertex0;
                     lastVertex1 = newVertex1;
                     //dragging = false;
+                    firstChunk = false;
                 }
             }            
         }
