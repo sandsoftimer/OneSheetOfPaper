@@ -32,6 +32,7 @@ public class OneSheetPeelMan : APBehaviour
 
     Vector3[] originalVertices;
     int[] originalTriangles;
+    int[] triangleMap   ;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -44,9 +45,14 @@ public class OneSheetPeelMan : APBehaviour
     public override void Start()
     {
         base.Start();
+
         originalVertices = meshDoctor.originalVertices;
         originalTriangles = meshDoctor.originalTriangles;
-
+        triangleMap = new int[originalTriangles.Length / 3];
+        for (int i = 0; i < triangleMap.Length; i++)
+        {
+            triangleMap[i] = 0;
+        }
         meshDoctor.UpdateMesh(meshDoctor.originalVertices, meshDoctor.originalTriangles, meshDoctor.originalUVs);
     }
 
@@ -116,15 +122,32 @@ public class OneSheetPeelMan : APBehaviour
             RaycastHit raycastHit = new RaycastHit();
             raycastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
 
+
             if (raycastHit.collider != null)
             {
                 if (Vector3.Distance(raycastHit.point, previousDraggingPosition) > draggingthreshold)
                 {
+                    //if (triangleMap[raycastHit.triangleIndex] != 0)
+                    //{
+                    //    GameObject go = new GameObject("Cancle Point");
+                    //    Vector3 p0 = meshDoctor.transform.TransformPoint(originalVertices[originalTriangles[raycastHit.triangleIndex * 3]]);
+                    //    Vector3 p1 = meshDoctor.transform.TransformPoint(originalVertices[originalTriangles[raycastHit.triangleIndex * 3 + 1]]);
+                    //    Vector3 p2 = meshDoctor.transform.TransformPoint(originalVertices[originalTriangles[raycastHit.triangleIndex * 3 + 2]]);
+                    //    Vector3 center = (p0 + p1 + p2) / 3;
+                    //    go.transform.position = center;
+
+                    //    Debug.LogError("Dragging Cancle");
+                    //    dragging = false;
+                    //    return;
+                    //}
+
                     Vector3 side1 = (previousDraggingPosition - raycastHit.point) * Vector3.Distance(previousDraggingPosition, raycastHit.point);
                     Vector3 side2 = raycastHit.normal;
                     Vector3 tangentDir = Vector3.Cross(side1, side2).normalized * cuttingSize;
                     if (!initialVertexCreated)
                     {
+                        
+
                         lastVertex0 = transform.TransformPoint(previousDraggingPosition + tangentDir);
                         lastVertex1 = transform.TransformPoint(previousDraggingPosition - tangentDir);
                         CreateVertexSpine(lastVertex0, lastVertex1);
@@ -182,7 +205,7 @@ public class OneSheetPeelMan : APBehaviour
                     lastVertex1 = newVertex1;
                     //dragging = false;
                 }
-            }
+            }            
         }
     }
 
@@ -235,14 +258,15 @@ public class OneSheetPeelMan : APBehaviour
         //}
 
         GameObject centerVertex = new GameObject("VertexCenter");
-        centerVertex.transform.localPosition = (point0 + point1) / 2;
-        tearMeshPart.transform.InverseTransformPoint(point0);
-        tearMeshPart.transform.InverseTransformPoint(point1);
-
         GameObject vertex0 = new GameObject("point0");
         GameObject vertex1 = new GameObject("point1");
+
+        centerVertex.transform.localPosition = (point0 + point1) / 2;
         vertex0.transform.localPosition = point0;
         vertex1.transform.localPosition = point1;
+        //tearMeshPart.transform.InverseTransformPoint(point0);
+        //tearMeshPart.transform.InverseTransformPoint(point1);
+
 
         vertex0.transform.parent = centerVertex.transform;
         vertex1.transform.parent = centerVertex.transform;
@@ -282,6 +306,7 @@ public class OneSheetPeelMan : APBehaviour
                     1,0,2,1,2,3
                 };
             newChankMesh.AddComponent<MeshCollider>();
+            List<Vector3> allHitPoints = new List<Vector3>(); 
             for (int i = 0; i < tris.Length; i += 3)
             {
                 Vector3 v0 = meshDoctor.transform.TransformPoint(originalVertices[tris[i]]);
@@ -292,13 +317,54 @@ public class OneSheetPeelMan : APBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(new Ray(center.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 10, 1 << ConstantManager.BOUNDARY_LAYER))
                 {
+                    triangleMap[tris[i]] = 1;
                     originalTriangles[i] = 0;
                     originalTriangles[i + 1] = 0;
                     originalTriangles[i + 2] = 0;
+
+                    allHitPoints.Add(center);
                 }
             }
             Destroy(newChankMesh);
             meshDoctor.UpdateMesh(originalVertices, originalTriangles, meshDoctor.originalUVs);
+
+            float latestDistance0 = 100000;
+            float latestDistance1 = 100000;
+            float previousDistance0 = 100000;
+            float previousDistance1 = 100000;
+            Vector3 closePoint = Vector3.zero;
+            for (int i = 0; i < allHitPoints.Count; i++)
+            {
+                if (Vector3.Distance(point0, allHitPoints[i]) < latestDistance0)
+                {
+                    latestDistance0 = Vector3.Distance(point0, allHitPoints[i]);
+                    vertex0.transform.position = allHitPoints[i];
+                    closePoint = allHitPoints[i];
+                }
+                if (Vector3.Distance(point1, allHitPoints[i]) < latestDistance1)
+                {
+                    latestDistance1 = Vector3.Distance(point1, allHitPoints[i]);
+                    vertex1.transform.position = allHitPoints[i];
+                    closePoint = allHitPoints[i];
+                }
+                if (Vector3.Distance(previousTearChank.originalVertexPosition0, allHitPoints[i]) < previousDistance0)
+                {
+                    previousDistance0 = Vector3.Distance(previousTearChank.originalVertexPosition0, allHitPoints[i]);
+                    previousTearChank.vertex0.transform.position = allHitPoints[i];
+                    closePoint = allHitPoints[i];
+                }
+                if (Vector3.Distance(previousTearChank.originalVertexPosition1, allHitPoints[i]) < previousDistance1)
+                {
+                    previousDistance1 = Vector3.Distance(previousTearChank.originalVertexPosition1, allHitPoints[i]);
+                    previousTearChank.vertex1.transform.position = allHitPoints[i];
+                    closePoint = allHitPoints[i];
+                }
+            }
+            //point0 = closePoint;
+            point0 = vertex0.transform.position;
+            point1 = vertex1.transform.position;
+            //GameObject go = new GameObject("Update Point");
+            //go.transform.position = closePoint;
         }
 
         latestTearChank.originalVertexPosition0 = point0;
