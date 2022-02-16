@@ -136,7 +136,7 @@ namespace Com.AlphaPotato.Utility
                 mesh.RecalculateNormals();
                 mesh.RecalculateBounds();
 
-                meshFilter.GetComponent<MeshCollider>().sharedMesh = mesh;
+                //meshFilter.GetComponent<MeshCollider>().sharedMesh = mesh;
             }
         }
 

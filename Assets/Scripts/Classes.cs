@@ -22,3 +22,14 @@ public class DependencyData
     [Range(0, 100)]
     public float dragLimit = 50f;
 }
+
+public class TriangleData
+{
+    public Vector3 v0, v1, v2;
+    public int triangleIndex;
+
+    public Vector3 GetCenter()
+    {
+        return (v0 + v1 + v2) / 3;
+    }
+}
