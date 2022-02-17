@@ -103,9 +103,6 @@ public class OneSheetPeelMan : APBehaviour
                 tearMeshPart.transform.position = previousDraggingPosition;
 
                 previousPairVertex = null;
-                vertexSpinePart = new GameObject("Vertex Spine Part");
-                vertexSpinePart.transform.position = previousDraggingPosition;
-
                 meshFilter = tearMeshPart.AddComponent<MeshFilter>();
                 tearMeshPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
                 mesh = new Mesh();
@@ -162,58 +159,61 @@ public class OneSheetPeelMan : APBehaviour
                     //}
 
                     newVertex0 = transform.TransformPoint(raycastHit.point + tangentDir);
-                    newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);                    
+                    newVertex1 = transform.TransformPoint(raycastHit.point - tangentDir);
                     CreateVertexBone(newVertex0, newVertex1);
 
-                    PairVertex currentPairVertex = previousPairVertex.GetComponent<PairVertex>();
-                    vertices = new Vector3[] {
-                        tearMeshPart.transform.InverseTransformPoint(currentPairVertex.vertexObject0.transform.position),
-                        tearMeshPart.transform.InverseTransformPoint(currentPairVertex.vertexObject1.transform.position)
-                    };
-                    triangles = new int[] { };                    
-                    do
+                    if (tearMeshPart != null)
                     {
-                        Array.Resize(ref vertices, vertices.Length + 2);
-                        vertices[vertices.Length - 2] = tearMeshPart.transform.InverseTransformPoint(currentPairVertex.previousPairVertex.vertexObject0.transform.position);
-                        vertices[vertices.Length - 1] = tearMeshPart.transform.InverseTransformPoint(currentPairVertex.previousPairVertex.vertexObject1.transform.position);
-                        vertices[vertices.Length - 2].y = vertices[vertices.Length - 2].y < groundLimit ? groundLimit : vertices[vertices.Length - 2].y;
-                        vertices[vertices.Length - 1].y = vertices[vertices.Length - 1].y < groundLimit ? groundLimit : vertices[vertices.Length - 1].y;
+
+                        PairVertex currentPairVertex = previousPairVertex.GetComponent<PairVertex>();
+                        vertices = new Vector3[] {
+                        tearMeshPart.transform.InverseTransformPoint(currentPairVertex.vertexObject0.transform.position),
+                        tearMeshPart.transform.InverseTransformPoint(currentPairVertex.vertexObject1.transform.position)};
+                        triangles = new int[] { };
+                        do
+                        {
+                            Array.Resize(ref vertices, vertices.Length + 2);
+                            vertices[vertices.Length - 2] = tearMeshPart.transform.InverseTransformPoint(currentPairVertex.previousPairVertex.vertexObject0.transform.position);
+                            vertices[vertices.Length - 1] = tearMeshPart.transform.InverseTransformPoint(currentPairVertex.previousPairVertex.vertexObject1.transform.position);
+                            vertices[vertices.Length - 2].y = vertices[vertices.Length - 2].y < groundLimit ? groundLimit : vertices[vertices.Length - 2].y;
+                            vertices[vertices.Length - 1].y = vertices[vertices.Length - 1].y < groundLimit ? groundLimit : vertices[vertices.Length - 1].y;
 
 
-                        Array.Resize(ref triangles, triangles.Length + 6);
-                        triangles[triangles.Length - 6] = vertices.Length - 2;
-                        triangles[triangles.Length - 5] = vertices.Length - 1;
-                        triangles[triangles.Length - 4] = vertices.Length - 3;
-                        triangles[triangles.Length - 3] = vertices.Length - 2;
-                        triangles[triangles.Length - 2] = vertices.Length - 3;
-                        triangles[triangles.Length - 1] = vertices.Length - 4;
+                            Array.Resize(ref triangles, triangles.Length + 6);
+                            triangles[triangles.Length - 6] = vertices.Length - 2;
+                            triangles[triangles.Length - 5] = vertices.Length - 1;
+                            triangles[triangles.Length - 4] = vertices.Length - 3;
+                            triangles[triangles.Length - 3] = vertices.Length - 2;
+                            triangles[triangles.Length - 2] = vertices.Length - 3;
+                            triangles[triangles.Length - 1] = vertices.Length - 4;
 
-                        currentPairVertex = currentPairVertex.previousPairVertex;
-                    } while (currentPairVertex.previousPairVertex != null);
+                            currentPairVertex = currentPairVertex.previousPairVertex;
+                        } while (currentPairVertex.previousPairVertex != null);
 
-                    //uvs = new Vector2[allNewChunkValidVertices.Count];
-                    //Debug.LogError(vertices.Length + " -- " + uvs.Count);
-                    //for (int i = 0; i < uvs.Count; i++)
-                    //{
-                    //    Debug.LogError("uv index " + i + ":" + uvs[i]);
-                    //}
-                    //Debug.LogError("==============");
+                        //uvs = new Vector2[allNewChunkValidVertices.Count];
+                        //Debug.LogError(vertices.Length + " -- " + uvs.Count);
+                        //for (int i = 0; i < uvs.Count; i++)
+                        //{
+                        //    Debug.LogError("uv index " + i + ":" + uvs[i]);
+                        //}
+                        //Debug.LogError("==============");
 
 
-                    //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
-                    //Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 1000);
+                        //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
+                        //Debug.DrawRay(raycastHit.point, -tangentDir, Color.red, 1000);
 
-                    mesh.vertices = vertices;
-                    mesh.triangles = triangles;
-                    mesh.uv = uvs.ToArray();
-                    mesh.RecalculateBounds();
-                    mesh.RecalculateNormals();
-                    mesh.RecalculateTangents();
+                        mesh.vertices = vertices;
+                        mesh.triangles = triangles;
+                        mesh.uv = uvs.ToArray();
+                        mesh.RecalculateBounds();
+                        mesh.RecalculateNormals();
+                        mesh.RecalculateTangents();
 
-                    travallingDirection = raycastHit.point - previousDraggingPosition;
-                    previousDraggingPosition = raycastHit.point;
-                    //dragging = false;
-                    firstChunk = false;
+                        travallingDirection = raycastHit.point - previousDraggingPosition;
+                        previousDraggingPosition = raycastHit.point;
+                        //dragging = false;
+                        firstChunk = false;
+                    }
                 }
             }            
         }
@@ -304,6 +304,7 @@ public class OneSheetPeelMan : APBehaviour
             newChunkMesh.AddComponent<MeshCollider>();
             //List<Vector3> allValidVertices = new List<Vector3>();
             allTriangleData = new List<TriangleData>();
+            bool tearableVertexFound = false;
             for (int i = 0; i < originalTriangles.Length; i += 3)
             {
                 Vector3 v0 = transform.TransformPoint(originalVertices[originalTriangles[i]]);
@@ -318,6 +319,7 @@ public class OneSheetPeelMan : APBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(new Ray(td.vertex.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                 {
+                    tearableVertexFound = true;
                     if (Physics.Raycast(new Ray(v0.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                     {
                         //allValidVertices.Add(v0);
@@ -355,6 +357,13 @@ public class OneSheetPeelMan : APBehaviour
                 }
             }
             Destroy(newChunkMesh);
+            if (firstChunk && !tearableVertexFound)
+            {
+                dragging = false;
+                DestroyImmediate(tearMeshPart);
+                return;
+            }
+
             meshDoctor.UpdateMesh(originalVertices, originalTriangles, meshDoctor.originalUVs);
 
             int id0 = -1, id1 = -1, id2 = -1, id3 = -1;
@@ -399,7 +408,7 @@ public class OneSheetPeelMan : APBehaviour
             {
                 point0 = allTriangleData[id0].vertex;
                 uvs.Push(originalUVs[allTriangleData[id0].vertexIndex]);
-                Debug.LogError("id0: " + id0 + " ///Vertex Index: " + allTriangleData[id0].vertexIndex);
+                //Debug.LogError("id0: " + id0 + " ///Vertex Index: " + allTriangleData[id0].vertexIndex);
             }
 
             currentPairVertex.SetVertex(
