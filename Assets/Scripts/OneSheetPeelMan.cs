@@ -357,10 +357,14 @@ public class OneSheetPeelMan : APBehaviour
                 }
             }
             Destroy(newChunkMesh);
-            if (firstChunk && !tearableVertexFound)
+            if (!tearableVertexFound)
             {
                 dragging = false;
-                DestroyImmediate(tearMeshPart);
+
+                if (firstChunk)
+                {
+                    DestroyImmediate(tearMeshPart);
+                }
                 return;
             }
 
