@@ -36,7 +36,7 @@ public class OneSheetPeelMan : APBehaviour
     int[] originalTriangles;
     int[] triangleMap;
     Vector2[] originalUVs;
-    List<Vector2> uvs;
+    Stack<Vector2> uvs;
     List<TriangleData> allTriangleData;
     #region ALL UNITY FUNCTIONS
 
@@ -95,7 +95,7 @@ public class OneSheetPeelMan : APBehaviour
                 dragging = true;
                 firstChunk = true;
                 //allNewChunkValidVertices = new List<TriangleData>();
-                uvs = new List<Vector2>();
+                uvs = new Stack<Vector2>();
                 initialVertexPairCreated = false;
                 previousDraggingPosition = raycastHit.point;
 
@@ -390,16 +390,16 @@ public class OneSheetPeelMan : APBehaviour
                 }
             }
 
-            if (id0 != -1)
-            {
-                point0 = allTriangleData[id0].vertex;
-                uvs.Add(originalUVs[allTriangleData[id0].vertexIndex]);
-                Debug.LogError("id0: " + id0 + " ///Vertex Index: " + allTriangleData[id0].vertexIndex);
-            }
             if (id1 != -1)
             {
                 point1 = allTriangleData[id1].vertex;
-                uvs.Add(originalUVs[allTriangleData[id1].vertexIndex]);
+                uvs.Push(originalUVs[allTriangleData[id1].vertexIndex]);
+            }
+            if (id0 != -1)
+            {
+                point0 = allTriangleData[id0].vertex;
+                uvs.Push(originalUVs[allTriangleData[id0].vertexIndex]);
+                Debug.LogError("id0: " + id0 + " ///Vertex Index: " + allTriangleData[id0].vertexIndex);
             }
 
             currentPairVertex.SetVertex(
@@ -410,15 +410,15 @@ public class OneSheetPeelMan : APBehaviour
 
             if (firstChunk)
             {
-                if (id2 != -1)
-                {
-                    currentPairVertex.previousPairVertex.vertexPosition0 = allTriangleData[id2].vertex;
-                    uvs.Add(originalUVs[allTriangleData[id2].vertexIndex]);
-                }
                 if (id3 != -1)
                 {
                     currentPairVertex.previousPairVertex.vertexPosition1 = allTriangleData[id3].vertex;
-                    uvs.Add(originalUVs[allTriangleData[id3].vertexIndex]);
+                    uvs.Push(originalUVs[allTriangleData[id3].vertexIndex]);
+                }
+                if (id2 != -1)
+                {
+                    currentPairVertex.previousPairVertex.vertexPosition0 = allTriangleData[id2].vertex;
+                    uvs.Push(originalUVs[allTriangleData[id2].vertexIndex]);
                 }
 
                 currentPairVertex.previousPairVertex.SetVertex(
