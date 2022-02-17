@@ -28,14 +28,16 @@ public class OneSheetPeelMan : APBehaviour
     MeshFilter meshFilter;
     Vector3[] vertices;
     int[] triangles;
-    Vector3 newVertex0, newVertex1, lastVertex0, lastVertex1;
+    Vector3 newVertex0, newVertex1;
     Vector3 travallingDirection;
     Color[] originalMeshColors;
 
     Vector3[] originalVertices;
     int[] originalTriangles;
     int[] triangleMap;
+    Vector2[] originalUVs;
     List<Vector2> uvs;
+    List<TriangleData> allTriangleData;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -51,6 +53,8 @@ public class OneSheetPeelMan : APBehaviour
 
         originalVertices = meshDoctor.originalVertices;
         originalTriangles = meshDoctor.originalTriangles;
+        originalUVs = meshDoctor.originalUVs;
+
         triangleMap = new int[originalTriangles.Length / 3];
         for (int i = 0; i < triangleMap.Length; i++)
         {
@@ -137,9 +141,9 @@ public class OneSheetPeelMan : APBehaviour
                     Vector3 tangentDir = Vector3.Cross(side1, side2).normalized * cuttingSize;
                     if (!initialVertexPairCreated)
                     {
-                        lastVertex0 = transform.TransformPoint(previousDraggingPosition + tangentDir);
-                        lastVertex1 = transform.TransformPoint(previousDraggingPosition - tangentDir);
-                        CreateVertexBone(lastVertex0, lastVertex1);
+                        CreateVertexBone(
+                            transform.TransformPoint(previousDraggingPosition + tangentDir),
+                            transform.TransformPoint(previousDraggingPosition - tangentDir));
 
                         //Debug.DrawLine(previousDraggingPosition, raycastHit.point, Color.blue, 10);
                         //Debug.DrawRay(previousDraggingPosition, tangentDir, Color.red, 1000);
@@ -188,10 +192,12 @@ public class OneSheetPeelMan : APBehaviour
                     } while (currentPairVertex.previousPairVertex != null);
 
                     //uvs = new Vector2[allNewChunkValidVertices.Count];
-                    //for (int i = 0; i < uvs.Length; i++)
+                    //Debug.LogError(vertices.Length + " -- " + uvs.Count);
+                    //for (int i = 0; i < uvs.Count; i++)
                     //{
-                    //    uvs[i] = new Vector2( allNewChunkValidVertices[i].v0.x, allNewChunkValidVertices[i].v0.z);
+                    //    Debug.LogError("uv index " + i + ":" + uvs[i]);
                     //}
+                    //Debug.LogError("==============");
 
 
                     //Debug.DrawRay(raycastHit.point, tangentDir, Color.red, 1000);
@@ -199,15 +205,13 @@ public class OneSheetPeelMan : APBehaviour
 
                     mesh.vertices = vertices;
                     mesh.triangles = triangles;
-                    //mesh.uv = uvs.ToArray();
+                    mesh.uv = uvs.ToArray();
                     mesh.RecalculateBounds();
                     mesh.RecalculateNormals();
                     mesh.RecalculateTangents();
 
                     travallingDirection = raycastHit.point - previousDraggingPosition;
                     previousDraggingPosition = raycastHit.point;
-                    lastVertex0 = newVertex0;
-                    lastVertex1 = newVertex1;
                     //dragging = false;
                     firstChunk = false;
                 }
@@ -298,46 +302,56 @@ public class OneSheetPeelMan : APBehaviour
                     1,0,2,1,2,3
                 };
             newChunkMesh.AddComponent<MeshCollider>();
-            List<Vector3> allValidVertices = new List<Vector3>();
-            //allNewChunkValidVertices = new List<TriangleData>();
-            uvs.Add(Vector2.zero);
-            uvs.Add(Vector2.zero);
+            //List<Vector3> allValidVertices = new List<Vector3>();
+            allTriangleData = new List<TriangleData>();
             for (int i = 0; i < originalTriangles.Length; i += 3)
             {
                 Vector3 v0 = transform.TransformPoint(originalVertices[originalTriangles[i]]);
                 Vector3 v1 = transform.TransformPoint(originalVertices[originalTriangles[i + 1]]);
                 Vector3 v2 = transform.TransformPoint(originalVertices[originalTriangles[i + 2]]);
-
-                TriangleData triangleData = new TriangleData() {
-                    v0 = v0,
-                    v1 = v1,
-                    v2 = v2,
-                    triangleIndex = i
+                TriangleData td = new TriangleData()
+                {
+                    vertex = (v0 + v1 + v2) / 3,
+                    vertexIndex = i
                 };
 
                 RaycastHit hit;
-                if (Physics.Raycast(new Ray(triangleData.GetCenter().ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
+                if (Physics.Raycast(new Ray(td.vertex.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                 {
                     if (Physics.Raycast(new Ray(v0.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                     {
-                        allValidVertices.Add(v0);
-                        triangleData.triangleIndex += 0; 
+                        //allValidVertices.Add(v0);
+                        TriangleData triangleData = new TriangleData()
+                        {
+                            vertex = v0,
+                            vertexIndex = originalTriangles[i]
+                        };
+                        allTriangleData.Add(triangleData);
                     }
                     if (Physics.Raycast(new Ray(v1.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                     {
-                        allValidVertices.Add(v1);
-                        triangleData.triangleIndex += 1;
+                        //allValidVertices.Add(v1);
+                        TriangleData triangleData = new TriangleData()
+                        {
+                            vertex = v1,
+                            vertexIndex = originalTriangles[i + 1]
+                        };
+                        allTriangleData.Add(triangleData);
                     }
                     if (Physics.Raycast(new Ray(v2.ModifyThisVector(0, 1, 0), Vector3.down), out hit, 2, 1 << ConstantManager.BOUNDARY_LAYER))
                     {
-                        allValidVertices.Add(v2);
-                        triangleData.triangleIndex += 2;
+                        //allValidVertices.Add(v2);
+                        TriangleData triangleData = new TriangleData()
+                        {
+                            vertex = v2,
+                            vertexIndex = originalTriangles[i + 2]
+                        };
+                        allTriangleData.Add(triangleData);
                     }
                     triangleMap[originalTriangles[i]] = 1;
                     originalTriangles[i] = 0;
                     originalTriangles[i + 1] = 0;
                     originalTriangles[i + 2] = 0;
-                    //allNewChunkValidVertices.Add(triangleData);
                 }
             }
             Destroy(newChunkMesh);
@@ -348,29 +362,29 @@ public class OneSheetPeelMan : APBehaviour
             float latestDistance1 = 100000;
             float previousDistance0 = 100000;
             float previousDistance1 = 100000;
-            for (int i = 0; i < allValidVertices.Count; i++)
+            for (int i = 0; i < allTriangleData.Count; i++)
             {
-                if (Vector3.Distance(point0, allValidVertices[i]) < latestDistance0)
+                if (Vector3.Distance(point0, allTriangleData[i].vertex) < latestDistance0)
                 {
-                    latestDistance0 = Vector3.Distance(point0, allValidVertices[i]);
+                    latestDistance0 = Vector3.Distance(point0, allTriangleData[i].vertex);
                     id0 = i;
                 }
-                if (Vector3.Distance(point1, allValidVertices[i]) < latestDistance1)
+                if (Vector3.Distance(point1, allTriangleData[i].vertex) < latestDistance1)
                 {
-                    latestDistance1 = Vector3.Distance(point1, allValidVertices[i]);
+                    latestDistance1 = Vector3.Distance(point1, allTriangleData[i].vertex);
                     id1 = i;
                 }
 
                 if (firstChunk)
                 {
-                    if (Vector3.Distance(previousPairVertex.vertexPosition0, allValidVertices[i]) < previousDistance0)
+                    if (Vector3.Distance(currentPairVertex.previousPairVertex.vertexPosition0, allTriangleData[i].vertex) < previousDistance0)
                     {
-                        previousDistance0 = Vector3.Distance(previousPairVertex.vertexPosition0, allValidVertices[i]);
+                        previousDistance0 = Vector3.Distance(currentPairVertex.previousPairVertex.vertexPosition0, allTriangleData[i].vertex);
                         id2 = i;
                     }
-                    if (Vector3.Distance(previousPairVertex.vertexPosition1, allValidVertices[i]) < previousDistance1)
+                    if (Vector3.Distance(currentPairVertex.previousPairVertex.vertexPosition1, allTriangleData[i].vertex) < previousDistance1)
                     {
-                        previousDistance1 = Vector3.Distance(previousPairVertex.vertexPosition1, allValidVertices[i]);
+                        previousDistance1 = Vector3.Distance(currentPairVertex.previousPairVertex.vertexPosition1, allTriangleData[i].vertex);
                         id3 = i;
                     }
                 }
@@ -378,13 +392,14 @@ public class OneSheetPeelMan : APBehaviour
 
             if (id0 != -1)
             {
-                point0 = allValidVertices[id0];
-                //uvs.Add(originalVertices[originalTriangles[allNewChunkValidVertices[id0].triangleIndex]]);                
+                point0 = allTriangleData[id0].vertex;
+                uvs.Add(originalUVs[allTriangleData[id0].vertexIndex]);
+                Debug.LogError("id0: " + id0 + " ///Vertex Index: " + allTriangleData[id0].vertexIndex);
             }
             if (id1 != -1)
             {
-                point1 = allValidVertices[id1];
-                //uvs.Add(originalVertices[originalTriangles[allNewChunkValidVertices[id1].triangleIndex]]);
+                point1 = allTriangleData[id1].vertex;
+                uvs.Add(originalUVs[allTriangleData[id1].vertexIndex]);
             }
 
             currentPairVertex.SetVertex(
@@ -393,12 +408,25 @@ public class OneSheetPeelMan : APBehaviour
                 point0,
                 point1);
 
-            currentPairVertex.previousPairVertex.SetVertex(
-                currentPairVertex.previousPairVertex.vertexObject0,
-                currentPairVertex.previousPairVertex.vertexObject1,
-                id2 != -1 ? allValidVertices[id2] : currentPairVertex.previousPairVertex.vertexPosition0,
-                id3 != -1 ? allValidVertices[id3] : currentPairVertex.previousPairVertex.vertexPosition1);
+            if (firstChunk)
+            {
+                if (id2 != -1)
+                {
+                    currentPairVertex.previousPairVertex.vertexPosition0 = allTriangleData[id2].vertex;
+                    uvs.Add(originalUVs[allTriangleData[id2].vertexIndex]);
+                }
+                if (id3 != -1)
+                {
+                    currentPairVertex.previousPairVertex.vertexPosition1 = allTriangleData[id3].vertex;
+                    uvs.Add(originalUVs[allTriangleData[id3].vertexIndex]);
+                }
 
+                currentPairVertex.previousPairVertex.SetVertex(
+                    currentPairVertex.previousPairVertex.vertexObject0,
+                    currentPairVertex.previousPairVertex.vertexObject1,
+                    currentPairVertex.previousPairVertex.vertexPosition0,
+                    currentPairVertex.previousPairVertex.vertexPosition1);
+            }
             #endregion Precise new_chank(4 VERRICES)
 
             previousPairVertex.transform.parent = pairVertexHolder.transform;

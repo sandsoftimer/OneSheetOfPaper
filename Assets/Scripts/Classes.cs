@@ -25,11 +25,6 @@ public class DependencyData
 
 public class TriangleData
 {
-    public Vector3 v0, v1, v2;
-    public int triangleIndex;
-
-    public Vector3 GetCenter()
-    {
-        return (v0 + v1 + v2) / 3;
-    }
+    public Vector3 vertex;
+    public int vertexIndex;
 }
