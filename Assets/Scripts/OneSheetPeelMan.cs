@@ -36,12 +36,16 @@ public class OneSheetPeelMan : APBehaviour
     Vector2[] originalUVs;
     Stack<Vector2> uvs;
     List<TriangleData> allTriangleData;
+    GameObject outsideDetector;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
     public override void Awake()
     {
         base.Awake();
+
+        //outsideDetector.layer = ConstantManager.ENEMY_LAYER;
+        //outsideDetector.transform.position = new Vector3(0, -1, 0);
     }
 
     // Start is called before the first frame update
@@ -101,8 +105,15 @@ public class OneSheetPeelMan : APBehaviour
             RaycastHit raycastHit = new RaycastHit();
             raycastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
 
+            Vector3 touchValue = APTools.mathManager.GetWorldTouchPosition(Vector3.up);
+            if (Mathf.Abs(touchValue.x) > 5 || Mathf.Abs(touchValue.z) > 5)
+            {
+                dragging = false;
+                return;
+            }
             if (raycastHit.collider != null)
             {
+                
                 if (Vector3.Distance(raycastHit.point, previousDraggingPosition) > draggingthreshold)
                 {
                     Vector3 side1 = previousDraggingPosition - raycastHit.point;

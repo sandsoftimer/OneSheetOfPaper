@@ -40,10 +40,10 @@ namespace Com.AlphaPotato.Utility
 
             //planeMaterial.SetTextureScale("_BaseTex", new Vector2(planeSixe.x, planeSixe.z));
 
-            if (createPlane)
-            {
-                CreatePlane();
-            }
+            //if (createPlane)
+            //{
+            //    CreatePlane();
+            //}
         }
 
         // Start is called before the first frame update
