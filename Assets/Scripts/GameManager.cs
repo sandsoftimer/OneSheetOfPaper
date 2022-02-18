@@ -14,6 +14,7 @@ using System;
 
 public class GameManager : APManager
 {
+    public static Action OnCheckLevelTearing;
     public static Action OnDraggingMistake;
     public static Action OnPaperPartReset;
 
@@ -70,6 +71,7 @@ public class GameManager : APManager
         base.GameOver();
 
         gameStartingUI.SetBool("Hide", true);
+        gamePlayUI.SetBool("Hide", true);
 
         if (gameplayData.isGameoverSuccess)
         {
@@ -102,4 +104,10 @@ public class GameManager : APManager
         LionAnalytics.LevelRestart(gameplayData.currentLevelNumber + 1, PlayerPrefs.GetInt((gameplayData.currentLevelNumber + 1).ToString()));
 #endif
     }
+
+    public void OnCheckLevelButtonPress()
+    {
+        OnCheckLevelTearing?.Invoke();
+    }
+
 }

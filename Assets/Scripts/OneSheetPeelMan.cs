@@ -19,12 +19,14 @@ public class OneSheetPeelMan : APBehaviour
 
     Vector3 previousDraggingPosition;
     bool dragging, initialVertexPairCreated, firstChunk;
+    bool negetiveAreaCrossed;
     string outputText = "Did not start";
     float groundLimit = 0.001f;
 
     PairVertex previousPairVertex;
     GameObject tearMeshPart;
     Mesh mesh;
+    MeshCollider tearPartMeshCollider;
     MeshFilter meshFilter;
     Vector3[] vertices;
     int[] triangles;
@@ -37,6 +39,7 @@ public class OneSheetPeelMan : APBehaviour
     Stack<Vector2> uvs;
     List<TriangleData> allTriangleData;
     GameObject outsideDetector;
+    LevelRules levelRules;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -90,9 +93,11 @@ public class OneSheetPeelMan : APBehaviour
                 previousDraggingPosition = raycastHit.point;
 
                 tearMeshPart = new GameObject("Tear Mesh Part");
+                tearMeshPart.layer = ConstantManager.DESTINATION_LAYER;
                 tearMeshPart.transform.position = previousDraggingPosition;
 
                 previousPairVertex = null;
+                tearPartMeshCollider = tearMeshPart.AddComponent<MeshCollider>();
                 meshFilter = tearMeshPart.AddComponent<MeshFilter>();
                 tearMeshPart.AddComponent<MeshRenderer>().material = tearPartMaterial;
                 mesh = new Mesh();
@@ -103,6 +108,11 @@ public class OneSheetPeelMan : APBehaviour
         if (Input.GetMouseButton(0) && dragging)
         {
             RaycastHit raycastHit = new RaycastHit();
+
+            raycastHit.GetRaycastFromScreenTouch(1 << ConstantManager.ENEMY_LAYER);
+            if (raycastHit.collider != null)
+                negetiveAreaCrossed = negetiveAreaCrossed == false ? (raycastHit.collider.gameObject.layer == ConstantManager.ENEMY_LAYER) : negetiveAreaCrossed;
+
             raycastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
 
             Vector3 touchValue = APTools.mathManager.GetWorldTouchPosition(Vector3.up);
@@ -113,7 +123,7 @@ public class OneSheetPeelMan : APBehaviour
             }
             if (raycastHit.collider != null)
             {
-                
+
                 if (Vector3.Distance(raycastHit.point, previousDraggingPosition) > draggingthreshold)
                 {
                     Vector3 side1 = previousDraggingPosition - raycastHit.point;
@@ -165,6 +175,7 @@ public class OneSheetPeelMan : APBehaviour
                         mesh.RecalculateBounds();
                         mesh.RecalculateNormals();
                         mesh.RecalculateTangents();
+                        tearPartMeshCollider.sharedMesh = mesh;
 
                         previousDraggingPosition = raycastHit.point;
                         //dragging = false;
@@ -191,6 +202,44 @@ public class OneSheetPeelMan : APBehaviour
     //=================================   
     #region ALL OVERRIDING FUNCTIONS
 
+    public override void OnCheckLevelTearing()
+    {
+        base.OnCheckLevelTearing();
+
+        bool positiveCheck = true;
+        bool negetiveCheck = false;
+
+        for (int i = 0; i < levelRules.positiveCheckingPoints.Length; i++)
+        {
+            if(!Physics.Raycast(levelRules.positiveCheckingPoints[i].position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                positiveCheck = false;
+                break;
+            }
+        }
+        for (int i = 0; i < levelRules.negetiveCheckingPoints.Length; i++)
+        {
+            if (Physics.Raycast(levelRules.negetiveCheckingPoints[i].position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                negetiveCheck = true;
+                break;
+            }
+        }
+
+        gameplayData.isGameoverSuccess = positiveCheck && !negetiveCheck;                
+        gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+    }
+
+    public override void OnGameInitializing()
+    {
+        base.OnGameInitializing();
+
+        GameObject currentLevel = Instantiate(Resources.Load("Dynamic Levels/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject);
+        levelRules = currentLevel.GetComponent<LevelRules>();
+        currentLevel.transform.parent = transform;
+        levelRules.Initialize(this);
+        currentLevel.SetActive(true);
+    }
 
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
@@ -367,6 +416,8 @@ public class OneSheetPeelMan : APBehaviour
 
             previousPairVertex.transform.parent = pairVertexHolder.transform;
             pairVertexHolder.transform.Rotate(point0 - point1, foldingAngle);
+            
+            //currentPairVertex.InitializeRotation();
 
         }
 

@@ -47,6 +47,7 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
         APManager.OnAddAPBehaviour?.Invoke();
         GameManager.OnDraggingMistake += OnDraggingMistake;
         GameManager.OnPaperPartReset += OnPaperPartReset;
+        GameManager.OnCheckLevelTearing += OnCheckLevelTearing;
     }
 
     public virtual void OnDisable()
@@ -70,6 +71,11 @@ public class APBehaviour : MonoBehaviour, IHierarchyIcon
 
         GameManager.OnDraggingMistake -= OnDraggingMistake;
         GameManager.OnPaperPartReset -= OnPaperPartReset;
+        GameManager.OnCheckLevelTearing -= OnCheckLevelTearing;
+    }
+
+    public virtual void OnCheckLevelTearing()
+    {
     }
 
     public virtual void OnDraggingMistake()
