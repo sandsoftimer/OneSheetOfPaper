@@ -696,7 +696,7 @@ MonoBehaviour:
   text: {fileID: 435767304}
   cuttingSize: 1.5
   draggingthreshold: 0.25
-  foldingAngle: 15
+  foldingAngle: 45
   tearingMaxAngle: 45
   tearPartMaterial: {fileID: 2100000, guid: a4211bdc658c0403ab680d33b1113c52, type: 2}
   curvingSpeed: 0.25

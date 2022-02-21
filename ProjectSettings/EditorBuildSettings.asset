@@ -8,7 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/APLibrary/Scenes/APBootScene.unity
     guid: 209f535ecf9464219a78be8bcec56c14
-  - enabled: 1
-    path: Assets/Scenes/Dynamic_Tearing_Experiment.unity
-    guid: 3fb8e4c8b2b5f4fc8b208da7270e9f77
   m_configObjects: {}

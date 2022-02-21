@@ -355,7 +355,7 @@ MonoBehaviour:
   topTexture: {fileID: 2800000, guid: 35b5d9fee33994d70bd84bb22c1a996e, type: 3}
   bottomTexture: {fileID: 0}
   cuttingSize: 2
-  foldingAngle: 15
+  foldingAngle: 30
   positiveCheckingPoints:
   - {fileID: 2581221562145792392}
   - {fileID: 2581221562980821727}
