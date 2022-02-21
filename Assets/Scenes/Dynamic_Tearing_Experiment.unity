@@ -600,9 +600,9 @@ MonoBehaviour:
   gameState: 0
   createPlane: 1
   addCollider: 1
-  planeXSize: 60
-  planeZSize: 60
-  planeGap: 0.1666667
+  planeXSize: 100
+  planeZSize: 100
+  planeGap: 0.1
   planeMaterial: {fileID: 2100000, guid: a4211bdc658c0403ab680d33b1113c52, type: 2}
   pivot: 4
 --- !u!23 &1756037194
@@ -699,6 +699,7 @@ MonoBehaviour:
   foldingAngle: 15
   tearingMaxAngle: 45
   tearPartMaterial: {fileID: 2100000, guid: a4211bdc658c0403ab680d33b1113c52, type: 2}
+  curvingSpeed: 0.25
 --- !u!95 &1767224533 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7651588109024580853, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}
@@ -776,6 +777,10 @@ PrefabInstance:
     - target: {fileID: 1378965453428248234, guid: 5acdcb021fc0c4b74bcf36e5da1e0e74, type: 3}
       propertyPath: m_Name
       value: Level 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378965453428248234, guid: 5acdcb021fc0c4b74bcf36e5da1e0e74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1378965453428248236, guid: 5acdcb021fc0c4b74bcf36e5da1e0e74, type: 3}
       propertyPath: m_RootOrder

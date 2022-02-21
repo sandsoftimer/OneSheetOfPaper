@@ -9,7 +9,9 @@ public class PairVertex : MonoBehaviour
     public Vector3 vertexPosition0, vertexPosition1;
 
     bool tryToSmoothRotate;
-    Vector3 targetRotation;
+    Quaternion targetRotation;
+    float speed;
+    float targetSpeed;
 
     public void SetVertex(GameObject vertexObject0, GameObject vertexObject1, Vector3 vertexPosition0, Vector3 vertexPosition1)
     {
@@ -25,15 +27,24 @@ public class PairVertex : MonoBehaviour
     {
         if (tryToSmoothRotate)
         {
-            //transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, targetRotation, 0.001f);
-            transform.localEulerAngles += new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);
+            speed += Time.deltaTime;
+            if(speed > targetSpeed)
+            {
+                speed = targetSpeed;
+            }
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, speed);
         }
         
     }
 
-    public void InitializeRotation()
+    public void InitializeRotation(Vector3 axis, float angle, float speed)
     {
-        //this.targetRotation = targetRotation;
+        Quaternion q = transform.localRotation;
+        transform.Rotate(axis, angle);
+        targetRotation = transform.localRotation;
+        transform.localRotation = q;
+        this.targetSpeed = speed;
+        speed = 0;
         tryToSmoothRotate = true;
     }
 }
