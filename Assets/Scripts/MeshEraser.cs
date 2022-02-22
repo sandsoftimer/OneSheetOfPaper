@@ -5,15 +5,18 @@ using UnityEngine;
 public class MeshEraser : APBehaviour
 {
     public MeshUVPainter meshUVPainter = new MeshUVPainter();
-    public GameObject foldingObj;
-    public SkinnedMeshRenderer foldinMeshFilter;
+    public GameObject foldingPrefab;
     public Material outputMaterial;
     public Color paintColor;
-    public float paintRadious, draggingThreshold = 0.25f;
+    public float paintRadious, draggingThreshold = 0.25f, foldingSpeed = 50;
+    public float movingSpeed = 0.38f, foldingScalingSpeed = 30f;
     public Vector2 rectengle;
 
+    GameObject foldingObj;
+    SkinnedMeshRenderer foldinMesh;
     Texture2D outputTex;
     float bendValue = 0;
+    bool firstTry;
     RaycastHit preHit;
     #region ALL UNITY FUNCTIONS
 
@@ -46,39 +49,55 @@ public class MeshEraser : APBehaviour
         {
             preHit = new RaycastHit();
             preHit.GetRaycastFromScreenTouch();
-            meshUVPainter.fl = 0;
-            meshUVPainter.count = 0;
+            firstTry = true;
         }
 
         if (Input.GetMouseButton(0))
         {
-            RaycastHit raycastHit = new RaycastHit();
-            raycastHit.GetRaycastFromScreenTouch();
-            if (raycastHit.collider != null)
+            RaycastHit currentRayCastHit = new RaycastHit();
+            currentRayCastHit.GetRaycastFromScreenTouch();
+            if (currentRayCastHit.collider != null)
             {
-                if ((raycastHit.point - preHit.point).magnitude > draggingThreshold)
+                if (firstTry)
                 {
-                    bendValue += Time.deltaTime * 20;
-                    foldingObj.transform.position = raycastHit.point;
-                    //foldingObj.transform.position = Vector3.Lerp(
-                    //    transform.position,
-                    //    raycastHit.point,
-                    //    0.95f);
-                    foldingObj.transform.rotation = Quaternion.Lerp(
-                        foldingObj.transform.rotation,
-                        Quaternion.LookRotation(raycastHit.point - previousPosition, Vector3.up),
-                        Time.deltaTime * 5);
-                    //foldingObj.transform.localEulerAngles = new Vector3(0,(previousPosition - raycastHit.point).y - 90, 0);
-                    //Vector3 look = new Vector3(0, (previousPosition - raycastHit.point).y - 90, 0);
-                    //foldingObj.transform.localEulerAngles = previousPosition - raycastHit.point;
-                    outputTex = meshUVPainter.PaintOnUV(raycastHit, preHit, paintColor, paintRadious, 1000, rectengle);
-                    outputMaterial.SetTexture("MaskInput", outputTex);
-
-                    bendValue = Mathf.Clamp(bendValue, 0, 100);
-                    foldinMeshFilter.SetBlendShapeWeight(0, bendValue);
-                    preHit = raycastHit;
+                    meshUVPainter = new MeshUVPainter();
+                    meshUVPainter.fl = 0;
+                    meshUVPainter.count = 0;
+                    bendValue = 0;
+                    foldingScalingSpeed = 0;
+                    foldingObj = Instantiate(foldingPrefab, transform);
+                    foldingObj.transform.position = currentRayCastHit.point;
+                    foldinMesh = foldingObj.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+                    foldingObj.transform.localScale = new Vector3(1, 0, 0);
+                    firstTry = false;
                 }
 
+                foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, currentRayCastHit.point, movingSpeed * Time.deltaTime);
+                //foldingObj.transform.LookAt(currentRayCastHit.point);
+                foldingObj.transform.rotation = Quaternion.Lerp(
+                        foldingObj.transform.rotation,
+                        Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up),
+                        0.75f);
+
+                if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
+                {
+                    bendValue += Time.deltaTime * foldingScalingSpeed;
+                    Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit);
+
+
+                    outputTex = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
+                    outputMaterial.SetTexture("MaskInput", outputTex);
+
+                    bendValue = Mathf.Clamp01(bendValue);
+                    //foldinMesh.SetBlendShapeWeight(0, bendValue);
+                    foldingObj.transform.localScale = Vector3.Lerp(
+                            foldingObj.transform.localScale,
+                        new Vector3(1, 1, 1), foldingScalingSpeed * Time.deltaTime);
+
+                    foldingScalingSpeed += Time.deltaTime;
+
+                    preHit = currentRayCastHit;
+                }
             }
         }
 
@@ -96,7 +115,6 @@ public class MeshEraser : APBehaviour
     {
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
-        previousPosition = foldingObj.transform.position;
     }
 
     #endregion ALL UNITY FUNCTIONS
