@@ -1064,8 +1064,9 @@ MonoBehaviour:
   foldingObj: {fileID: 105212}
   foldinMeshFilter: {fileID: 544898021}
   outputMaterial: {fileID: 2100000, guid: d9bfbbf9aedf94d60900e444ace524cf, type: 2}
-  paintColor: {r: 1, g: 0, b: 0, a: 0}
+  paintColor: {r: 1, g: 1, b: 1, a: 1}
   paintRadious: 100
+  draggingThreshold: 0.25
   rectengle: {x: 300, y: 100}
 --- !u!95 &1767224533 stripped
 Animator:
