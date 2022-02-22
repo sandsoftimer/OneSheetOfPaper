@@ -1067,7 +1067,7 @@ MonoBehaviour:
   paintColor: {r: 1, g: 1, b: 1, a: 1}
   paintRadious: 100
   draggingThreshold: 0.25
-  rectengle: {x: 300, y: 100}
+  rectengle: {x: 200, y: 100}
 --- !u!95 &1767224533 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7651588109024580853, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}

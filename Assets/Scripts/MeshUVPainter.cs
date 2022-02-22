@@ -20,6 +20,8 @@ public class MeshUVPainter
     float d;
     float f;
     float delta;
+    public float fl;
+    public int count;
     float[] progVerts;
 
     public Texture2D PaintOnUV(RaycastHit raycast,RaycastHit prevhit, Color color, float radius, float sharpness,  Vector2 rectangle)
@@ -36,7 +38,11 @@ public class MeshUVPainter
             return texture;
         Vector2 dir = (uv - preuv).normalized;
         float dist = (uv - preuv).magnitude;
-        dist = dist > rectangle.y ? dist : rectangle.y;
+        float oldist = fl;
+        //if(count > 0)
+            fl += dist;
+        count++;
+        //dist = dist > rectangle.y ? dist : rectangle.y;
         Vector2 midvec = (uv + preuv) / 2;
         for (int u = 0; u < (texture.width); u++)
         {
@@ -47,7 +53,7 @@ public class MeshUVPainter
                 Vector2 newv = new Vector2(((u - midvec.x) * dir.y) + (v - midvec.y) * (-dir.x), ((u - midvec.x) * dir.x) + (v - midvec.y) * (dir.y));
 
                 //if ((u < uv.x + (rectangle.x / 2)) && (u > uv.x - (rectangle.x / 2)) && (v < uv.y + (rectangle.y / 2)) && (v > uv.y - (rectangle.y / 2)))
-                if (((newv.x < rectangle.x / 2) && (newv.x > -rectangle.x / 2) && (newv.y < dist / 2) && (newv.y > -dist / 2))||(newdistSqr<((rectangle.x*rectangle.x)/4)&& (newv.y < -dist / 2)))
+                if (((newv.x < rectangle.x / 2) && (newv.x > -rectangle.x / 2) && (newv.y < dist / 2) && (newv.y > -dist / 2))||(newdistSqr<((rectangle.x*rectangle.x)/4)&& (newv.y < -dist / 2) && (newv.y > -(dist / 2)-oldist)))
                 {
                     d = Mathf.Sqrt(distSqr);
                     f = sharpness * delta * ((radius - d) / radius);

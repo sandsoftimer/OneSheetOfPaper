@@ -46,6 +46,8 @@ public class MeshEraser : APBehaviour
         {
             preHit = new RaycastHit();
             preHit.GetRaycastFromScreenTouch();
+            meshUVPainter.fl = 0;
+            meshUVPainter.count = 0;
         }
 
         if (Input.GetMouseButton(0))
