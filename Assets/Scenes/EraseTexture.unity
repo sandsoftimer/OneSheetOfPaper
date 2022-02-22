@@ -1066,7 +1066,7 @@ MonoBehaviour:
   outputMaterial: {fileID: 2100000, guid: d9bfbbf9aedf94d60900e444ace524cf, type: 2}
   paintColor: {r: 1, g: 0, b: 0, a: 0}
   paintRadious: 100
-  rectengle: {x: 500, y: 100}
+  rectengle: {x: 300, y: 100}
 --- !u!95 &1767224533 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7651588109024580853, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}

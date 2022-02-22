@@ -35,15 +35,19 @@ public class MeshUVPainter
         if (uv.x == preuv.x && uv.y == preuv.y)
             return texture;
         Vector2 dir = (uv - preuv).normalized;
+        float dist = (uv - preuv).magnitude;
+        dist = dist > rectangle.y ? dist : rectangle.y;
+        Vector2 midvec = (uv + preuv) / 2;
         for (int u = 0; u < (texture.width); u++)
         {
             for (int v = 0; v < (texture.width); v++)
             {
                 float distSqr = (u - uv.x) * (u - uv.x) + (v - uv.y) * (v - uv.y);
-                Vector2 newv = new Vector2(((u - uv.x) * dir.y) + (v - uv.y) * (-dir.x), ((u - uv.x) * dir.x) + (v - uv.y) * (dir.y));
+                float newdistSqr = (u - preuv.x) * (u - preuv.x) + (v - preuv.y) * (v - preuv.y);
+                Vector2 newv = new Vector2(((u - midvec.x) * dir.y) + (v - midvec.y) * (-dir.x), ((u - midvec.x) * dir.x) + (v - midvec.y) * (dir.y));
 
                 //if ((u < uv.x + (rectangle.x / 2)) && (u > uv.x - (rectangle.x / 2)) && (v < uv.y + (rectangle.y / 2)) && (v > uv.y - (rectangle.y / 2)))
-                if ((newv.x < rectangle.x / 2) && (newv.x > -rectangle.x / 2) && (newv.y < rectangle.y / 2) && (newv.y > -rectangle.y / 2))
+                if (((newv.x < rectangle.x / 2) && (newv.x > -rectangle.x / 2) && (newv.y < dist / 2) && (newv.y > -dist / 2))||(newdistSqr<((rectangle.x*rectangle.x)/4)&& (newv.y < -dist / 2)))
                 {
                     d = Mathf.Sqrt(distSqr);
                     f = sharpness * delta * ((radius - d) / radius);
