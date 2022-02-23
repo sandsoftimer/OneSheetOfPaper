@@ -12,6 +12,7 @@ public class MeshUVPainter
     public Mesh mesh;
 
     Vector3[] vertices;
+    int[] triangleIndexes;
     Color[] pixelBuffer;
     Color oldColor;
 
@@ -39,10 +40,8 @@ public class MeshUVPainter
         Vector2 dir = (uv - preuv).normalized;
         float dist = (uv - preuv).magnitude;
         float oldist = fl;
-        //if(count > 0)
-            fl += dist;
+        fl += dist;
         count++;
-        //dist = dist > rectangle.y ? dist : rectangle.y;
         Vector2 midvec = (uv + preuv) / 2;
         for (int u = 0; u < (texture.width); u++)
         {
@@ -52,7 +51,6 @@ public class MeshUVPainter
                 float newdistSqr = (u - preuv.x) * (u - preuv.x) + (v - preuv.y) * (v - preuv.y);
                 Vector2 newv = new Vector2(((u - midvec.x) * dir.y) + (v - midvec.y) * (-dir.x), ((u - midvec.x) * dir.x) + (v - midvec.y) * (dir.y));
 
-                //if ((u < uv.x + (rectangle.x / 2)) && (u > uv.x - (rectangle.x / 2)) && (v < uv.y + (rectangle.y / 2)) && (v > uv.y - (rectangle.y / 2)))
                 if (((newv.x < rectangle.x / 2) && (newv.x > -rectangle.x / 2) && (newv.y < dist / 2) && (newv.y > -dist / 2))||(newdistSqr<((rectangle.x*rectangle.x)/4)&& (newv.y < -dist / 2) && (newv.y > -(dist / 2)-oldist)))
                 {
                     d = Mathf.Sqrt(distSqr);
@@ -64,7 +62,6 @@ public class MeshUVPainter
                         oldColor.g = Mathf.Lerp(oldColor.g, color.g, f);
                         oldColor.b = Mathf.Lerp(oldColor.b, color.b, f);
                         oldColor.a = Mathf.Clamp01(oldColor.a + f);
-                        //Debug.Log(cOld.a);
                     }
                     else
                     {
@@ -79,20 +76,7 @@ public class MeshUVPainter
         }
         texture.SetPixels(pixelBuffer);
         texture.Apply();
-
-        //Vector3 hitpoint = filter.transform.InverseTransformPoint(raycast.point);
-        //progress = 0;
-        //for (int i = 0; i < vCount; i++)
-        //{
-        //    d = Vector3.SqrMagnitude(hitpoint - vertices[i]);
-        //    if (d < vRad * vRad)
-        //    {
-        //        //d = Mathf.Sqrt(d);
-        //        progVerts[i] = Mathf.Clamp01(progVerts[i] + 1);
-        //    }
-        //    progress += progVerts[i];
-        //}
-
+        Debug.LogError(triangleIndexes.Length);
         return texture;
     }
 
@@ -103,6 +87,7 @@ public class MeshUVPainter
 
         material = meshRenderer.material;
         mesh = filter.mesh;
+        triangleIndexes = new int[mesh.triangles.Length];
         vCount = filter.mesh.vertexCount;
         vertices = filter.mesh.vertices;
         progVerts = new float[vCount];
