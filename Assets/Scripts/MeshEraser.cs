@@ -8,7 +8,7 @@ public class MeshEraser : APBehaviour
     public GameObject foldingPrefab;
     public Material outputMaterial;
     public Color paintColor;
-    public float paintRadious, draggingThreshold = 0.25f, foldingSpeed = 50;
+    public float paintRadious, draggingThreshold = 0.25f;
     public float movingSpeed = 0.38f, foldingScalingSpeed = 30f;
     public Vector2 rectengle;
     public SpriteRenderer spriteRenderer;
@@ -70,7 +70,7 @@ public class MeshEraser : APBehaviour
                         meshUVPainter.fl = 0;
                         meshUVPainter.count = 0;
                         bendValue = 0;
-                        foldingScalingSpeed = 0;
+                        //foldingScalingSpeed = 0;
                         foldingObj = Instantiate(foldingPrefab, transform);
                         foldingObj.transform.position = currentRayCastHit.point;
                         foldinMesh = foldingObj.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
@@ -87,9 +87,8 @@ public class MeshEraser : APBehaviour
 
                     if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
                     {
-                        bendValue += Time.deltaTime * foldingScalingSpeed;
+                        bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
                         Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit);
-
 
                         outputTex = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
                         outputMaterial.SetTexture("MaskInput", outputTex);
@@ -100,7 +99,7 @@ public class MeshEraser : APBehaviour
                                 foldingObj.transform.localScale,
                             new Vector3(1, 1, 1), foldingScalingSpeed * Time.deltaTime);
 
-                        foldingScalingSpeed += Time.deltaTime;
+                        //foldingScalingSpeed += Time.deltaTime;
 
                         preHit = currentRayCastHit;
 
@@ -111,6 +110,10 @@ public class MeshEraser : APBehaviour
                         
                     }
                 }
+            }
+            else
+            {
+                dragging = false;
             }
         }
 
