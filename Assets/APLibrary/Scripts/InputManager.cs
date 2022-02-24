@@ -36,6 +36,7 @@ namespace Com.AlphaPotato.Utility
         public override void Awake()
         {
             base.Awake();
+            Input.multiTouchEnabled = false;
             Registar_For_Input_Callback();
         }
 

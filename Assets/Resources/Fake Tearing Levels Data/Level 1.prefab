@@ -227,7 +227,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelTexture: {fileID: 2800000, guid: 35b5d9fee33994d70bd84bb22c1a996e, type: 3}
-  cuttingSize: {x: 1, y: 1, z: 1}
+  cuttingSize: {x: 1, y: 1, z: 1.5}
   positiveCheckingPoints: {fileID: 5955765742864484899}
   negetiveCheckingPoints: {fileID: 5955765741791760833}
 --- !u!1 &6452313680130255490

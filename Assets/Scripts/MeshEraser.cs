@@ -17,6 +17,7 @@ public class MeshEraser : APBehaviour
 
     GameObject foldingObj;
     Texture2D outputTex;
+    Vector3 cuttingSize;
     float bendValue = 0;
     bool dragging, firstTry;
     bool negetiveAreaCrossed;
@@ -107,7 +108,7 @@ public class MeshEraser : APBehaviour
                         //foldinMesh.SetBlendShapeWeight(0, bendValue);
                         foldingObj.transform.localScale = Vector3.Lerp(
                                 foldingObj.transform.localScale,
-                            new Vector3(1, 1, 1), foldingScalingSpeed * Time.deltaTime);
+                            cuttingSize, foldingScalingSpeed * Time.deltaTime);
 
                         //foldingScalingSpeed += Time.deltaTime;
 
@@ -143,9 +144,9 @@ public class MeshEraser : APBehaviour
             return;
     }
 
-    #endregion ALL UNITY FUNCTIONS
+#endregion ALL UNITY FUNCTIONS
     //=================================   
-    #region ALL OVERRIDING FUNCTIONS
+#region ALL OVERRIDING FUNCTIONS
 
     public override void OnCheckLevelTearing()
     {
@@ -182,14 +183,15 @@ public class MeshEraser : APBehaviour
         GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject);
         currentLevel.transform.parent = transform;
         currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
+        cuttingSize = currentLevelData.cuttingSize;
         outputMaterial.SetTexture("MaskInput", currentLevelData.levelTexture);
         outputMaterial.SetTexture("Texture", currentLevelData.levelTexture);
 
     }
 
-    #endregion ALL OVERRIDING FUNCTIONS
+#endregion ALL OVERRIDING FUNCTIONS
     //=================================
-    #region ALL SELF DECLEAR FUNCTIONS
+#region ALL SELF DECLEAR FUNCTIONS
 
     bool DraggingOnPaper(Vector3 position)
     {
@@ -201,6 +203,6 @@ public class MeshEraser : APBehaviour
         return hit.collider != null;
     }
 
-    #endregion ALL SELF DECLEAR FUNCTIONS
+#endregion ALL SELF DECLEAR FUNCTIONS
 
 }
