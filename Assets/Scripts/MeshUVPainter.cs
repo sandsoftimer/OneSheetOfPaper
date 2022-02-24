@@ -30,6 +30,7 @@ public class MeshUVPainter
         if (lastCollider != raycast.collider)
         {
             InitializeNewMesh(raycast.collider);
+            lastCollider = raycast.collider;
         }
 
         delta = Time.deltaTime;

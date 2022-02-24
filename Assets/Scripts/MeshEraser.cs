@@ -29,8 +29,8 @@ public class MeshEraser : APBehaviour
     public override void Awake()
     {
         base.Awake();
-        outputMaterial.SetTexture("MaskInput",
-                outputMaterial.GetTexture("Texture"));
+        //outputMaterial.SetTexture("MaskInput",
+        //        outputMaterial.GetTexture("Texture"));
     }
 
     // Start is called before the first frame update
@@ -77,7 +77,7 @@ public class MeshEraser : APBehaviour
                 {
                     if (firstTry)
                     {
-                        meshUVPainter = new MeshUVPainter();
+                        //meshUVPainter = new MeshUVPainter();
                         meshUVPainter.fl = 0;
                         meshUVPainter.count = 0;
                         bendValue = 0;
