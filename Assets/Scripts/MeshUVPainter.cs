@@ -76,7 +76,6 @@ public class MeshUVPainter
         }
         texture.SetPixels(pixelBuffer);
         texture.Apply();
-        Debug.LogError(triangleIndexes.Length);
         return texture;
     }
 

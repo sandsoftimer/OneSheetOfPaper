@@ -23,8 +23,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727723585227908634}
-  m_LocalRotation: {x: 0, y: 0.8407119, z: 0, w: 0.54148275}
-  m_LocalPosition: {x: 2.9249997, y: 0, z: 1.0781232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1184624889298828807}
@@ -48,7 +48,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -82,6 +82,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fd5509dd234cf43e7944cba2fb3eb2ff, type: 2}
     - target: {fileID: -3887185075125053422, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_DirtyAABB
       value: 0
@@ -109,14 +113,14 @@ PrefabInstance:
     - target: {fileID: -3887185075125053422, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5a53fb0fbfbda4289aa76763c20cc2b7, type: 2}
+      objectReference: {fileID: 2100000, guid: fd5509dd234cf43e7944cba2fb3eb2ff, type: 2}
     - target: {fileID: -3887185075125053422, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_BlendShapeWeights.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3887185075125053422, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a563ed73aa2014cd5a3be67e6172c26f, type: 3}
       propertyPath: m_Name

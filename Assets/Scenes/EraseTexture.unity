@@ -212,7 +212,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 289784131}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ReloadLevel
+        m_MethodName: OnCheckLevelButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1094,7 +1094,7 @@ GameObject:
   - component: {fileID: 1756037193}
   - component: {fileID: 1756037197}
   - component: {fileID: 1756037192}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: OneSheetOfPaper
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -16,11 +16,12 @@ public class MeshEraser : APBehaviour
     public Transform inputChecker;
 
     GameObject foldingObj;
-    SkinnedMeshRenderer foldinMesh;
     Texture2D outputTex;
     float bendValue = 0;
     bool dragging, firstTry;
+    bool negetiveAreaCrossed;
     RaycastHit preHit;
+    FakeTearingLevelData currentLevelData;
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -51,15 +52,24 @@ public class MeshEraser : APBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             preHit = new RaycastHit();
-            preHit.GetRaycastFromScreenTouch();
-            dragging = true;
-            firstTry = true;
+            preHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
+
+            if (preHit.collider != null)
+            {
+                dragging = true;
+                firstTry = true;
+            }
         }
 
         if (Input.GetMouseButton(0) && dragging)
         {
             RaycastHit currentRayCastHit = new RaycastHit();
-            currentRayCastHit.GetRaycastFromScreenTouch();
+
+            currentRayCastHit.GetRaycastFromScreenTouch(1 << ConstantManager.ENEMY_LAYER);
+            if (currentRayCastHit.collider != null)
+                negetiveAreaCrossed = negetiveAreaCrossed == false ? (currentRayCastHit.collider.gameObject.layer == ConstantManager.ENEMY_LAYER) : negetiveAreaCrossed;
+
+            currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
             if (DraggingOnPaper(currentRayCastHit.point))
             {
                 if (currentRayCastHit.collider != null)
@@ -73,7 +83,7 @@ public class MeshEraser : APBehaviour
                         //foldingScalingSpeed = 0;
                         foldingObj = Instantiate(foldingPrefab, transform);
                         foldingObj.transform.position = currentRayCastHit.point;
-                        foldinMesh = foldingObj.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+                        foldingObj.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
                         foldingObj.transform.localScale = new Vector3(1, 0, 0);
                         firstTry = false;
                     }
@@ -88,7 +98,7 @@ public class MeshEraser : APBehaviour
                     if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
                     {
                         bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
-                        Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit);
+                        Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
 
                         outputTex = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
                         outputMaterial.SetTexture("MaskInput", outputTex);
@@ -136,8 +146,47 @@ public class MeshEraser : APBehaviour
     #endregion ALL UNITY FUNCTIONS
     //=================================   
     #region ALL OVERRIDING FUNCTIONS
-    
-    
+
+    public override void OnCheckLevelTearing()
+    {
+        base.OnCheckLevelTearing();
+
+        bool positiveCheck = true;
+        bool negetiveCheck = false;
+
+        for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
+        {
+            if (!Physics.Raycast(currentLevelData.positiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                positiveCheck = false;
+                break;
+            }
+        }
+        for (int i = 0; i < currentLevelData.negetiveCheckingPoints.childCount; i++)
+        {
+            if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                negetiveCheck = true;
+                break;
+            }
+        }
+
+        gameplayData.isGameoverSuccess = positiveCheck && !negetiveCheck;
+        gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+    }
+
+    public override void OnGameInitializing()
+    {
+        base.OnGameInitializing();
+
+        GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject);
+        currentLevel.transform.parent = transform;
+        currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
+        outputMaterial.SetTexture("MaskInput", currentLevelData.levelTexture);
+        outputMaterial.SetTexture("Texture", currentLevelData.levelTexture);
+
+    }
+
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
