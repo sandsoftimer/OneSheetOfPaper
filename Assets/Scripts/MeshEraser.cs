@@ -21,6 +21,7 @@ public class MeshEraser : APBehaviour
     float bendValue = 0;
     bool dragging, firstTry;
     bool negetiveAreaCrossed;
+    bool levelFailedAnnounced;
     RaycastHit preHit;
     FakeTearingLevelData currentLevelData;
     #region ALL UNITY FUNCTIONS
@@ -47,8 +48,8 @@ public class MeshEraser : APBehaviour
         //    gameState = GameState.GAME_PLAY_STARTED;
         //}
 
-        //if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
-        //    return;
+        if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
+            return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -68,7 +69,9 @@ public class MeshEraser : APBehaviour
 
             currentRayCastHit.GetRaycastFromScreenTouch(1 << ConstantManager.ENEMY_LAYER);
             if (currentRayCastHit.collider != null)
-                negetiveAreaCrossed = negetiveAreaCrossed == false ? (currentRayCastHit.collider.gameObject.layer == ConstantManager.ENEMY_LAYER) : negetiveAreaCrossed;
+            {
+                negetiveAreaCrossed = true;
+            }
 
             currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
             if (DraggingOnPaper(currentRayCastHit.point))
@@ -98,6 +101,17 @@ public class MeshEraser : APBehaviour
 
                     if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
                     {
+                        if (negetiveAreaCrossed && !levelFailedAnnounced)
+                        {
+                            levelFailedAnnounced = true;
+                            APTools.functionManager.ExecuteAfterSecond(0.5f, ()=> {
+
+                                gameplayData.isGameoverSuccess = false;
+                                gameState = GameState.GAME_PLAY_ENDED;
+                                gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+                            });
+                        }
+
                         bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
                         Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
 
@@ -137,11 +151,38 @@ public class MeshEraser : APBehaviour
 
     }
 
-    Vector3 previousPosition;
     void LateUpdate()
     {
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
+
+        bool positiveCheck = true;
+        bool negetiveCheck = false;
+
+        for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
+        {
+            if (!Physics.Raycast(currentLevelData.positiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                positiveCheck = false;
+                break;
+            }
+        }
+        for (int i = 0; i < currentLevelData.negetiveCheckingPoints.childCount; i++)
+        {
+            if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            {
+                negetiveCheck = true;
+                break;
+            }
+        }
+
+        positiveCheck = positiveCheck && !negetiveCheck && !negetiveAreaCrossed;
+        if (positiveCheck)
+        {
+            gameplayData.isGameoverSuccess = true;
+            gameState = GameState.GAME_PLAY_ENDED;
+            gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+        }
     }
 
 #endregion ALL UNITY FUNCTIONS
@@ -150,6 +191,9 @@ public class MeshEraser : APBehaviour
 
     public override void OnCheckLevelTearing()
     {
+        if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
+            return;
+
         base.OnCheckLevelTearing();
 
         bool positiveCheck = true;
@@ -172,7 +216,7 @@ public class MeshEraser : APBehaviour
             }
         }
 
-        gameplayData.isGameoverSuccess = positiveCheck && !negetiveCheck;
+        gameplayData.isGameoverSuccess = positiveCheck && !negetiveCheck && !negetiveAreaCrossed;
         gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
     }
 
