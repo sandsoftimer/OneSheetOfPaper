@@ -66,13 +66,6 @@ public class MeshEraser : APBehaviour
         if (Input.GetMouseButton(0) && dragging)
         {
             RaycastHit currentRayCastHit = new RaycastHit();
-
-            currentRayCastHit.GetRaycastFromScreenTouch(1 << ConstantManager.ENEMY_LAYER);
-            if (currentRayCastHit.collider != null)
-            {
-                negetiveAreaCrossed = true;
-            }
-
             currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
             if (DraggingOnPaper(currentRayCastHit.point))
             {
@@ -101,6 +94,14 @@ public class MeshEraser : APBehaviour
 
                     if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
                     {
+                        RaycastHit inputCheckCasting = new RaycastHit();
+                        Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out inputCheckCasting, 100, 1 << ConstantManager.ENEMY_LAYER);
+
+                        if (inputCheckCasting.collider != null)
+                        {
+                            negetiveAreaCrossed = true;
+                        }
+
                         if (negetiveAreaCrossed && !levelFailedAnnounced)
                         {
                             levelFailedAnnounced = true;
