@@ -80,17 +80,17 @@ public class MeshEraser : APBehaviour
                         //foldingScalingSpeed = 0;
                         foldingObj = Instantiate(foldingPrefab, transform);
                         foldingObj.transform.position = currentRayCastHit.point;
-                        foldingObj.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
+                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
                         foldingObj.transform.localScale = new Vector3(1, 0, 0);
                         firstTry = false;
                     }
 
                     foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, currentRayCastHit.point, movingSpeed * Time.deltaTime);
-                    //foldingObj.transform.LookAt(currentRayCastHit.point);
                     foldingObj.transform.rotation = Quaternion.Lerp(
                             foldingObj.transform.rotation,
                             Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up),
                             0.75f);
+                    //foldingObj.transform.GetChild(0).eulerAngles += Vector3.right * Time.deltaTime;
 
                     if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
                     {
@@ -157,17 +157,7 @@ public class MeshEraser : APBehaviour
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
 
-        bool positiveCheck = true;
         bool negetiveCheck = false;
-
-        for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
-        {
-            if (!Physics.Raycast(currentLevelData.positiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
-            {
-                positiveCheck = false;
-                break;
-            }
-        }
         for (int i = 0; i < currentLevelData.negetiveCheckingPoints.childCount; i++)
         {
             if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
@@ -176,14 +166,31 @@ public class MeshEraser : APBehaviour
                 break;
             }
         }
-
-        positiveCheck = positiveCheck && !negetiveCheck && !negetiveAreaCrossed;
-        if (positiveCheck)
+        if (negetiveCheck)
         {
-            gameplayData.isGameoverSuccess = true;
+            gameplayData.isGameoverSuccess = false;
             gameState = GameState.GAME_PLAY_ENDED;
             gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
         }
+        else
+        {
+            bool positiveCheck = true;
+            for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
+            {
+                if (!Physics.Raycast(currentLevelData.positiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+                {
+                    positiveCheck = false;
+                    break;
+                }
+            }
+            if (positiveCheck)
+            {
+                gameplayData.isGameoverSuccess = true;
+                gameState = GameState.GAME_PLAY_ENDED;
+                gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+            }
+        }
+
     }
 
 #endregion ALL UNITY FUNCTIONS
