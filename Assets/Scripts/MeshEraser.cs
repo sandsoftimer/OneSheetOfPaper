@@ -6,6 +6,8 @@ public class MeshEraser : APBehaviour
 {
     public MeshUVPainter meshUVPainter = new MeshUVPainter();
     public GameObject foldingPrefab;
+    public MeshRenderer behindWhitePaper;
+    public Texture2D behindPaperTexture;
     public Material outputMaterial;
     public Color paintColor;
     public float paintRadious, draggingThreshold = 0.25f;
@@ -38,6 +40,8 @@ public class MeshEraser : APBehaviour
     public override void Start()
     {
         base.Start();
+        behindPaperTexture = Instantiate(behindWhitePaper.material.mainTexture as Texture2D);
+        behindWhitePaper.material.SetTexture("_BaseMap", behindPaperTexture);
     }
 
     void Update()
@@ -80,8 +84,10 @@ public class MeshEraser : APBehaviour
                         //foldingScalingSpeed = 0;
                         foldingObj = Instantiate(foldingPrefab, transform);
                         foldingObj.transform.position = currentRayCastHit.point;
-                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
+                        //foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
+                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
                         foldingObj.transform.localScale = new Vector3(1, 0, 0);
+                        foldingObj.transform.rotation = Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up);
                         firstTry = false;
                     }
 
@@ -116,8 +122,11 @@ public class MeshEraser : APBehaviour
                         bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
                         Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
 
-                        outputTex = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
+                        UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
+                        outputTex = uVPaintOutput.texture;
                         outputMaterial.SetTexture("MaskInput", outputTex);
+                        behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
+                        behindPaperTexture.Apply();
 
                         bendValue = Mathf.Clamp01(bendValue);
                         //foldinMesh.SetBlendShapeWeight(0, bendValue);
@@ -238,6 +247,7 @@ public class MeshEraser : APBehaviour
         cuttingSize = currentLevelData.cuttingSize;
         outputMaterial.SetTexture("MaskInput", currentLevelData.levelTexture);
         outputMaterial.SetTexture("Texture", currentLevelData.levelTexture);
+        meshUVPainter.InitializeNewMesh(transform.GetComponent<Renderer>().material);
 
     }
 
