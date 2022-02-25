@@ -12,7 +12,6 @@ public class MeshEraser : APBehaviour
     public Color paintColor;
     public float paintRadious, draggingThreshold = 0.25f;
     public float movingSpeed = 0.38f, foldingScalingSpeed = 30f;
-    public Vector2 rectengle;
     public SpriteRenderer spriteRenderer;
     public PolygonCollider2D polygonCollider2D;
     public Transform inputChecker;
@@ -20,6 +19,7 @@ public class MeshEraser : APBehaviour
     GameObject foldingObj;
     Texture2D outputTex;
     Vector3 cuttingSize;
+    Vector2 rectengle;
     float bendValue = 0;
     bool dragging, firstTry;
     bool negetiveAreaCrossed;
@@ -90,12 +90,10 @@ public class MeshEraser : APBehaviour
                         meshUVPainter.count = 0;
                         bendValue = 0;
                         //foldingScalingSpeed = 0;
-                        foldingObj = Instantiate(foldingPrefab, transform);
-                        foldingObj.transform.position = currentRayCastHit.point;
-                        //foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", currentLevelData.levelTexture);
-                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
-                        foldingObj.transform.localScale = new Vector3(1, 0, 0);
+                        foldingObj = Instantiate(foldingPrefab, currentRayCastHit.point, Quaternion.identity, transform);
+                        foldingObj.transform.localScale = new Vector3(cuttingSize.x, 0, 0);
                         foldingObj.transform.rotation = Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up);
+                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
                         firstTry = false;
                     }
 
@@ -177,8 +175,10 @@ public class MeshEraser : APBehaviour
         bool negetiveCheck = false;
         for (int i = 0; i < currentLevelData.negetiveCheckingPoints.childCount; i++)
         {
-            if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
+            RaycastHit hit;
+            if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, out hit, 150, 1 << ConstantManager.DESTINATION_LAYER))
             {
+                Debug.LogError(i + " : "+ hit.collider.name);
                 negetiveCheck = true;
                 break;
             }
@@ -249,14 +249,15 @@ public class MeshEraser : APBehaviour
     {
         base.OnGameInitializing();
 
-        GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject);
-        currentLevel.transform.parent = transform;
+        GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
+        currentLevel.SetActive(true);
         currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
         cuttingSize = currentLevelData.cuttingSize;
         outputMaterial.SetTexture("MaskInput", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
         outputMaterial.SetTexture("Texture", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
         meshUVPainter.InitializeNewMesh(transform.GetComponent<Renderer>().material);
 
+        rectengle = new Vector2(cuttingSize.x * 120, cuttingSize.z * 100);
         ActiveDefaultAnimation();
 
     }

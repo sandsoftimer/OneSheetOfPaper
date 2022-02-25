@@ -429,7 +429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &695889068
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1095,7 +1095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1610235934
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1321,7 +1321,6 @@ MonoBehaviour:
   draggingThreshold: 0.25
   movingSpeed: 4
   foldingScalingSpeed: 1
-  rectengle: {x: 120, y: 100}
   spriteRenderer: {fileID: 1789260032}
   polygonCollider2D: {fileID: 1789260034}
   inputChecker: {fileID: 1494683656}
