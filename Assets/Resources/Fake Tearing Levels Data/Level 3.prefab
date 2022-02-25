@@ -56,6 +56,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: Water the plant!
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 0.6, y: 1, z: 1.5}
   positiveCheckingPoints: {fileID: 3398800187203421193}

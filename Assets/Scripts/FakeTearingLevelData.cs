@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FakeTearingLevelData : APBehaviour
 {
+    public string levelText;
     public Color backFaceColor = Color.white;
     public Vector3 cuttingSize;
     public Transform positiveCheckingPoints, negetiveCheckingPoints;

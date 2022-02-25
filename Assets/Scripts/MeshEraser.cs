@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MeshEraser : APBehaviour
 {
+    public TextMeshProUGUI levelText;
     public MeshUVPainter meshUVPainter = new MeshUVPainter();
     public GameObject foldingPrefab;
     public MeshRenderer behindWhitePaper;
@@ -91,7 +93,9 @@ public class MeshEraser : APBehaviour
                         bendValue = 0;
                         //foldingScalingSpeed = 0;
                         foldingObj = Instantiate(foldingPrefab, currentRayCastHit.point, Quaternion.identity, transform);
+                        foldingObj.SetActive(false);
                         foldingObj.transform.localScale = new Vector3(cuttingSize.x, 0, 0);
+                        foldingObj.SetActive(true);
                         foldingObj.transform.rotation = Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up);
                         foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
                         firstTry = false;
@@ -117,12 +121,7 @@ public class MeshEraser : APBehaviour
                         if (negetiveAreaCrossed && !levelFailedAnnounced)
                         {
                             levelFailedAnnounced = true;
-                            APTools.functionManager.ExecuteAfterSecond(0.5f, ()=> {
-
-                                gameplayData.isGameoverSuccess = false;
-                                gameState = GameState.GAME_PLAY_ENDED;
-                                gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
-                            });
+                            ThrowDelayFailed();
                         }
 
                         bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
@@ -172,24 +171,21 @@ public class MeshEraser : APBehaviour
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
 
-        bool negetiveCheck = false;
+        if (negetiveAreaCrossed)
+            return;
+
         for (int i = 0; i < currentLevelData.negetiveCheckingPoints.childCount; i++)
         {
             RaycastHit hit;
             if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, out hit, 150, 1 << ConstantManager.DESTINATION_LAYER))
             {
-                Debug.LogError(i + " : "+ hit.collider.name);
-                negetiveCheck = true;
+                currentLevelData.negetiveCheckingPoints.GetChild(i).localScale *= 3;
+                Debug.LogError( "Index: " +i + " :=> "+ hit.collider.name);
+                negetiveAreaCrossed = true;
                 break;
             }
         }
-        if (negetiveCheck)
-        {
-            gameplayData.isGameoverSuccess = false;
-            gameState = GameState.GAME_PLAY_ENDED;
-            gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
-        }
-        else
+        if (!negetiveAreaCrossed)
         {
             bool positiveCheck = true;
             for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
@@ -219,10 +215,12 @@ public class MeshEraser : APBehaviour
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
 
+        if (levelFailedAnnounced)
+            return;
+
         base.OnCheckLevelTearing();
 
         bool positiveCheck = true;
-        bool negetiveCheck = false;
 
         for (int i = 0; i < currentLevelData.positiveCheckingPoints.childCount; i++)
         {
@@ -236,12 +234,12 @@ public class MeshEraser : APBehaviour
         {
             if (Physics.Raycast(currentLevelData.negetiveCheckingPoints.GetChild(i).position, Vector3.up, 150, 1 << ConstantManager.DESTINATION_LAYER))
             {
-                negetiveCheck = true;
+                negetiveAreaCrossed = true;
                 break;
             }
         }
 
-        gameplayData.isGameoverSuccess = positiveCheck && !negetiveCheck && !negetiveAreaCrossed;
+        gameplayData.isGameoverSuccess = positiveCheck && !negetiveAreaCrossed;
         gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
     }
 
@@ -252,6 +250,8 @@ public class MeshEraser : APBehaviour
         GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
         currentLevel.SetActive(true);
         currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
+
+        levelText.text = currentLevelData.levelText;
         cuttingSize = currentLevelData.cuttingSize;
         outputMaterial.SetTexture("MaskInput", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
         outputMaterial.SetTexture("Texture", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
@@ -276,6 +276,15 @@ public class MeshEraser : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
+    void ThrowDelayFailed()
+    {
+        APTools.functionManager.ExecuteAfterSecond(0.5f, () => {
+
+            gameplayData.isGameoverSuccess = false;
+            gameState = GameState.GAME_PLAY_ENDED;
+            gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+        });
+    }
 
     public void ActiveDefaultAnimation()
     {

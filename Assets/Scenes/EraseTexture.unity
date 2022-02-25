@@ -413,6 +413,17 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 5467616260021991485, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}
   m_PrefabInstance: {fileID: 6135751669620516263}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &669196177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1979238277, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}
+  m_PrefabInstance: {fileID: 6135751669620516263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &695889067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1323,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: {fileID: 669196177}
   foldingPrefab: {fileID: 1727723585227908634, guid: 9de5f3930822b4f78a8dd81ffb01eac9, type: 3}
   behindWhitePaper: {fileID: 1496332599}
   behindPaperTexture: {fileID: 2800000, guid: cea48d74da231432cb6baf97654560f5, type: 3}
@@ -1792,6 +1804,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 87971950, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}
+      propertyPath: gameOverEffect
+      value: 
+      objectReference: {fileID: 10738196}
     - target: {fileID: 6135751670003352361, guid: 17ae0bce981284dd9b0037174ba5f0df, type: 3}
       propertyPath: m_Name
       value: GameManager(Canvas)
