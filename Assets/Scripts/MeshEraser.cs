@@ -26,6 +26,13 @@ public class MeshEraser : APBehaviour
     bool levelFailedAnnounced;
     RaycastHit preHit;
     FakeTearingLevelData currentLevelData;
+
+    AnimationData currentAnimationData;
+    TextureSequence currentTextureSequence;
+    int currentTextureSequenceIndex;
+    int currentImageIndex = -1, loopCount;
+    float currentFps;
+
     #region ALL UNITY FUNCTIONS
 
     // Awake is called before Start
@@ -64,6 +71,7 @@ public class MeshEraser : APBehaviour
             {
                 dragging = true;
                 firstTry = true;
+                ActiveRollingAnimation();
             }
         }
 
@@ -71,7 +79,7 @@ public class MeshEraser : APBehaviour
         {
             RaycastHit currentRayCastHit = new RaycastHit();
             currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
-            if (DraggingOnPaper(currentRayCastHit.point))
+            if (IsDraggingOnPaper(currentRayCastHit.point))
             {
                 if (currentRayCastHit.collider != null)
                 {
@@ -245,17 +253,94 @@ public class MeshEraser : APBehaviour
         currentLevel.transform.parent = transform;
         currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
         cuttingSize = currentLevelData.cuttingSize;
-        outputMaterial.SetTexture("MaskInput", currentLevelData.levelTexture);
-        outputMaterial.SetTexture("Texture", currentLevelData.levelTexture);
+        outputMaterial.SetTexture("MaskInput", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
+        outputMaterial.SetTexture("Texture", currentLevelData.defaultDatas.textureSequences[0].textures[0]);
         meshUVPainter.InitializeNewMesh(transform.GetComponent<Renderer>().material);
+
+        ActiveDefaultAnimation();
 
     }
 
-#endregion ALL OVERRIDING FUNCTIONS
-    //=================================
-#region ALL SELF DECLEAR FUNCTIONS
+    public override void OnGameOver()
+    {
+        base.OnGameOver();
 
-    bool DraggingOnPaper(Vector3 position)
+        if (gameplayData.isGameoverSuccess)
+        {
+            ActiveCompleteAnimation();
+        }
+    }
+
+    #endregion ALL OVERRIDING FUNCTIONS
+    //=================================
+    #region ALL SELF DECLEAR FUNCTIONS
+
+
+    public void ActiveDefaultAnimation()
+    {
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = currentLevelData.defaultDatas;
+        NextTextureSequence();
+    }
+
+    public void ActiveRollingAnimation()
+    {
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = currentLevelData.rollingDatas;
+        NextTextureSequence();
+    }
+
+    public void ActiveCompleteAnimation()
+    {
+        currentTextureSequenceIndex = -1;
+        currentAnimationData = currentLevelData.levelSuccessDatas;
+        NextTextureSequence();
+    }
+
+    void UpdateNextTexture()
+    {
+        currentImageIndex++;
+        if (currentTextureSequence.loopCount == 0)
+        {
+            // Loopping sequence
+            currentImageIndex %= currentTextureSequence.textures.Length;
+        }
+        else if (loopCount > 0 && currentImageIndex == currentTextureSequence.textures.Length)
+        {
+            --loopCount;
+            if (loopCount <= 0)
+            {
+                CancelInvoke("UpdateNextTexture");
+                NextTextureSequence();
+                return;
+            }
+            currentImageIndex %= currentTextureSequence.textures.Length;
+        }
+        //paperMaterial.SetTexture("_BaseMap", currentTextureSequence.textures[currentImageIndex]);
+        outputMaterial.SetTexture("Texture", currentTextureSequence.textures[currentImageIndex]);
+
+        if (currentImageIndex > currentTextureSequence.textures.Length)
+        {
+            NextTextureSequence();
+        }
+    }
+
+    void NextTextureSequence()
+    {
+        currentTextureSequenceIndex++;
+        if (currentTextureSequenceIndex >= currentAnimationData.textureSequences.Length)
+            return;
+
+        //Debug.LogError(currentTextureSequenceIndex + " == " + currentAnimationData.textureSequences.Length);
+        currentTextureSequence = currentAnimationData.textureSequences[currentTextureSequenceIndex];
+        loopCount = currentTextureSequence.loopCount;
+
+        currentImageIndex = -1;
+        CancelInvoke("UpdateNextTexture");
+        InvokeRepeating("UpdateNextTexture", 0, 1f / currentTextureSequence.fps);
+    }
+
+    bool IsDraggingOnPaper(Vector3 position)
     {
         position.y = position.z;
         position.z = -10;

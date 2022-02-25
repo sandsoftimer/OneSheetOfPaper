@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FakeTearingLevelData : APBehaviour
 {
-    public Texture2D levelTexture;
     public Color backFaceColor = Color.white;
     public Vector3 cuttingSize;
     public Transform positiveCheckingPoints, negetiveCheckingPoints;
+    public AnimationData defaultDatas, rollingDatas, levelSuccessDatas;
 
     #region ALL UNITY FUNCTIONS
 

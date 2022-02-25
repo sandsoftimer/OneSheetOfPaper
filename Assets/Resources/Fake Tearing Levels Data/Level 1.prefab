@@ -231,6 +231,27 @@ MonoBehaviour:
   cuttingSize: {x: 1, y: 1, z: 1.5}
   positiveCheckingPoints: {fileID: 5955765742864484899}
   negetiveCheckingPoints: {fileID: 5955765741791760833}
+  defaultDatas:
+    textureSequences:
+    - fps: 4
+      loopCount: 0
+      textures:
+      - {fileID: 2800000, guid: 35b5d9fee33994d70bd84bb22c1a996e, type: 3}
+      - {fileID: 2800000, guid: 0df2512e2e0c74097850c73d170b3d22, type: 3}
+  rollingDatas:
+    textureSequences:
+    - fps: 4
+      loopCount: 0
+      textures:
+      - {fileID: 2800000, guid: 5a936a16b14d14fae8048c6f8fc07ec5, type: 3}
+      - {fileID: 2800000, guid: 6cba6bb62ba8b4bb89f8d3ae9b1bdaba, type: 3}
+  levelSuccessDatas:
+    textureSequences:
+    - fps: 4
+      loopCount: 0
+      textures:
+      - {fileID: 2800000, guid: b62cc58aff8884b83a722a1023642842, type: 3}
+      - {fileID: 2800000, guid: 1e43200a5b57f47f9ba674c8e56865c2, type: 3}
 --- !u!1 &6452313680130255490
 GameObject:
   m_ObjectHideFlags: 0
