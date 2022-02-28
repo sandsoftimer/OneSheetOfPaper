@@ -174,7 +174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: 
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 1, y: 1, z: 1}
   positiveCheckingPoints: {fileID: 6301683008864310913}
@@ -222,17 +223,24 @@ MonoBehaviour:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 5486c859412cb1c44886df8d6322e2ae, type: 3}
+      - {fileID: 2800000, guid: 6810e81ed48b1e5408c3503257bcf4b0, type: 3}
+      - {fileID: 2800000, guid: 6894269f0bdacc348a550bf597957f72, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: f2c23c6fea814a9428e7ca487849ddb8, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: e4215f5fc032e774594b44b9cae1ca43, type: 3}
+      - {fileID: 2800000, guid: e08eb5a68cfb51c4b9d425fac7a7c25f, type: 3}
+      - {fileID: 2800000, guid: 772313ccd4d1a18448080760551be958, type: 3}
 --- !u!1001 &5727200973633235366
 PrefabInstance:
   m_ObjectHideFlags: 0

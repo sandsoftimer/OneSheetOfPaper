@@ -247,7 +247,11 @@ public class MeshEraser : APBehaviour
     {
         base.OnGameInitializing();
 
-        GameObject currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
+        GameObject currentLevel;
+        if (gameManager.debugModeOn)
+            currentLevel = transform.GetChild(gameManager.GetModedLevelNumber()).gameObject;
+        else
+            currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
         currentLevel.SetActive(true);
         currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
 

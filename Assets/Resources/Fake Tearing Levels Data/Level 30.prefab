@@ -169,12 +169,12 @@ GameObject:
   - component: {fileID: 6654080782214406682}
   - component: {fileID: 8514255461705811260}
   m_Layer: 0
-  m_Name: Level 21
+  m_Name: Level 30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: 
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 1, y: 1, z: 1}
   positiveCheckingPoints: {fileID: 6301683008864310913}
@@ -222,17 +223,22 @@ MonoBehaviour:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 85c0ec1cc29438641ad001a930205610, type: 3}
+      - {fileID: 2800000, guid: 24a79b0a4af14154080aca1aef2ebcc3, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 5746b07cbf2b97f41a67b3194cb7ac58, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 9cb4c580346e9d04185bc3cd07e9342c, type: 3}
+      - {fileID: 2800000, guid: e7a21eefa578ca94db1748bce0aeffd0, type: 3}
 --- !u!1001 &5727200973633235366
 PrefabInstance:
   m_ObjectHideFlags: 0
