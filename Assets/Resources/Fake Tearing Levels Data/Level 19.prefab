@@ -169,12 +169,12 @@ GameObject:
   - component: {fileID: 6654080782214406682}
   - component: {fileID: 8514255461705811260}
   m_Layer: 0
-  m_Name: Level 6
+  m_Name: Level 19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: 
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 1, y: 1, z: 1}
   positiveCheckingPoints: {fileID: 6301683008864310913}
@@ -222,17 +223,27 @@ MonoBehaviour:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 472b229e113388b479f1dcf8b73e59d3, type: 3}
+      - {fileID: 2800000, guid: accb255a5cf1db541b97fe2663e01316, type: 3}
+      - {fileID: 2800000, guid: b7aced7291a9c694db003ca2e186ee99, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 6d6260cc839e1da41b7170b194ea468f, type: 3}
+      - {fileID: 2800000, guid: 246e3e3881fbfab499dc3d8b417908d2, type: 3}
+      - {fileID: 2800000, guid: 89931d3dc4fc2b24799c08182baf6378, type: 3}
+      - {fileID: 2800000, guid: 1df017944ea2da84a82c9dd715ede7c4, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: cef7d0c9068317a4c804bc1221e3cf72, type: 3}
+      - {fileID: 2800000, guid: 8224d935703e9d64587a8dd46191f14f, type: 3}
+      - {fileID: 2800000, guid: b193fcdb7280dc842a980003b64c9602, type: 3}
 --- !u!1001 &5727200973633235366
 PrefabInstance:
   m_ObjectHideFlags: 0

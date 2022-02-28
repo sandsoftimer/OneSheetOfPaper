@@ -169,12 +169,12 @@ GameObject:
   - component: {fileID: 6654080782214406682}
   - component: {fileID: 8514255461705811260}
   m_Layer: 0
-  m_Name: Level 6
+  m_Name: Level 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
+  levelText: 
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 1, y: 1, z: 1}
   positiveCheckingPoints: {fileID: 6301683008864310913}
@@ -222,17 +223,33 @@ MonoBehaviour:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: 6fbfa098334a44b1dac221adeb387ac9, type: 3}
+      - {fileID: 2800000, guid: 12520d96a04cb4c63bbc93751467c45c, type: 3}
+      - {fileID: 2800000, guid: c8e60c8698970427daf390345d3f8df4, type: 3}
   rollingDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: cc67d32ad362d4f808c219abdc7d49e0, type: 3}
+      - {fileID: 2800000, guid: e7a6f86fe06c949c2b5d7eec13278410, type: 3}
+      - {fileID: 2800000, guid: 269f6529ecd8747d887ac55662012f7c, type: 3}
+      - {fileID: 2800000, guid: 7181d3463ab494d62bbe1c2fd374a453, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
+      loopCount: 1
+      textures:
+      - {fileID: 2800000, guid: 9230640afa67642db8017375e417d992, type: 3}
+      - {fileID: 2800000, guid: 3e37e16ede9b7402792ebb0389acc8f4, type: 3}
+      - {fileID: 2800000, guid: 19489ae23077343e6a2bb95612151cf1, type: 3}
+    - fps: 4
       loopCount: 0
-      textures: []
+      textures:
+      - {fileID: 2800000, guid: dfd212d4006de4825bf2ae76fb0df813, type: 3}
+      - {fileID: 2800000, guid: ffa9d44f20dc84257a5ee8554207b22e, type: 3}
+      - {fileID: 2800000, guid: 9ff8aec329f5249a681245b34b14ab8e, type: 3}
 --- !u!1001 &5727200973633235366
 PrefabInstance:
   m_ObjectHideFlags: 0
