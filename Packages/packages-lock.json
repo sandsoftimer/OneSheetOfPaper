@@ -1,24 +1,24 @@
 {
   "dependencies": {
     "com.lionstudios.release.lionanalytics": {
-      "version": "1.3.13",
+      "version": "1.4.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.lionstudios.release.lionkitcore": "0.9.7",
-        "com.lionstudios.release.lionsdkservice": "1.3.8"
+        "com.lionstudios.release.lionkitcore": "1.0.4",
+        "com.lionstudios.release.lionsdkservice": "1.4.7"
       },
       "url": "http://packages.lionstudios.cc:4873"
     },
     "com.lionstudios.release.lionkitcore": {
-      "version": "0.9.7",
+      "version": "1.0.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "http://packages.lionstudios.cc:4873"
     },
     "com.lionstudios.release.lionsdkservice": {
-      "version": "1.3.8",
+      "version": "1.4.7",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -56,7 +56,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.12",
+      "version": "2.0.14",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -65,7 +65,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.4",
+      "version": "1.2.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -150,7 +150,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.5.6",
+      "version": "1.5.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {

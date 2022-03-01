@@ -1,8 +1,5 @@
 fileFormatVersion: 2
-guid: dcf2020c4018447c9b91170c0f62d799
-labels:
-- al_max
-- al_max_export_path-MaxSdk/Mediation
+guid: 4334e0c0e275c436296a3855dcb84cc0
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

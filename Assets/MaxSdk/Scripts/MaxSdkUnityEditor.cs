@@ -21,8 +21,12 @@ public class MaxSdkUnityEditor : MaxSdkBase
 {
     private static bool _isInitialized;
     private static bool _hasSdkKey;
-    private static bool _hasUserConsent = true;
+    private static bool _hasUserConsent = false;
+    private static bool _isUserConsentSet = false;
     private static bool _isAgeRestrictedUser = false;
+    private static bool _isAgeRestrictedUserSet = false;
+    private static bool _doNotSell = false;
+    private static bool _isDoNotSellSet = false;
     private static bool _showStubAds = true;
     private static readonly HashSet<string> RequestedAdUnits = new HashSet<string>();
     private static readonly HashSet<string> ReadyAdUnits = new HashSet<string>();
@@ -197,56 +201,85 @@ public class MaxSdkUnityEditor : MaxSdkBase
     /// <summary>
     /// Set whether or not user has provided consent for information sharing with AppLovin and other providers.
     /// </summary>
-    /// <param name="hasUserConsent">'true' if the user has provided consent for information sharing with AppLovin. 'false' by default.</param>
+    /// <param name="hasUserConsent"><c>true<c> if the user has provided consent for information sharing with AppLovin. <c>false<c> by default.</param>
     public static void SetHasUserConsent(bool hasUserConsent)
     {
         _hasUserConsent = hasUserConsent;
+        _isUserConsentSet = true;
     }
 
     /// <summary>
     /// Check if user has provided consent for information sharing with AppLovin and other providers.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><c>true<c> if user has provided consent for information sharing. <c>false<c> if the user declined to share information or the consent value has not been set <see cref="IsUserConsentSet">.</returns>
     public static bool HasUserConsent()
     {
         return _hasUserConsent;
     }
 
     /// <summary>
+    /// Check if user has set consent for information sharing.
+    /// </summary>
+    /// <returns><c>true<c> if user has set a value of consent for information sharing.</returns>
+    public static bool IsUserConsentSet()
+    {
+        return _isUserConsentSet;
+    }
+
+    /// <summary>
     /// Mark user as age restricted (i.e. under 16).
     /// </summary>
-    /// <param name="isAgeRestrictedUser">'true' if the user is age restricted (i.e. under 16).</param>
+    /// <param name="isAgeRestrictedUser"><c>true<c> if the user is age restricted (i.e. under 16).</param>
     public static void SetIsAgeRestrictedUser(bool isAgeRestrictedUser)
     {
         _isAgeRestrictedUser = isAgeRestrictedUser;
+        _isAgeRestrictedUserSet = true;
     }
 
     /// <summary>
     /// Check if user is age restricted.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><c>true<c> if the user is age-restricted. <c>false<c> if the user is not age-restricted or the age-restriction has not been set<see cref="IsAgeRestrictedUserSet">.</returns>
     public static bool IsAgeRestrictedUser()
     {
         return _isAgeRestrictedUser;
     }
 
-    private static bool _doNotSell = false;
+    /// <summary>
+    /// Check if user set its age restricted settings.
+    /// </summary>
+    /// <returns><c>true<c> if user has set its age restricted settings.</returns>
+    public static bool IsAgeRestrictedUserSet()
+    {
+        return _isAgeRestrictedUserSet;
+    }
 
     /// <summary>
     /// Set whether or not user has opted out of the sale of their personal information.
     /// </summary>
-    /// <param name="doNotSell">'true' if the user has opted out of the sale of their personal information.</param>
+    /// <param name="doNotSell"><c>true<c> if the user has opted out of the sale of their personal information.</param>
     public static void SetDoNotSell(bool doNotSell)
     {
         _doNotSell = doNotSell;
+        _isDoNotSellSet = true;
     }
 
     /// <summary>
     /// Check if the user has opted out of the sale of their personal information.
     /// </summary>
+    /// <returns><c>true<c> if the user has opted out of the sale of their personal information. <c>false<c> if the user opted in to the sell of their personal information or the value has not been set <see cref="IsDoNotSellSet">.</returns>
     public static bool IsDoNotSell()
     {
         return _doNotSell;
+    }
+
+    /// <summary>
+    /// Check if the user has set the option to sell their personal information.
+    /// </summary>
+    /// <returns><c>true<c> if user has chosen an option to sell their personal information.</returns>
+    public static bool IsDoNotSellSet()
+    {
+        return _isDoNotSellSet;
     }
 
     #endregion
@@ -312,6 +345,24 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetBannerPlacement(string adUnitIdentifier, string placement)
     {
         MaxSdkLogger.UserDebug("Setting banner placement to '" + placement + "' for ad unit id '" + adUnitIdentifier + "'");
+    }
+
+    /// <summary>
+    /// Starts or resumes auto-refreshing of the banner for the given ad unit identifier.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner for which to start auto-refresh</param>
+    public static void StartBannerAutoRefresh(string adUnitIdentifier)
+    {
+        MaxSdkLogger.UserDebug("Starting banner auto refresh.");
+    }
+
+    /// <summary>
+    /// Pauses auto-refreshing of the banner for the given ad unit identifier.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner for which to stop auto-refresh</param>
+    public static void StopBannerAutoRefresh(string adUnitIdentifier)
+    {
+        MaxSdkLogger.UserDebug("Stopping banner auto refresh.");
     }
 
     /// <summary>
@@ -432,6 +483,17 @@ public class MaxSdkUnityEditor : MaxSdkBase
     }
 
     /// <summary>
+    /// Set a local extra parameter for the banner ad.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to set the local extra parameter for.</param>
+    /// <param name="key">The key for the local extra parameter.</param>
+    /// <param name="value">The value for the local extra parameter.</param>
+    public static void SetBannerLocalExtraParameter(string adUnitIdentifier, string key, object value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set banner local extra parameter");
+    }
+
+    /// <summary>
     /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
     /// </summary>
     /// <param name="adUnitIdentifier">Ad unit identifier of the banner to set the custom postback data for.</param>
@@ -491,6 +553,24 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetMRecPlacement(string adUnitIdentifier, string placement)
     {
         MaxSdkLogger.UserDebug("Setting MREC placement to '" + placement + "' for ad unit id '" + adUnitIdentifier + "'");
+    }
+
+    /// <summary>
+    /// Starts or resumes auto-refreshing of the MREC for the given ad unit identifier.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC for which to start auto-refresh</param>
+    public static void StartMRecAutoRefresh(string adUnitIdentifier)
+    {
+        MaxSdkLogger.UserDebug("Starting banner auto refresh.");
+    }
+
+    /// <summary>
+    /// Pauses auto-refreshing of the MREC for the given ad unit identifier.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC for which to stop auto-refresh</param>
+    public static void StopMRecAutoRefresh(string adUnitIdentifier)
+    {
+        MaxSdkLogger.UserDebug("Stopping banner auto refresh.");
     }
 
     /// <summary>
@@ -558,6 +638,17 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetMRecExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC extra parameter");
+    }
+
+    /// <summary>
+    /// Set a local extra parameter for the MREC ad.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to set the local extra parameter for.</param>
+    /// <param name="key">The key for the local extra parameter.</param>
+    /// <param name="value">The value for the local extra parameter.</param>
+    public static void SetMRecLocalExtraParameter(string adUnitIdentifier, string key, object value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set MREC local extra parameter");
     }
 
     /// <summary>
@@ -790,6 +881,17 @@ public class MaxSdkUnityEditor : MaxSdkBase
     }
 
     /// <summary>
+    /// Set a local extra parameter for the ad.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the interstitial to set the local extra parameter for.</param>
+    /// <param name="key">The key for the local extra parameter.</param>
+    /// <param name="value">The value for the local extra parameter.</param>
+    public static void SetInterstitialLocalExtraParameter(string adUnitIdentifier, string key, object value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set interstitial local extra parameter");
+    }
+
+    /// <summary>
     /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
     /// </summary>
     /// <param name="adUnitIdentifier">Ad unit identifier of the interstitial to set the custom postback data for.</param>
@@ -927,6 +1029,17 @@ public class MaxSdkUnityEditor : MaxSdkBase
     public static void SetRewardedAdExtraParameter(string adUnitIdentifier, string key, string value)
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded extra parameter");
+    }
+
+    /// <summary>
+    /// Set a local extra parameter for the ad.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded ad to set the local extra parameter for.</param>
+    /// <param name="key">The key for the local extra parameter.</param>
+    /// <param name="value">The value for the local extra parameter.</param>
+    public static void SetRewardedAdLocalExtraParameter(string adUnitIdentifier, string key, object value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded local extra parameter");
     }
 
     /// <summary>
@@ -1070,6 +1183,17 @@ public class MaxSdkUnityEditor : MaxSdkBase
     }
 
     /// <summary>
+    /// Set a local extra parameter for the ad.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded interstitial ad to set the local extra parameter for.</param>
+    /// <param name="key">The key for the local extra parameter.</param>
+    /// <param name="value">The value for the local extra parameter.</param>
+    public static void SetRewardedInterstitialAdLocalExtraParameter(string adUnitIdentifier, string key, object value)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "set rewarded interstitial local extra parameter");
+    }
+
+    /// <summary>
     /// Set custom data to be set in the ILRD postbacks via the {CUSTOM_DATA}  macro.
     /// </summary>
     /// <param name="adUnitIdentifier">Ad unit identifier of the rewarded interstitial ad to set the custom postback data for.</param>
@@ -1167,6 +1291,13 @@ public class MaxSdkUnityEditor : MaxSdkBase
     /// <param name="enabled"><c>true</c> if AppLovin SDK should collect the device location if available.</param>
     public static void SetLocationCollectionEnabled(bool enabled) { }
 
+    /// <summary>
+    /// Set an extra parameter to pass to the AppLovin server.
+    /// </summary>
+    /// <param name="key">The key for the extra parameter. Must not be null.</param>
+    /// <param name="value">The value for the extra parameter. May be null.</param>
+    public static void SetExtraParameter(string key, string value) { }
+
     #endregion
 
     #region Internal
@@ -1218,10 +1349,10 @@ public class MaxSdkUnityEditor : MaxSdkBase
 
     private static Dictionary<string, string> CreateBaseEventPropsDictionary(string eventName, string adUnitId)
     {
-        return new Dictionary<string, string>
+        return new Dictionary<string, string>()
         {
-            ["name"] = eventName,
-            ["adUnitId"] = adUnitId
+            {"name", eventName},
+            {"adUnitId", adUnitId}
         };
     }
 
@@ -1248,6 +1379,8 @@ public class MaxSdkUnityEditor : MaxSdkBase
     internal static void SetTargetingDataEmail(string email) { }
 
     internal static void SetTargetingDataPhoneNumber(string phoneNumber) { }
+
+    internal static void SetTargetingDataZipCode(string zipCode) { }
 
     internal static void SetTargetingDataKeywords(string[] keywords) { }
 

@@ -1,0 +1,3 @@
+
+# Lion Analytics Proguard Settings (DO NOT REMOVE)
+-keep public class com.adjust.sdk.** { *; }

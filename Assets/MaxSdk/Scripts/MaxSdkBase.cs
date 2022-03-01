@@ -300,11 +300,16 @@ public abstract class MaxSdkBase
     /// </summary>
     public class WaterfallInfo
     {
+        public String Name { get; private set; }
+        public String TestName { get; private set;}
         public List<NetworkResponseInfo> NetworkResponses { get; private set; }
         public long LatencyMillis { get; private set; }
 
         public WaterfallInfo(IDictionary<string, object> waterfallInfoDict)
         {
+            Name = MaxSdkUtils.GetStringFromDictionary(waterfallInfoDict, "name");
+            TestName = MaxSdkUtils.GetStringFromDictionary(waterfallInfoDict, "testName");
+
             var networkResponsesList = MaxSdkUtils.GetListFromDictionary(waterfallInfoDict, "networkResponses", new List<object>());
             NetworkResponses = new List<NetworkResponseInfo>();
             foreach (var networkResponseObject in networkResponsesList)
@@ -321,8 +326,10 @@ public abstract class MaxSdkBase
 
         public override string ToString()
         {
-            return "[MediatedNetworkInfo: latency = " + LatencyMillis +
-                   ", networkResponse = " + NetworkResponses + "]";
+            return "[MediatedNetworkInfo: name = " + Name + 
+                    ", testName = " + TestName +
+                    ", latency = " + LatencyMillis +
+                    ", networkResponse = " + NetworkResponses + "]";
         }
     }
 
