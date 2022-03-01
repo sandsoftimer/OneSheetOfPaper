@@ -230,7 +230,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Make a tanker!
   backFaceColor: {r: 1, g: 0, b: 0.2014389, a: 1}
   cuttingSize: {x: 0.5, y: 1, z: 1.5}
   positiveCheckingPoints: {fileID: 6301683008864310913}

@@ -228,7 +228,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Color her lips!
   backFaceColor: {r: 0.9528302, g: 0.085395135, b: 0.2894977, a: 1}
   cuttingSize: {x: 0.65, y: 1, z: 1.5}
   positiveCheckingPoints: {fileID: 6301683008864310913}

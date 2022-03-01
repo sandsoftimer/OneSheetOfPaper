@@ -232,7 +232,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: 
+  levelText: Roll a Torch!
   backFaceColor: {r: 0.33333334, g: 0.11764707, b: 0.10196079, a: 1}
   cuttingSize: {x: 0.5, y: 1, z: 0.4}
   positiveCheckingPoints: {fileID: 6301683008864310913}
