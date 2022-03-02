@@ -30,7 +30,7 @@ Transform:
   - {fileID: 4588653139216992475}
   - {fileID: 7553485972244091894}
   m_Father: {fileID: 1107724035033278853}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &320729038308924703
 GameObject:
@@ -64,7 +64,7 @@ Transform:
   - {fileID: 419161952257266707}
   - {fileID: 2358528716468128228}
   m_Father: {fileID: 1107724035033278853}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1107724034790931903
 GameObject:
@@ -97,7 +97,7 @@ Transform:
   m_LocalScale: {x: 9.965956, y: 1, z: 4.019864}
   m_Children: []
   m_Father: {fileID: 1107724035033278853}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1107724034790931843
 MeshFilter:
@@ -178,7 +178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1107724035033278853
 Transform:
   m_ObjectHideFlags: 0
@@ -190,6 +190,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 6905560903420238366}
   - {fileID: 320729038308924702}
   - {fileID: 320729037236258556}
   - {fileID: 1107724034790931840}
@@ -223,8 +224,6 @@ MonoBehaviour:
   levelText: Bee needs a body!
   backFaceColor: {r: 0.8156863, g: 0.9098039, b: 0.0627451, a: 1}
   cuttingSize: {x: 0.75, y: 1, z: 1.5}
-  positiveCheckingPoints: {fileID: 320729038308924702}
-  negetiveCheckingPoints: {fileID: 320729037236258556}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -247,6 +246,9 @@ MonoBehaviour:
       - {fileID: 2800000, guid: 51463141bef4a4ffd92eb1994882066c, type: 3}
       - {fileID: 2800000, guid: 25474e207bc904df693a3ba951fdf811, type: 3}
       - {fileID: 2800000, guid: ca9e6fd442f374cf5a7712ff06ebb9e7, type: 3}
+  positiveCheckingPoints: {fileID: 320729038308924702}
+  negetiveCheckingPoints: {fileID: 320729037236258556}
+  snappingPoint: {fileID: 0}
 --- !u!1 &2350150386222142065
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +280,7 @@ Transform:
   m_LocalScale: {x: 3.8059986, y: 1, z: 6.3775144}
   m_Children: []
   m_Father: {fileID: 1107724035033278853}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2072578235696896031
 MeshFilter:
@@ -374,7 +376,7 @@ Transform:
   m_LocalScale: {x: 2.5953104, y: 1, z: 6.3775144}
   m_Children: []
   m_Father: {fileID: 1107724035033278853}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5973937108521913448
 MeshFilter:
@@ -439,6 +441,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7026038421273457630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6905560903420238366}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6905560903420238366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7026038421273457630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.58, y: 0, z: -0.15000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1107724035033278853}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &245861842177076604
 PrefabInstance:
   m_ObjectHideFlags: 0

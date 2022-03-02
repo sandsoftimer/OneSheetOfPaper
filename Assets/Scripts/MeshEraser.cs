@@ -69,7 +69,7 @@ public class MeshEraser : APBehaviour
 
         if (foldingObj != null && snappedAlready && !snappingDone)
         {
-            foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, foldingObj.transform.forward, snappingSpeed * Time.deltaTime);
+            foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, currentLevelData.snappingPoint.position, snappingSpeed * Time.deltaTime);
             foldingObj.transform.rotation = Quaternion.Lerp(
                     foldingObj.transform.rotation,
                     currentLevelData.snappingPoint.rotation,
@@ -101,6 +101,8 @@ public class MeshEraser : APBehaviour
             if ((foldingObj.transform.position - currentLevelData.snappingPoint.position).magnitude < 0.5f)
             {
                 snappingDone = true;
+                gameplayData.isGameoverSuccess = true;
+                gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
             }
         }
 
@@ -225,15 +227,15 @@ public class MeshEraser : APBehaviour
             return;
 
         if (Vector3.Distance(foldingObj.transform.position, currentLevelData.snappingPoint.position) <= snappingDistance &&
-            (foldingObj.transform.localScale - cuttingSize).magnitude < 0.25f)
+            (foldingObj.transform.localScale - cuttingSize).magnitude <= 0.5f)
         {
             snappedAlready = true;
             Physics.Raycast(new Ray(currentLevelData.snappingPoint.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, Mathf.Infinity, 1 << transform.gameObject.layer);
 
             //currentRayCastHit.point = currentLevelData.snappingPoint.position;
-            gameplayData.isGameoverSuccess = true;
-            gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
-            //foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, ConstantManager.DEFAULT_ANIMATION_TIME);
+            //gameplayData.isGameoverSuccess = true;
+            //gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
+            foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, 0.1f);
             //foldingObj.transform.DORotate(currentLevelData.snappingPoint.eulerAngles, ConstantManager.DEFAULT_ANIMATION_TIME);
         }
     }
@@ -362,6 +364,7 @@ public class MeshEraser : APBehaviour
     {
         if (foldingObj != null)
         {
+            //foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshCollider>().enabled = false;
             //GameObject go = new GameObject();
             //go.transform.position = foldingObj.transform.position;
             //foldingObj.transform.parent = go.transform;

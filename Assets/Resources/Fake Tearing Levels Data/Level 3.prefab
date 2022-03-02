@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2596024723227209874
 Transform:
   m_ObjectHideFlags: 0
@@ -28,6 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4064442988079559043}
   - {fileID: 3398800187203421193}
   - {fileID: 3398800188278185963}
   - {fileID: 2596024723555280023}
@@ -59,8 +60,6 @@ MonoBehaviour:
   levelText: Water the plant!
   backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
   cuttingSize: {x: 0.6, y: 1, z: 1.5}
-  positiveCheckingPoints: {fileID: 3398800187203421193}
-  negetiveCheckingPoints: {fileID: 3398800188278185963}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -81,6 +80,9 @@ MonoBehaviour:
       textures:
       - {fileID: 2800000, guid: 693d36d6749c04f3cb67d43539ad57df, type: 3}
       - {fileID: 2800000, guid: 63497db283af94c36bd484cb208cb00d, type: 3}
+  positiveCheckingPoints: {fileID: 3398800187203421193}
+  negetiveCheckingPoints: {fileID: 3398800188278185963}
+  snappingPoint: {fileID: 0}
 --- !u!1 &2596024723555280040
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +114,7 @@ Transform:
   m_LocalScale: {x: 4.5711374, y: 1, z: 6.2922006}
   m_Children: []
   m_Father: {fileID: 2596024723227209874}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2596024723555280020
 MeshFilter:
@@ -209,7 +211,7 @@ Transform:
   - {fileID: 2581221563192714863}
   - {fileID: 2581221562238196547}
   m_Father: {fileID: 2596024723227209874}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3398800188278185962
 GameObject:
@@ -244,8 +246,38 @@ Transform:
   - {fileID: 2581221561769049999}
   - {fileID: 2581221561202233610}
   m_Father: {fileID: 2596024723227209874}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5689415869322297015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4064442988079559043}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4064442988079559043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689415869322297015}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.98, y: 0, z: 2.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2596024723227209874}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &801342199
 PrefabInstance:
   m_ObjectHideFlags: 0

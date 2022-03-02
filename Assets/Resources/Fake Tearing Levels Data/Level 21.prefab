@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &294330661380961084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7066086388539707695}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7066086388539707695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294330661380961084}
+  m_LocalRotation: {x: 0, y: 0.9886255, z: 0, w: 0.15039825}
+  m_LocalPosition: {x: -1.55, y: 0, z: -0.030000001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6654080782214406682}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 162.7, z: 0}
 --- !u!1 &6301683008864310912
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +60,7 @@ Transform:
   - {fileID: 7829874797449547070}
   - {fileID: 2581221562566057369}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6301683009936969058
 GameObject:
@@ -72,7 +102,7 @@ Transform:
   - {fileID: 2581221561226140115}
   - {fileID: 2581221561262017900}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6654080781919893024
 GameObject:
@@ -105,7 +135,7 @@ Transform:
   m_LocalScale: {x: 2.638311, y: 1, z: 10.115411}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6654080781919893020
 MeshFilter:
@@ -198,6 +228,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7066086388539707695}
   - {fileID: 6301683008864310913}
   - {fileID: 6301683009936969059}
   - {fileID: 6654080781919893023}
@@ -229,8 +260,6 @@ MonoBehaviour:
   levelText: Roll a Cannon!
   backFaceColor: {r: 0.3254902, g: 0.3372549, b: 0.38823533, a: 1}
   cuttingSize: {x: 0.75, y: 1, z: 0.75}
-  positiveCheckingPoints: {fileID: 6301683008864310913}
-  negetiveCheckingPoints: {fileID: 6301683009936969059}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -244,15 +273,21 @@ MonoBehaviour:
     - fps: 4
       loopCount: 0
       textures:
-      - {fileID: 2800000, guid: f2c23c6fea814a9428e7ca487849ddb8, type: 3}
+      - {fileID: 2800000, guid: e4215f5fc032e774594b44b9cae1ca43, type: 3}
+      - {fileID: 2800000, guid: e08eb5a68cfb51c4b9d425fac7a7c25f, type: 3}
+      - {fileID: 2800000, guid: 772313ccd4d1a18448080760551be958, type: 3}
   levelSuccessDatas:
     textureSequences:
     - fps: 4
       loopCount: 0
       textures:
+      - {fileID: 2800000, guid: f2c23c6fea814a9428e7ca487849ddb8, type: 3}
       - {fileID: 2800000, guid: e4215f5fc032e774594b44b9cae1ca43, type: 3}
       - {fileID: 2800000, guid: e08eb5a68cfb51c4b9d425fac7a7c25f, type: 3}
       - {fileID: 2800000, guid: 772313ccd4d1a18448080760551be958, type: 3}
+  positiveCheckingPoints: {fileID: 6301683008864310913}
+  negetiveCheckingPoints: {fileID: 6301683009936969059}
+  snappingPoint: {fileID: 0}
 --- !u!1001 &70891777
 PrefabInstance:
   m_ObjectHideFlags: 0

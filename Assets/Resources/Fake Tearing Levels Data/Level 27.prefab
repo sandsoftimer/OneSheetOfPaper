@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2899402034477049188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8300046329408631982}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8300046329408631982
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899402034477049188}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.04, y: 0, z: 2.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6654080782214406682}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &6301683008864310912
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,7 +62,7 @@ Transform:
   - {fileID: 2581221562859840285}
   - {fileID: 2581221562722589137}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6301683009936969058
 GameObject:
@@ -70,7 +100,7 @@ Transform:
   - {fileID: 2581221561251397593}
   - {fileID: 2581221562985905512}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6654080781919893024
 GameObject:
@@ -103,7 +133,7 @@ Transform:
   m_LocalScale: {x: 1.9870648, y: 1, z: 6.4317193}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6654080781919893020
 MeshFilter:
@@ -184,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -196,6 +226,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8300046329408631982}
   - {fileID: 6301683008864310913}
   - {fileID: 6301683009936969059}
   - {fileID: 6654080781919893023}
@@ -227,8 +258,6 @@ MonoBehaviour:
   levelText: Give the king his crown!
   backFaceColor: {r: 1, g: 0.009412543, b: 0, a: 1}
   cuttingSize: {x: 0.3, y: 1, z: 1.5}
-  positiveCheckingPoints: {fileID: 6301683008864310913}
-  negetiveCheckingPoints: {fileID: 6301683009936969059}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -250,6 +279,9 @@ MonoBehaviour:
       - {fileID: 2800000, guid: 8cb076a0aa718674e9713d36a3ec912f, type: 3}
       - {fileID: 2800000, guid: 3c2aef5e07c4e2044b5bd23cb14901b9, type: 3}
       - {fileID: 2800000, guid: 37920662e7e652e4e8bf3c6808fb653d, type: 3}
+  positiveCheckingPoints: {fileID: 6301683008864310913}
+  negetiveCheckingPoints: {fileID: 6301683009936969059}
+  snappingPoint: {fileID: 0}
 --- !u!1001 &194562181
 PrefabInstance:
   m_ObjectHideFlags: 0

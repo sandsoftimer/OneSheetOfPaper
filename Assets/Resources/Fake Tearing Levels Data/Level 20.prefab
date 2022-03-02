@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1.0943494, y: 1, z: 0.52421045}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1935030526
 MeshFilter:
@@ -127,7 +127,7 @@ Transform:
   m_LocalScale: {x: 2.3907664, y: 1, z: 1.1531246}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1954774233
 MeshFilter:
@@ -192,6 +192,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3301962114182030875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028540619489822994}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028540619489822994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301962114182030875}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0, z: 1.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6654080782214406682}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &6301683008864310912
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +254,7 @@ Transform:
   - {fileID: 2581221562199810506}
   - {fileID: 2581221562957276064}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6301683009936969058
 GameObject:
@@ -260,7 +290,7 @@ Transform:
   - {fileID: 2581221561661666788}
   - {fileID: 2581221561488904338}
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6654080781919893024
 GameObject:
@@ -293,7 +323,7 @@ Transform:
   m_LocalScale: {x: 5.2660055, y: 1, z: 3.444219}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6654080781919893020
 MeshFilter:
@@ -374,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -386,6 +416,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1028540619489822994}
   - {fileID: 6301683008864310913}
   - {fileID: 6301683009936969059}
   - {fileID: 6654080781919893023}
@@ -419,8 +450,6 @@ MonoBehaviour:
   levelText: Roll the wedding cake!
   backFaceColor: {r: 1, g: 0.6273585, b: 0.9512394, a: 1}
   cuttingSize: {x: 0.4, y: 1, z: 1.5}
-  positiveCheckingPoints: {fileID: 6301683008864310913}
-  negetiveCheckingPoints: {fileID: 6301683009936969059}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -442,6 +471,9 @@ MonoBehaviour:
       textures:
       - {fileID: 2800000, guid: c51b7e54eb0fb7d45bfd7dd9dc3a6daf, type: 3}
       - {fileID: 2800000, guid: 11be1a18304171844ab37fc95f771f35, type: 3}
+  positiveCheckingPoints: {fileID: 6301683008864310913}
+  negetiveCheckingPoints: {fileID: 6301683009936969059}
+  snappingPoint: {fileID: 0}
 --- !u!1001 &298377065
 PrefabInstance:
   m_ObjectHideFlags: 0
