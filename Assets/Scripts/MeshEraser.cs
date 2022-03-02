@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -52,7 +53,20 @@ public class MeshEraser : APBehaviour
         behindPaperTexture = Instantiate(behindWhitePaper.material.mainTexture as Texture2D);
         behindWhitePaper.material.SetTexture("_BaseMap", behindPaperTexture);
     }
-
+    void FallTheRollingPaper()
+    {
+        if (foldingObj != null)
+        {
+            GameObject go = new GameObject();
+            go.transform.position = foldingObj.transform.position;
+            foldingObj.transform.parent = go.transform;
+            go.transform.DOMove(
+                go.transform.position.ModifyThisVector(0, 0, -20),
+                ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.InBack);
+        }
+        foldingObj = null;
+        dragging = false;
+    }
     void Update()
     {
         //if (gameState.Equals(GameState.GAME_INITIALIZED) && Input.GetMouseButtonDown(0))
@@ -64,99 +78,107 @@ public class MeshEraser : APBehaviour
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            preHit = new RaycastHit();
-            preHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
-
-            if (preHit.collider != null)
+            if (!dragging)
             {
-                dragging = true;
-                firstTry = true;
-                ActiveRollingAnimation();
-            }
-        }
+                preHit = new RaycastHit();
+                preHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
 
-        if (Input.GetMouseButton(0) && dragging)
-        {
-            RaycastHit currentRayCastHit = new RaycastHit();
-            currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
-            if (IsDraggingOnPaper(currentRayCastHit.point))
-            {
-                if (currentRayCastHit.collider != null)
+                if (preHit.collider != null)
                 {
-                    if (firstTry)
-                    {
-                        //meshUVPainter = new MeshUVPainter();
-                        meshUVPainter.fl = 0;
-                        meshUVPainter.count = 0;
-                        bendValue = 0;
-                        //foldingScalingSpeed = 0;
-                        foldingObj = Instantiate(foldingPrefab, currentRayCastHit.point, Quaternion.identity, transform);
-                        foldingObj.SetActive(false);
-                        foldingObj.transform.localScale = new Vector3(cuttingSize.x, 0, 0);
-                        foldingObj.SetActive(true);
-                        foldingObj.transform.rotation = Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up);
-                        foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
-                        firstTry = false;
-                    }
-
-                    foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, currentRayCastHit.point, movingSpeed * Time.deltaTime);
-                    foldingObj.transform.rotation = Quaternion.Lerp(
-                            foldingObj.transform.rotation,
-                            Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up),
-                            0.75f);
-                    //foldingObj.transform.GetChild(0).eulerAngles += Vector3.right * Time.deltaTime;
-
-                    if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
-                    {
-                        RaycastHit inputCheckCasting = new RaycastHit();
-                        Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out inputCheckCasting, 100, 1 << ConstantManager.ENEMY_LAYER);
-
-                        if (inputCheckCasting.collider != null)
-                        {
-                            negetiveAreaCrossed = true;
-                        }
-
-                        if (negetiveAreaCrossed && !levelFailedAnnounced)
-                        {
-                            levelFailedAnnounced = true;
-                            ThrowDelayFailed();
-                        }
-
-                        bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
-                        Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
-
-                        UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
-                        outputTex = uVPaintOutput.texture;
-                        outputMaterial.SetTexture("MaskInput", outputTex);
-                        behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
-                        behindPaperTexture.Apply();
-
-                        bendValue = Mathf.Clamp01(bendValue);
-                        //foldinMesh.SetBlendShapeWeight(0, bendValue);
-                        foldingObj.transform.localScale = Vector3.Lerp(
-                                foldingObj.transform.localScale,
-                            cuttingSize, foldingScalingSpeed * Time.deltaTime);
-
-                        //foldingScalingSpeed += Time.deltaTime;
-
-                        preHit = currentRayCastHit;
-
-                        Sprite sprite = Sprite.Create(outputTex, new Rect(0f, 0f, outputTex.width, outputTex.width), new Vector3(0.5f, 0.5f), 25f);
-                        spriteRenderer.sprite = sprite;
-                        Destroy(polygonCollider2D);
-                        polygonCollider2D = spriteRenderer.gameObject.AddComponent<PolygonCollider2D>();
-                        
-                    }
+                    dragging = true;
+                    firstTry = true;
+                    ActiveRollingAnimation();
                 }
             }
-            else
+
+            if (dragging)
             {
-                dragging = false;
+                RaycastHit currentRayCastHit = new RaycastHit();
+                currentRayCastHit.GetRaycastFromScreenTouch(1 << gameObject.layer);
+                if (currentRayCastHit.collider == null)
+                {
+                    FallTheRollingPaper();
+                    return;
+                }
+
+                if (IsDraggingOnPaper(currentRayCastHit.point))
+                {
+                    if (currentRayCastHit.collider != null)
+                    {
+                        if (firstTry)
+                        {
+                            //meshUVPainter = new MeshUVPainter();
+                            meshUVPainter.fl = 0;
+                            meshUVPainter.count = 0;
+                            bendValue = 0;
+                            //foldingScalingSpeed = 0;
+                            foldingObj = Instantiate(foldingPrefab, currentRayCastHit.point, Quaternion.identity, transform);
+                            foldingObj.SetActive(false);
+                            foldingObj.transform.localScale = new Vector3(cuttingSize.x, 0, 0);
+                            foldingObj.SetActive(true);
+                            foldingObj.transform.rotation = Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up);
+                            foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = currentLevelData.backFaceColor;
+                            firstTry = false;
+                        }
+
+                        foldingObj.transform.position = Vector3.Lerp(foldingObj.transform.position, currentRayCastHit.point, movingSpeed * Time.deltaTime);
+                        foldingObj.transform.rotation = Quaternion.Lerp(
+                                foldingObj.transform.rotation,
+                                Quaternion.LookRotation(currentRayCastHit.point - preHit.point, Vector3.up),
+                                0.75f);
+                        //foldingObj.transform.GetChild(0).eulerAngles += Vector3.right * Time.deltaTime;
+
+                        if ((currentRayCastHit.point - preHit.point).magnitude > draggingThreshold)
+                        {
+                            RaycastHit inputCheckCasting = new RaycastHit();
+                            Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out inputCheckCasting, 100, 1 << ConstantManager.ENEMY_LAYER);
+
+                            if (inputCheckCasting.collider != null)
+                            {
+                                negetiveAreaCrossed = true;
+                            }
+
+                            if (negetiveAreaCrossed && !levelFailedAnnounced)
+                            {
+                                levelFailedAnnounced = true;
+                                ThrowDelayFailed();
+                            }
+
+                            bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
+                            Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
+
+                            UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
+                            outputTex = uVPaintOutput.texture;
+                            outputMaterial.SetTexture("MaskInput", outputTex);
+                            behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
+                            behindPaperTexture.Apply();
+
+                            bendValue = Mathf.Clamp01(bendValue);
+                            //foldinMesh.SetBlendShapeWeight(0, bendValue);
+                            foldingObj.transform.localScale = Vector3.Lerp(
+                                    foldingObj.transform.localScale,
+                                cuttingSize, foldingScalingSpeed * Time.deltaTime);
+
+                            //foldingScalingSpeed += Time.deltaTime;
+
+                            preHit = currentRayCastHit;
+
+                            Sprite sprite = Sprite.Create(outputTex, new Rect(0f, 0f, outputTex.width, outputTex.width), new Vector3(0.5f, 0.5f), 25f);
+                            spriteRenderer.sprite = sprite;
+                            Destroy(polygonCollider2D);
+                            polygonCollider2D = spriteRenderer.gameObject.AddComponent<PolygonCollider2D>();
+
+                        }
+                    }
+                }
+                else
+                {
+                    FallTheRollingPaper();
+                }
             }
         }
-
     }
 
     void FixedUpdate()

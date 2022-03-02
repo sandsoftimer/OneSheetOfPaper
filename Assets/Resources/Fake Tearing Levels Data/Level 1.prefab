@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2815085905707342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7408827286687887467}
+  m_Layer: 0
+  m_Name: SnappingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7408827286687887467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815085905707342}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1, y: 0, z: 0.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6452313679806119608}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &5379594686450131701
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,7 +61,7 @@ Transform:
   m_LocalScale: {x: 5.276271, y: 1, z: 2.7099185}
   m_Children: []
   m_Father: {fileID: 6452313679806119608}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5379594686450131697
 MeshFilter:
@@ -133,7 +163,7 @@ Transform:
   - {fileID: 8175570676409100804}
   - {fileID: 8175570675477971990}
   m_Father: {fileID: 6452313679806119608}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5955765742864484898
 GameObject:
@@ -167,7 +197,7 @@ Transform:
   - {fileID: 7600527546668517238}
   - {fileID: 7600527545632760755}
   m_Father: {fileID: 6452313679806119608}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6452313679806119614
 GameObject:
@@ -197,6 +227,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7408827286687887467}
   - {fileID: 5955765742864484899}
   - {fileID: 5955765741791760833}
   - {fileID: 6452313680130255549}
@@ -229,8 +260,6 @@ MonoBehaviour:
   levelText: Roll a Blanket!
   backFaceColor: {r: 1, g: 0, b: 0, a: 1}
   cuttingSize: {x: 1, y: 1, z: 1.5}
-  positiveCheckingPoints: {fileID: 5955765742864484899}
-  negetiveCheckingPoints: {fileID: 5955765741791760833}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -252,6 +281,9 @@ MonoBehaviour:
       textures:
       - {fileID: 2800000, guid: b62cc58aff8884b83a722a1023642842, type: 3}
       - {fileID: 2800000, guid: 1e43200a5b57f47f9ba674c8e56865c2, type: 3}
+  positiveCheckingPoints: {fileID: 5955765742864484899}
+  negetiveCheckingPoints: {fileID: 5955765741791760833}
+  snappingPoint: {fileID: 0}
 --- !u!1 &6452313680130255490
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +315,7 @@ Transform:
   m_LocalScale: {x: 2.638311, y: 1, z: 10.115411}
   m_Children: []
   m_Father: {fileID: 6452313679806119608}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6452313680130255550
 MeshFilter:
