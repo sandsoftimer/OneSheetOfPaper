@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88699408832362315}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.6184301, y: 0, z: -0.19873981}
+  m_LocalPosition: {x: -2.03, y: 0, z: 0.049999997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
@@ -218,7 +218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   gameState: 0
   levelText: Color her lips!
   backFaceColor: {r: 0.9528302, g: 0.085395135, b: 0.2894977, a: 1}
-  cuttingSize: {x: 0.65, y: 1, z: 1.5}
+  cuttingSize: {x: 0.6, y: 1, z: 1.25}
   defaultDatas:
     textureSequences:
     - fps: 4

@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Snowman is cold!
-  backFaceColor: {r: 0.46226418, g: 0, b: 0, a: 1}
+  backFaceColor: {r: 1, g: 0, b: 0, a: 1}
   cuttingSize: {x: 0.1, y: 1, z: 1.2}
   defaultDatas:
     textureSequences:

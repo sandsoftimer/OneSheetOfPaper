@@ -222,7 +222,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Bee needs a body!
-  backFaceColor: {r: 0.8156863, g: 0.9098039, b: 0.0627451, a: 1}
+  backFaceColor: {r: 1, g: 0.912806, b: 0, a: 1}
   cuttingSize: {x: 0.75, y: 1, z: 1.5}
   defaultDatas:
     textureSequences:

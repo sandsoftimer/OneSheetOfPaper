@@ -259,7 +259,7 @@ MonoBehaviour:
     totalLevelCompletedTime: 0
     isGameoverSuccess: 0
   gameState: 0
-  levelText: Rock n Roll!
+  levelText: Roll a wrist band
   backFaceColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   cuttingSize: {x: 0.5, y: 1, z: 2}
   defaultDatas:

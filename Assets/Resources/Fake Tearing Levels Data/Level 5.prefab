@@ -112,7 +112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1313064274241936781
 Transform:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Give them a drink!
-  backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+  backFaceColor: {r: 0, g: 0.508142, b: 1, a: 1}
   cuttingSize: {x: 0.4, y: 1, z: 1.5}
   defaultDatas:
     textureSequences:

@@ -218,7 +218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6654080782214406682
 Transform:
   m_ObjectHideFlags: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Cover the mummy!
-  backFaceColor: {r: 0.8117648, g: 0.7686275, b: 0.7960785, a: 1}
+  backFaceColor: {r: 0.9811321, g: 0.80644846, b: 0.72659314, a: 1}
   cuttingSize: {x: 0.5, y: 1, z: 2}
   defaultDatas:
     textureSequences:

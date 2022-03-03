@@ -80,7 +80,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3255972678375639854
 Transform:
   m_ObjectHideFlags: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   gameState: 0
   levelText: Roll a Toilet Paper!
   backFaceColor: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
-  cuttingSize: {x: 0.3, y: 1, z: 1}
+  cuttingSize: {x: 0.3, y: 1, z: 0.75}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -366,7 +366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6881383302101292531}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.68, y: 0, z: -0.54}
+  m_LocalPosition: {x: -1.68, y: 0, z: -0.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3255972678375639854}

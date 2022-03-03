@@ -243,7 +243,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Drum Roll!
-  backFaceColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+  backFaceColor: {r: 0.7830189, g: 0.3297446, b: 0.025854412, a: 1}
   cuttingSize: {x: 0.4, y: 1, z: 1.5}
   defaultDatas:
     textureSequences:

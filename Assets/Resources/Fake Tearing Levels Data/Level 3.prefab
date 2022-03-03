@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2596024723227209874
 Transform:
   m_ObjectHideFlags: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Water the plant!
-  backFaceColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+  backFaceColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
   cuttingSize: {x: 0.6, y: 1, z: 1.5}
   defaultDatas:
     textureSequences:
@@ -272,7 +272,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5689415869322297015}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.98, y: 0, z: 2.55}
+  m_LocalPosition: {x: -1.98, y: 0, z: 2.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2596024723227209874}

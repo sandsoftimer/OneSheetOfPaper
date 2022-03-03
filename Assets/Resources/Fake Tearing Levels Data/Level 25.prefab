@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4767100180982640353}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.67, y: 0, z: 2.4}
+  m_LocalPosition: {x: 0.734, y: 0, z: 2.446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}
@@ -264,8 +264,8 @@ MonoBehaviour:
     isGameoverSuccess: 0
   gameState: 0
   levelText: Diver needs Oxygen tank!
-  backFaceColor: {r: 1, g: 0.88339007, b: 0.5896226, a: 1}
-  cuttingSize: {x: 0.3, y: 1, z: 0.75}
+  backFaceColor: {r: 0.9528302, g: 0.8797679, b: 0, a: 1}
+  cuttingSize: {x: 0.3, y: 1, z: 0.4}
   defaultDatas:
     textureSequences:
     - fps: 4

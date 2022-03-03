@@ -230,7 +230,7 @@ MonoBehaviour:
   gameState: 0
   levelText: Complete the tree!
   backFaceColor: {r: 0.34117648, g: 0.23529413, b: 0.1764706, a: 1}
-  cuttingSize: {x: 0.3, y: 1, z: 0.5}
+  cuttingSize: {x: 0.3, y: 1, z: 0.55}
   defaultDatas:
     textureSequences:
     - fps: 4
@@ -281,7 +281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6671689470620951203}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.10191561, y: 0, z: -1.5749978}
+  m_LocalPosition: {x: 0.18, y: 0, z: -1.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6654080782214406682}

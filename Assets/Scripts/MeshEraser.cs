@@ -182,9 +182,9 @@ public class MeshEraser : APBehaviour
                                     levelFailedAnnounced = true;
                                     ThrowDelayFailed();
                                 }
-
-                                bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
+                                                                
                                 Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
+                                bendValue = foldingScalingSpeed * (currentRayCastHit.point - preHit.point).magnitude;
 
                                 UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
                                 outputTex = uVPaintOutput.texture;
@@ -192,11 +192,13 @@ public class MeshEraser : APBehaviour
                                 behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
                                 behindPaperTexture.Apply();
 
-                                bendValue = Mathf.Clamp01(bendValue);
+                                //bendValue = Mathf.Clamp01(bendValue);
                                 //foldinMesh.SetBlendShapeWeight(0, bendValue);
-                                foldingObj.transform.localScale = Vector3.Lerp(
-                                        foldingObj.transform.localScale,
-                                    cuttingSize, foldingScalingSpeed * Time.deltaTime);
+                                //foldingObj.transform.localScale = Vector3.Lerp(
+                                //        foldingObj.transform.localScale,
+                                //    cuttingSize, foldingScalingSpeed * Time.deltaTime);
+                                Vector3 nextScale = ClampVector(foldingObj.transform.localScale + Vector3.one * bendValue, foldingObj.transform.localScale, cuttingSize);
+                                foldingObj.transform.localScale = nextScale;
 
                                 //foldingScalingSpeed += Time.deltaTime;
 
@@ -219,26 +221,7 @@ public class MeshEraser : APBehaviour
             }
         }
     }
-    void CheckSnappingPoint()
-    {
-        if (levelFailedAnnounced)
-            return;
-        if (snappedAlready)
-            return;
 
-        if (Vector3.Distance(foldingObj.transform.position, currentLevelData.snappingPoint.position) <= snappingDistance &&
-            (foldingObj.transform.localScale - cuttingSize).magnitude <= 0.5f)
-        {
-            snappedAlready = true;
-            Physics.Raycast(new Ray(currentLevelData.snappingPoint.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, Mathf.Infinity, 1 << transform.gameObject.layer);
-
-            //currentRayCastHit.point = currentLevelData.snappingPoint.position;
-            //gameplayData.isGameoverSuccess = true;
-            //gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
-            foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, 0.1f);
-            //foldingObj.transform.DORotate(currentLevelData.snappingPoint.eulerAngles, ConstantManager.DEFAULT_ANIMATION_TIME);
-        }
-    }
     void FixedUpdate()
     {
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
@@ -360,17 +343,40 @@ public class MeshEraser : APBehaviour
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
 
+    public Vector3 ClampVector(Vector3 value, Vector3 minVector, Vector3 maxVector)
+    {
+        value.x = Mathf.Clamp(value.x, minVector.x, maxVector.x);
+        value.y = Mathf.Clamp(value.y, minVector.y, maxVector.y);
+        value.z = Mathf.Clamp(value.z, minVector.z, maxVector.z);
+        return value;
+    }
+
+    void CheckSnappingPoint()
+    {
+        if (levelFailedAnnounced)
+            return;
+        if (snappedAlready)
+            return;
+
+        if (Vector3.Distance(foldingObj.transform.position, currentLevelData.snappingPoint.position) <= snappingDistance &&
+            (foldingObj.transform.localScale - cuttingSize).magnitude <= 0.5f)
+        {
+            snappedAlready = true;
+            Physics.Raycast(new Ray(currentLevelData.snappingPoint.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, Mathf.Infinity, 1 << transform.gameObject.layer);
+            foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, 0.1f);
+        }
+    }
     void FallTheRollingPaper()
     {
         if (foldingObj != null)
         {
-            //foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshCollider>().enabled = false;
-            //GameObject go = new GameObject();
-            //go.transform.position = foldingObj.transform.position;
-            //foldingObj.transform.parent = go.transform;
-            //go.transform.DOMove(
-            //    go.transform.position.ModifyThisVector(0, 0, -20),
-            //    ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.InBack);
+            foldingObj.transform.GetChild(0).GetChild(0).GetComponent<MeshCollider>().enabled = false;
+            GameObject go = new GameObject();
+            go.transform.position = foldingObj.transform.position;
+            foldingObj.transform.parent = go.transform;
+            go.transform.DOMove(
+                go.transform.position.ModifyThisVector(0, 0, -20),
+                ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.InBack);
         }
         foldingObj = null;
         dragging = false;
