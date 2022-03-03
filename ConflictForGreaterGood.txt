@@ -1,4 +1,4 @@
-GitConflictGeneration: 1/21/2022 5:46:41 AM
-637783408015234815 - Device Name: DESKTOP-O9MID3M
-iMacPro1,1 (Acidanthera)
-11f956bb5499584ad1204a0d9b91bd8bdaf8ecf7
+GitConflictGeneration: 3/3/2022 3:03:01 PM
+637819165810860040 - Device Name: Md.’s iMac Pro
+iMacPro1,1
+B8729F84-D6ED-50F6-BE4C-AFF6B470803A
