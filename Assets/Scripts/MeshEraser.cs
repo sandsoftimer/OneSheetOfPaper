@@ -98,7 +98,7 @@ public class MeshEraser : APBehaviour
             spriteRenderer.sprite = sprite;
             Destroy(polygonCollider2D);
             polygonCollider2D = spriteRenderer.gameObject.AddComponent<PolygonCollider2D>();
-            if ((foldingObj.transform.position - currentLevelData.snappingPoint.position).magnitude < 0.5f)
+            if ((foldingObj.transform.position - currentLevelData.snappingPoint.position).magnitude < 0.75f)
             {
                 snappingDone = true;
                 gameplayData.isGameoverSuccess = true;
@@ -363,7 +363,8 @@ public class MeshEraser : APBehaviour
         {
             snappedAlready = true;
             Physics.Raycast(new Ray(currentLevelData.snappingPoint.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, Mathf.Infinity, 1 << transform.gameObject.layer);
-            foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, 0.1f);
+            foldingObj.transform.DOMove(currentLevelData.snappingPoint.position, 0.25f);
+            foldingObj.transform.DOScale(cuttingSize, 0.25f);
         }
     }
     void FallTheRollingPaper()
