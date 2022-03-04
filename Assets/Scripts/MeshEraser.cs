@@ -75,29 +75,26 @@ public class MeshEraser : APBehaviour
                     currentLevelData.snappingPoint.rotation,
                     snappingSpeed * snappingSpeed * Time.deltaTime);
 
-            bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
-            Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
+            //bendValue += Time.deltaTime * foldingScalingSpeed + (currentRayCastHit.point - preHit.point).magnitude;
+            //Physics.Raycast(new Ray(foldingObj.transform.position.ModifyThisVector(0, 1, 0), Vector3.down), out currentRayCastHit, 100, 1 << gameObject.layer);
 
-            UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
-            outputTex = uVPaintOutput.texture;
-            outputMaterial.SetTexture("MaskInput", outputTex);
-            behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
-            behindPaperTexture.Apply();
+            //UVPaintOutput uVPaintOutput = meshUVPainter.PaintOnUV(currentRayCastHit, preHit, paintColor, paintRadious, 10000000, rectengle);
+            //outputTex = uVPaintOutput.texture;
+            //outputMaterial.SetTexture("MaskInput", outputTex);
+            //behindPaperTexture.SetPixels(uVPaintOutput.pixelBufferWithOffset);
+            //behindPaperTexture.Apply();
 
-            bendValue = Mathf.Clamp01(bendValue);
-            //foldinMesh.SetBlendShapeWeight(0, bendValue);
-            foldingObj.transform.localScale = Vector3.Lerp(
-                    foldingObj.transform.localScale,
-                cuttingSize, foldingScalingSpeed * Time.deltaTime);
+            //bendValue = Mathf.Clamp01(bendValue);
+            //foldingObj.transform.localScale = Vector3.Lerp(
+            //        foldingObj.transform.localScale,
+            //    cuttingSize, foldingScalingSpeed * Time.deltaTime);
 
-            //foldingScalingSpeed += Time.deltaTime;
+            //preHit = currentRayCastHit;
 
-            preHit = currentRayCastHit;
-
-            Sprite sprite = Sprite.Create(outputTex, new Rect(0f, 0f, outputTex.width, outputTex.width), new Vector3(0.5f, 0.5f), 25f);
-            spriteRenderer.sprite = sprite;
-            Destroy(polygonCollider2D);
-            polygonCollider2D = spriteRenderer.gameObject.AddComponent<PolygonCollider2D>();
+            //Sprite sprite = Sprite.Create(outputTex, new Rect(0f, 0f, outputTex.width, outputTex.width), new Vector3(0.5f, 0.5f), 25f);
+            //spriteRenderer.sprite = sprite;
+            //Destroy(polygonCollider2D);
+            //polygonCollider2D = spriteRenderer.gameObject.AddComponent<PolygonCollider2D>();
             if ((foldingObj.transform.position - currentLevelData.snappingPoint.position).magnitude < 0.75f)
             {
                 snappingDone = true;

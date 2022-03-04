@@ -253,7 +253,7 @@ MonoBehaviour:
   gameState: 0
   levelText: Squeeze out the paste!
   backFaceColor: {r: 0.227451, g: 0.4784314, b: 1, a: 1}
-  cuttingSize: {x: 0.6, y: 1, z: 0.5}
+  cuttingSize: {x: 0.6, y: 1, z: 1}
   defaultDatas:
     textureSequences:
     - fps: 4

@@ -1278,7 +1278,7 @@ MonoBehaviour:
   draggingThreshold: 0.25
   movingSpeed: 4
   foldingScalingSpeed: 0.5
-  snappingDistance: 1
+  snappingDistance: 0.75
   snappingSpeed: 10
   spriteRenderer: {fileID: 1789260032}
   polygonCollider2D: {fileID: 1789260034}
