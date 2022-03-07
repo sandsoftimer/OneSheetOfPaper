@@ -7,7 +7,7 @@
     <package>com.android.support:recyclerview-v7:28.+</package>
     <package>com.android.support:support-v4:25.3.1</package>
     <package>com.applovin.mediation:facebook-adapter:[6.8.0.4]</package>
-    <package>com.applovin:applovin-sdk:11.2.1</package>
+    <package>com.applovin:applovin-sdk:11.2.2</package>
     <package>com.facebook.android:facebook-applinks:[11.0, 12)</package>
     <package>com.facebook.android:facebook-core:[11.0, 12)</package>
     <package>com.facebook.android:facebook-gamingservices:[11.0, 12)</package>
