@@ -47,7 +47,7 @@ public class MeshEraser : APBehaviour
     TextureSequence currentTextureSequence;
     int currentTextureSequenceIndex;
     int currentImageIndex = -1, loopCount;
-    bool snappedAlready, snappingDone;
+    bool snappedAlready, snappingDone, tutorialActive;
 
     #region ALL UNITY FUNCTIONS
 
@@ -87,6 +87,7 @@ public class MeshEraser : APBehaviour
         {
             DOTween.Kill(tutorialHand);
             tutorialHand.SetActive(false);
+            tutorialActive = false;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -288,6 +289,7 @@ public class MeshEraser : APBehaviour
 #if AP_GAMEANALYTICS_SDK_INSTALLED
         GameAnalytics.NewDesignEvent("Hints_Level_" + (gameplayData.currentLevelNumber + 1));
 #endif
+        tutorialActive = true;
         hintsButton.SetActive(false);
         DOTween.Kill(tutorialHand);
         Transform hints = currentLevelPrefab.transform.GetChild(3);
@@ -302,7 +304,8 @@ public class MeshEraser : APBehaviour
             () => {
 
                 //tutorialHand.SetActive(false);
-                TransitTutorialHand(hints);
+                if(tutorialActive)
+                    TransitTutorialHand(hints);
             });
     }
 

@@ -20,6 +20,7 @@ namespace Com.AlphaPotato.Utility
     [RequireComponent(typeof(Animator))]
     public class SceneManager : MonoBehaviour
     {
+        bool isBusy;
         Animator sceneFadeanimator;
         Animator SceneFadeanimator
         {
@@ -51,7 +52,12 @@ namespace Com.AlphaPotato.Utility
             SceneFadeanimator.SetTrigger("FadeOut");
         }
 
-        public void FadeOutComplete()
+        public void OnFadeOutComplete()
+        {
+            isBusy = false;
+        }
+
+        public void OnFadeInComplete()
         {
             switch (loadLevelType)
             {
@@ -70,7 +76,7 @@ namespace Com.AlphaPotato.Utility
 
         public void LoadLevel(string levelName)
         {
-
+            isBusy = true;
             levelToLoadByName = levelName;
             loadLevelType = LoadSceneType.LOAD_BY_NAME;
             SceneFadeanimator.SetTrigger("FadeIn");
@@ -78,7 +84,7 @@ namespace Com.AlphaPotato.Utility
 
         public void LoadLevel(int levelIndex)
         {
-            //Debug.LogError("Level Index: " + levelIndex);
+            isBusy = true;
             levelToLoadByIndex = levelIndex;
             loadLevelType = LoadSceneType.LOAD_BY_INDEX;
             SceneFadeanimator.SetTrigger("FadeIn");
@@ -87,6 +93,9 @@ namespace Com.AlphaPotato.Utility
         // This will re-load current level;
         public void ReLoadLevel()
         {
+            if (isBusy)
+                return;
+
             LoadLevel(GetLevelIndex());
         }
 
@@ -94,6 +103,9 @@ namespace Com.AlphaPotato.Utility
         // If not exist the it will open auto First scene of BuildIndex.
         public void LoadNextLevel()
         {
+            if (isBusy)
+                return;
+
             int loadedIndex = GetLevelIndex() + 1;
 
             //Debug.LogError("Count: "+ UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings);

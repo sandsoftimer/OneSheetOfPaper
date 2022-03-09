@@ -84,6 +84,7 @@ public class RollProcessor : APBehaviour
             {
                 snappingDone = true;
                 gameplayData.isGameoverSuccess = true;
+                gameState = GameState.GAME_PLAY_ENDED;
                 gameManager.ChangeGameState(GameState.GAME_PLAY_ENDED);
             }
         }

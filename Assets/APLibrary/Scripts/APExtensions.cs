@@ -33,6 +33,14 @@ public static class APExtensions
         }
     }
 
+    public static Vector3 ClampVector(this Vector3 value, Vector3 minVector, Vector3 maxVector)
+    {
+        value.x = Mathf.Clamp(value.x, minVector.x, maxVector.x);
+        value.y = Mathf.Clamp(value.y, minVector.y, maxVector.y);
+        value.z = Mathf.Clamp(value.z, minVector.z, maxVector.z);
+        return value;
+    }
+
     public static Texture2D Texture2D(this RenderTexture renderTexture)
     {
         Texture2D tex = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
