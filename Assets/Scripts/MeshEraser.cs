@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using GameAnalyticsSDK;
 using TMPro;
 using UnityEngine;
 
@@ -284,6 +285,9 @@ public class MeshEraser : APBehaviour
 
     public void OnHintsButtonPress()
     {
+#if AP_GAMEANALYTICS_SDK_INSTALLED
+        GameAnalytics.NewDesignEvent("Hints_Level_" + (gameplayData.currentLevelNumber + 1));
+#endif
         hintsButton.SetActive(false);
         DOTween.Kill(tutorialHand);
         Transform hints = currentLevelPrefab.transform.GetChild(3);
