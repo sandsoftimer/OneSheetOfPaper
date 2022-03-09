@@ -74,8 +74,8 @@ public class MeshUVPainter
                     pixelBuffer[v * (texture.width) + u] = oldColor;
                 }
                 Vector2 newRect = rectangle;
-                newRect.x -= Random.Range(2.5f, 5);
-                newv.y -= Random.Range(2.5f, 5);
+                newRect.x -= Random.Range(5f, 10);
+                newv.y -= Random.Range(5f, 10);
                 if (((newv.x < newRect.x / 2) && (newv.x > -newRect.x / 2) && (newv.y < dist / 2) && (newv.y > -dist / 2)) || (newdistSqr < ((newRect.x * newRect.x) / 4) && (newv.y < -dist / 2) && (newv.y > -(dist / 2) - oldist)))
                 {
                     oldColor = pixelBufferWithOffset[v * (texture.width) + u];

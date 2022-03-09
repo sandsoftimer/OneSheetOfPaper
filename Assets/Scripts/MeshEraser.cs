@@ -9,7 +9,7 @@ public class MeshEraser : APBehaviour
     public TMP_InputField speedTextMesh;
     public TextMeshProUGUI levelText;
     public MeshUVPainter meshUVPainter = new MeshUVPainter();
-    public GameObject foldingPrefab;
+    public GameObject foldingPrefab, tutorialHand, hintsButton;
     public MeshRenderer behindWhitePaper;
     public Texture2D behindPaperTexture;
     public Material outputMaterial;
@@ -24,10 +24,17 @@ public class MeshEraser : APBehaviour
     public Transform inputChecker;
     public InputChecker2D inputChecker2D;
 
+    [HideInInspector]
     public RollProcessor currentrRollProcessor;
-    Texture2D outputTex;
+    [HideInInspector]
     public Vector3 cuttingSize;
+    [HideInInspector]
     public Vector2 rectengle;
+    [HideInInspector]
+    public FakeTearingLevelData currentLevelData;
+
+    GameObject currentLevelPrefab;
+    Texture2D outputTex;
     float bendValue = 0;
     bool dragging, firstTry;
     bool negetiveAreaCrossed;
@@ -35,7 +42,6 @@ public class MeshEraser : APBehaviour
 
     public RaycastHit preHit;
     public RaycastHit currentRayCastHit;
-    public FakeTearingLevelData currentLevelData;
     AnimationData currentAnimationData;
     TextureSequence currentTextureSequence;
     int currentTextureSequenceIndex;
@@ -49,9 +55,9 @@ public class MeshEraser : APBehaviour
     {
         base.Awake();
 
+        tutorialHand.SetActive(false);
         //speedTextMesh.text = PlayerPrefs.GetFloat("RollSpeed", 4).ToString();
         //movingSpeed = float.Parse(speedTextMesh.text);
-        movingSpeed = 1;
 
         //outputMaterial.SetTexture("MaskInput",
         //        outputMaterial.GetTexture("Texture"));
@@ -75,6 +81,12 @@ public class MeshEraser : APBehaviour
 
         if (!gameState.Equals(GameState.GAME_PLAY_STARTED))
             return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            DOTween.Kill(tutorialHand);
+            tutorialHand.SetActive(false);
+        }
 
         if (Input.GetMouseButtonUp(0))
         {
@@ -232,13 +244,18 @@ public class MeshEraser : APBehaviour
     {
         base.OnGameInitializing();
 
-        GameObject currentLevel;
         if (gameManager.debugModeOn)
-            currentLevel = transform.GetChild(gameManager.GetModedLevelNumber()).gameObject;
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+            currentLevelPrefab = transform.GetChild(gameManager.GetModedLevelNumber()).gameObject;
+        }
         else
-            currentLevel = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
-        currentLevel.SetActive(true);
-        currentLevelData = currentLevel.GetComponent<FakeTearingLevelData>();
+            currentLevelPrefab = Instantiate(Resources.Load("Fake Tearing Levels Data/Level " + (gameManager.GetModedLevelNumber() + 1)) as GameObject, transform);
+        currentLevelPrefab.SetActive(true);
+        currentLevelData = currentLevelPrefab.GetComponent<FakeTearingLevelData>();
 
         levelText.text = currentLevelData.levelText;
         cuttingSize = currentLevelData.cuttingSize;
@@ -264,6 +281,26 @@ public class MeshEraser : APBehaviour
     #endregion ALL OVERRIDING FUNCTIONS
     //=================================
     #region ALL SELF DECLEAR FUNCTIONS
+
+    public void OnHintsButtonPress()
+    {
+        hintsButton.SetActive(false);
+        DOTween.Kill(tutorialHand);
+        Transform hints = currentLevelPrefab.transform.GetChild(3);
+        TransitTutorialHand(hints);
+    }
+
+    void TransitTutorialHand(Transform hints)
+    {
+        tutorialHand.transform.position = hints.GetChild(0).position;
+        tutorialHand.SetActive(true);
+        tutorialHand.transform.DOMove(hints.GetChild(1).position, ConstantManager.DEFAULT_ANIMATION_TIME).SetEase(Ease.Linear).OnComplete(
+            () => {
+
+                //tutorialHand.SetActive(false);
+                TransitTutorialHand(hints);
+            });
+    }
 
     public Vector3 ClampVector(Vector3 value, Vector3 minVector, Vector3 maxVector)
     {
